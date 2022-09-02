@@ -9,12 +9,17 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import com.bpm.a447bpm.databinding.ActivityMainBinding
+import okhttp3.*
+import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+    private val client = OkHttpClient()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +37,29 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+
+        run("http://185.224.139.218:8080")
+    }
+
+    private fun run(url: String) {
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                this@MainActivity.runOnUiThread(java.lang.Runnable {
+                    findViewById<TextView>(R.id.textview_first).text = e.toString()
+
+                })
+            }
+            override fun onResponse(call: Call, response: Response) {
+                this@MainActivity.runOnUiThread(java.lang.Runnable {
+                    findViewById<TextView>(R.id.textview_first).text = response.toString()
+
+                })
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
