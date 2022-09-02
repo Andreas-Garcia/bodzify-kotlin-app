@@ -1,5 +1,6 @@
 package com.bpm.a447bpm
 
+import android.content.res.XmlResourceParser
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -37,8 +38,8 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
-
-        run("http://185.224.139.218:8080")
+        println(resources.getString(R.string.bpm_api_url))
+        run(resources.getString(R.string.bpm_api_url))
     }
 
     private fun run(url: String) {
