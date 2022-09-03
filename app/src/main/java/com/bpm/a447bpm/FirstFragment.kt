@@ -50,7 +50,7 @@ class FirstFragment : Fragment() {
 
     private fun run() {
         val request = Request.Builder()
-            .url(apiUrl)
+            .url("$apiUrl/users/")
             .build()
 
         client.newCall(request).enqueue(object : Callback {
@@ -61,7 +61,8 @@ class FirstFragment : Fragment() {
             }
             override fun onResponse(call: Call, response: Response) {
                 activity?.runOnUiThread(java.lang.Runnable {
-                    activity!!.findViewById<TextView>(R.id.textview_first).text = response.toString()
+                    activity!!.findViewById<TextView>(R.id.textview_first).text =
+                        response.body()?.string() ?: "vide"
                 })
             }
         })
