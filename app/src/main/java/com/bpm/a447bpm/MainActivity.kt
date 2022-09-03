@@ -20,9 +20,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    private val client = OkHttpClient()
-    private var apiUrl = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,30 +36,6 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
-
-        apiUrl = resources.getString(R.string.bpm_api_url)
-        run()
-    }
-
-    private fun run() {
-        val request = Request.Builder()
-            .url(apiUrl)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                this@MainActivity.runOnUiThread(java.lang.Runnable {
-                    findViewById<TextView>(R.id.textview_first).text = e.toString()
-
-                })
-            }
-            override fun onResponse(call: Call, response: Response) {
-                this@MainActivity.runOnUiThread(java.lang.Runnable {
-                    findViewById<TextView>(R.id.textview_first).text = response.toString()
-
-                })
-            }
-        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
