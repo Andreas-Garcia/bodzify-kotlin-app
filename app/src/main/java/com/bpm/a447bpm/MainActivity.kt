@@ -1,5 +1,6 @@
 package com.bpm.a447bpm
 
+import android.content.res.XmlResourceParser
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +10,10 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import com.bpm.a447bpm.databinding.ActivityMainBinding
+import okhttp3.*
+import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
