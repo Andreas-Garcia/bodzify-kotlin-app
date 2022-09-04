@@ -2,13 +2,15 @@ package com.bpm.a447bpm.controller
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.ui.AppBarConfiguration
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import com.bpm.a447bpm.R
 import com.bpm.a447bpm.databinding.ActivityMainBinding
+import com.bpm.a447bpm.model.Song
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import okhttp3.*
 import java.io.IOException
 
@@ -65,7 +67,12 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 runOnUiThread(java.lang.Runnable {
                     val songList = arrayOfNulls<String>(1)
-                    songList[0] = response.body()?.string()
+                    val song = Json.decodeFromString<Song>("""{"name": "Africa", "author": "Toto"}""")
+                    //val song = Json { ignoreUnknownKeys = true }
+                    //    .decodeFromString<Song>(Song.serializer()
+                    //        , """{"name": "Africa", "author": "Toto"}""")
+                    println("okoko ${song.name}")
+                    songList[0] = song.name + " " + song.author
                     songListView.adapter = ArrayAdapter(
                         applicationContext, android.R.layout.simple_list_item_1, songList)
                 })
