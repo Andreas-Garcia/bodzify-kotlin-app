@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity() {
 
         songListView = findViewById(R.id.song_list_view)
 
-        apiUrl = resources.getString(R.string.bpm_api_url)
-        songsApiUrl = apiUrl +"/" +resources.getString(R.string.bpm_api_songs_resource_name)
+        apiUrl = getString(R.string.bpm_api_url)
+        songsApiUrl = apiUrl +"/" + getString(R.string.bpm_api_songs_resource_name)
         getSongs()
     }
 
@@ -69,7 +69,8 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onResponse(call: Call, response: Response) {
                 runOnUiThread(java.lang.Runnable {
-                    val jsonArray: JSONArray = JSONObject(response.body()?.string()).getJSONArray("results")
+                    val jsonArray: JSONArray = JSONObject(response.body()?.string())
+                        .getJSONArray(getString(R.string.bpm_api_data_name))
                     val songList = arrayOfNulls<String>(jsonArray.length())
                     for(i in 0 until jsonArray.length()) {
                         val song = Json.decodeFromString<Song>(jsonArray[i].toString())
