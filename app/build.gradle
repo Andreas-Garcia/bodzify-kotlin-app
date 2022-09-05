@@ -1,9 +1,11 @@
 buildscript {
     ext.kotlin_version = '1.7.10'
+    ext.kotlinx_serialization_version = '0.6.1'
     repositories { mavenCentral() }
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+        classpath "org.jetbrains.kotlinx:kotlinx-serialization-runtime-jsonparser:$kotlinx_serialization_version"
     }
 }
 
