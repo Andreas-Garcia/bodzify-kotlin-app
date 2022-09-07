@@ -1,20 +1,17 @@
 package com.bpm.a447bpm.controller
 
+import android.app.SearchManager
+import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
+import android.view.View
+import android.widget.Button
 import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
 import com.bpm.a447bpm.R
 import com.bpm.a447bpm.databinding.ActivityMainBinding
-import com.bpm.a447bpm.model.Song
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.*
 import okhttp3.*
-import org.json.JSONArray
-import org.json.JSONObject
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
@@ -29,15 +26,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        getString(R.string.bpm_api_url)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        songListView = findViewById(R.id.song_list_view)
-
-        apiUrl = getString(R.string.bpm_api_url)
-        songsApiUrl = apiUrl +"/" + getString(R.string.bpm_api_songs_resource_name)
-        getSongs()
+        val searchButton = findViewById<Button>(R.id.search_button)
+        searchButton.setOnClickListener{
+            val intent = Intent(this, SearchActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -54,32 +51,5 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun getSongs() {
-        val request = Request.Builder()
-            .url(songsApiUrl)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                runOnUiThread(java.lang.Runnable {
-                    //TODO
-                })
-            }
-            override fun onResponse(call: Call, response: Response) {
-                runOnUiThread(java.lang.Runnable {
-                    val jsonArray: JSONArray = JSONObject(response.body()?.string())
-                        .getJSONArray(getString(R.string.bpm_api_data_name))
-                    val songList = arrayOfNulls<String>(jsonArray.length())
-                    for(i in 0 until jsonArray.length()) {
-                        val song = Json.decodeFromString<Song>(jsonArray[i].toString())
-                        songList[i] = song.name + " " + song.author
-                    }
-                    songListView.adapter = ArrayAdapter(
-                        applicationContext, android.R.layout.simple_list_item_1, songList)
-                })
-            }
-        })
     }
 }
