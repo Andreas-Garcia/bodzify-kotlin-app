@@ -63,12 +63,10 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun searchSongs(query: String) {
-        print("kiki")
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val response = ApiClient.apiService.searchSongs(query)
                 if (response.isSuccessful && response.body() != null) {
-                    print("kiki")
 
                     var songArray = arrayOfNulls<String>(response.body()!!.size)
                     for ((i, song) in response.body()!!.withIndex()) {
