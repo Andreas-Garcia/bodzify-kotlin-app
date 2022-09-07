@@ -10,7 +10,9 @@ object ApiClient {
     private const val BASE_URL: String = "http://185.224.139.218:8080/"
 
     private val gson : Gson by lazy {
-        GsonBuilder().setLenient().create()
+        GsonBuilder().setLenient()
+            //.setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            .create()
     }
 
     private val httpClient : OkHttpClient by lazy {
