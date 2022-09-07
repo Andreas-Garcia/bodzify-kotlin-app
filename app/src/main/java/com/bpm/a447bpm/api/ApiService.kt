@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-    @GET("songs?search={query}")
-    suspend fun searchSongs(@Query("query") query : String): Response<MutableList<Song>>
+    @GET("songs")
+    suspend fun searchSongs(@Query("query") query: String): Response<MutableList<Song>>
 }

@@ -4,4 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Keep
 @Serializable
-data class Song (var title: String, var artist: String) {}
+data class Song (
+    val title: String,
+    val artist: String,
+    val duration: Int,
+)

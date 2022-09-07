@@ -63,18 +63,20 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun searchSongs(query: String) {
+        print("kiki")
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val response = ApiClient.apiService.searchSongs(query)
                 if (response.isSuccessful && response.body() != null) {
+                    print("kiki")
+
                     var songArray = arrayOfNulls<String>(response.body()!!.size)
                     for ((i, song) in response.body()!!.withIndex()) {
-                        if (song != null) {
-                            songArray[i] = song.artist + " " + song.title
-                        }
+                        songArray[i] = song.artist + " " + song.title
+                        print(i)
                     }
                     songListView.adapter = ArrayAdapter<String>(applicationContext
-                        , android.R.layout.simple_list_item_1)
+                        , android.R.layout.simple_list_item_1, songArray)
                 } else {
                     Toast.makeText(
                         this@SearchActivity,
