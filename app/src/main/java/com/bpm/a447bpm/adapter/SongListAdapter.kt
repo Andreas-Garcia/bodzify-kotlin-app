@@ -10,7 +10,7 @@ import com.bpm.a447bpm.model.Song
 class SongListAdapter(private val activity: Activity, private val songs: MutableList<Song>)
     : ArrayAdapter<Song>(activity, R.layout.songs_list_view_item, songs) {
 
-    private lateinit var artistTextView: TextView
+    private lateinit var songTitleArtistTextView: TextView
     private lateinit var titleTextView: TextView
     private lateinit var addButton: Button
 

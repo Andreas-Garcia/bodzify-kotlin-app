@@ -39,6 +39,7 @@
                 android:textSize="16sp"/>
         </LinearLayout>
 
+        <!-- Empty view to align button to the right -->
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -48,6 +49,6 @@
             android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add" />
+            android:text="@string/add_button_label" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
