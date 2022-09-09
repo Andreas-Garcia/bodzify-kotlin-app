@@ -7,11 +7,15 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    private const val BASE_URL: String = "http://185.224.139.218:8080/"
+    private lateinit var baseUrl: String
+
+    operator fun invoke(baseUrl: String): ApiClient {
+        this.baseUrl = baseUrl
+        return this
+    }
 
     private val gson : Gson by lazy {
         GsonBuilder().setLenient()
-            //.setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             .create()
     }
 
@@ -21,13 +25,13 @@ object ApiClient {
 
     private val retrofit : Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 
-    val apiService :  ApiService by lazy{
+    val apiService : ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }
 }

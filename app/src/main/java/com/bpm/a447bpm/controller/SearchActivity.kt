@@ -46,24 +46,24 @@ class SearchActivity : AppCompatActivity() {
     private fun searchSongs(query: String) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                val response = ApiClient.apiService.searchSongs(query)
-                if (response.isSuccessful && response.body() != null) {
-                    songListView.adapter =
-                        SongListAdapter(this@SearchActivity, response.body()!!)
-                    if (response.body()!!.size == 0) {
+                val response = ApiClient(getString(R.string.bpm_api_url)).apiService.searchSongs(query)
+                    if (response.isSuccessful && response.body() != null) {
+                        songListView.adapter =
+                            SongListAdapter(this@SearchActivity, response.body()!!)
+                        if (response.body()!!.size == 0) {
+                            Toast.makeText(
+                                this@SearchActivity,
+                                R.string.no_results,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    } else {
                         Toast.makeText(
                             this@SearchActivity,
-                            R.string.no_results,
+                            "${R.string.error_occurred_label}${response.message()}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                } else {
-                    Toast.makeText(
-                        this@SearchActivity,
-                        "${R.string.error_occurred_label}${response.message()}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
             } catch (e: Exception) {
                 Toast.makeText(
                     this@SearchActivity,
