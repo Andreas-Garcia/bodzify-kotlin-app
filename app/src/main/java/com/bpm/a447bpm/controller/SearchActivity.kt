@@ -3,12 +3,10 @@ package com.bpm.a447bpm.controller
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.SearchView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.bpm.a447bpm.R
+import com.bpm.a447bpm.adapter.SongListAdapter
 import com.bpm.a447bpm.api.ApiClient
 import com.bpm.a447bpm.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
@@ -66,17 +64,16 @@ class SearchActivity : AppCompatActivity() {
             try {
                 val response = ApiClient.apiService.searchSongs(query)
                 if (response.isSuccessful && response.body() != null) {
-
-                    var songArray = arrayOfNulls<String>(response.body()!!.size)
-                    for ((i, song) in response.body()!!.withIndex()) {
-                        songArray[i] = song.artist +
-                                " " + song.title +
-                                " " + song.duration +
-                                " " + song.date +
-                                " " + song.url
+                    if (response.body()!!.size > 0) {
+                        songListView.adapter =
+                            SongListAdapter(this@SearchActivity, response.body()!!)
+                    } else {
+                        Toast.makeText(
+                            this@SearchActivity,
+                            "No results",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
-                    songListView.adapter = ArrayAdapter<String>(applicationContext
-                        , android.R.layout.simple_list_item_1, songArray)
                 } else {
                     Toast.makeText(
                         this@SearchActivity,
@@ -84,7 +81,6 @@ class SearchActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-
             } catch (e: Exception) {
                 Toast.makeText(
                     this@SearchActivity,
