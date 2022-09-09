@@ -6,6 +6,8 @@
     <string name="bpm_api_songs_resource_name">songs</string>
     <string name="app_label">447bpm</string>
     <string name="search_hint">Search song, artist</string>
+    <string name="error_occurred_label">Error Occurred: </string>
 
     <string name="add_button_label">Add</string>
+    <string name="no_results">No results</string>
 </resources>

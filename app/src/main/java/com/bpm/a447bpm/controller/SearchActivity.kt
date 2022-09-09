@@ -48,27 +48,26 @@ class SearchActivity : AppCompatActivity() {
             try {
                 val response = ApiClient.apiService.searchSongs(query)
                 if (response.isSuccessful && response.body() != null) {
-                    if (response.body()!!.size > 0) {
-                        songListView.adapter =
-                            SongListAdapter(this@SearchActivity, response.body()!!)
-                    } else {
+                    songListView.adapter =
+                        SongListAdapter(this@SearchActivity, response.body()!!)
+                    if (response.body()!!.size == 0) {
                         Toast.makeText(
                             this@SearchActivity,
-                            "No results",
+                            R.string.no_results,
                             Toast.LENGTH_LONG
                         ).show()
                     }
                 } else {
                     Toast.makeText(
                         this@SearchActivity,
-                        "Error Occurred: ${response.message()}",
+                        "${R.string.error_occurred_label}${response.message()}",
                         Toast.LENGTH_LONG
                     ).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(
                     this@SearchActivity,
-                    "Error Occurred: ${e.message}",
+                    "${R.string.error_occurred_label}${e.message}",
                     Toast.LENGTH_LONG
                 ).show()
             }
