@@ -1,10 +1,18 @@
 <resources>
     <string name="app_name">447bpm</string>
+    <string name="app_label">447bpm</string>
 
     <string name="bpm_api_url">http://185.224.139.218:8080</string>
     <string name="bpm_api_data_name">data</string>
+
+    <string name="bpm_api_auth_resource_name">auth</string>
+    <string name="bpm_api_auth_refresh_action_name">refresh</string>
+    <string name="bpm_api_auth_logout_action_name">logout</string>
+
     <string name="bpm_api_songs_resource_name">songs</string>
-    <string name="app_label">447bpm</string>
+    <string name="bpm_api_songs_external_resource_name">external</string>
+    <string name="bpm_api_songs_external_source_parameter_name">source</string>
+    <string name="bpm_api_songs_external_query_parameter_name">query</string>
     <string name="search_hint">Search song, artist</string>
     <string name="error_occurred_label">Error Occurred: </string>
 

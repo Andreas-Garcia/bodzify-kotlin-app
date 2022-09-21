@@ -3,8 +3,10 @@ package com.bpm.a447bpm.api
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 object ApiClient {
     private lateinit var baseUrl: String
@@ -20,7 +22,11 @@ object ApiClient {
     }
 
     private val httpClient : OkHttpClient by lazy {
-        OkHttpClient.Builder().build()
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        val httpClientBuilder = OkHttpClient.Builder()
+        httpClientBuilder.addInterceptor(interceptor)
+        httpClientBuilder.build()
     }
 
     private val retrofit : Retrofit by lazy {
@@ -31,7 +37,7 @@ object ApiClient {
             .build()
     }
 
-    val apiService : ApiService by lazy {
-        retrofit.create(ApiService::class.java)
+    val apiService : Api by lazy {
+        retrofit.create(Api::class.java)
     }
 }
