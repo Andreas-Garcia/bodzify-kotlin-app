@@ -6,6 +6,8 @@
     <string name="bpm_api_data_name">data</string>
 
     <string name="bpm_api_auth_resource_name">auth</string>
+    <string name="bpm_api_auth_username_field">username</string>
+    <string name="bpm_api_auth_password_field">password</string>
     <string name="bpm_api_auth_refresh_action_name">refresh</string>
     <string name="bpm_api_auth_logout_action_name">logout</string>
 
@@ -19,8 +21,9 @@
     <string name="add_button_label">Add</string>
     <string name="no_results">No results</string>
     <string name="parameters">Parameters</string>
-    <string name="login_title">Login</string>
     <string name="welcome_title">Wech!!</string>
     <string name="username">Identifier</string>
     <string name="password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="logout">Logout</string>
 </resources>

@@ -29,14 +29,6 @@
             android:layout_gravity="center_horizontal"
             android:textSize="40dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login_title"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:textSize="20dp"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,17 +36,17 @@
             android:layout_marginTop="20dp">
 
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/username"/>
 
             <EditText
-                android:id="@+id/login_email_edit_text"
+                android:id="@+id/login_username_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textEmailAddress"
+                android:inputType="text"
                 android:background="?attr/colorControlNormal" />
         </LinearLayout>
 
@@ -65,7 +57,7 @@
             android:layout_marginTop="20dp">
 
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/password"/>
@@ -78,6 +70,14 @@
                 android:inputType="textPassword"
                 android:background="?attr/colorControlNormal"/>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_button"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"/>
 
     </LinearLayout>
 
