@@ -59,4 +59,14 @@ class SessionManager {
         editor.putString(SHARED_PREFERENCE_USER_JWTTOKEN_REFRESH_KEY, user.jwtToken?.refresh)
         editor.apply()
     }
+
+    fun endSession() {
+        val editor = sharedPreferences.edit()
+        editor.putString(SHARED_PREFERENCE_USER_USERNAME_KEY, null)
+        editor.putString(SHARED_PREFERENCE_USER_PASSWORD_KEY, null)
+        editor.putString(SHARED_PREFERENCE_USER_EMAIL_KEY, null)
+        editor.putString(SHARED_PREFERENCE_USER_JWTTOKEN_ACCESS_KEY, null)
+        editor.putString(SHARED_PREFERENCE_USER_JWTTOKEN_REFRESH_KEY, null)
+        editor.apply()
+    }
 }

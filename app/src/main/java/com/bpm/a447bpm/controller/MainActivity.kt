@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                         .show()
                     sessionManager.startSession(
                         User(username, password, null, response.body()!!))
-                    startLogin()
+                    startMain()
                 } else {
                     Toast.makeText(this@MainActivity, "error null", Toast.LENGTH_LONG)
                         .show()
