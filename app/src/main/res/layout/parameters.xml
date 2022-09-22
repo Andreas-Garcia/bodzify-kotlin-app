@@ -25,6 +25,16 @@
                 android:src="@drawable/ic_baseline_chevron_left_24"
                 android:background="@null"
                 android:tint="?attr/colorControlNormal"/>
+
+            <TextView
+                android:id="@+id/parameters_title_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/parameters"
+                android:textStyle="bold"
+                android:gravity="left|center_vertical"
+                android:tint="?attr/colorControlNormal"/>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 </LinearLayout>
