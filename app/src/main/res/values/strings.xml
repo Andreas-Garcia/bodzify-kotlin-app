@@ -18,4 +18,5 @@
 
     <string name="add_button_label">Add</string>
     <string name="no_results">No results</string>
+    <string name="parameters">Parameters</string>
 </resources>
