@@ -3,6 +3,7 @@ package com.bpm.a447bpm.controller
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bpm.a447bpm.R
@@ -13,21 +14,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-const val TAG = "MainActivity"
-
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var parameterImageView: ImageView
+    private lateinit var searchButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-        val searchButton = findViewById<Button>(R.id.search_button)
+        parameterImageView = findViewById(R.id.parameter_image_view)
+        parameterImageView.setOnClickListener {
+            startActivity(Intent(this, ParametersActivity::class.java))
+        }
+
+        searchButton = findViewById<Button>(R.id.search_button)
         searchButton.setOnClickListener{
-            val intent = Intent(this, SearchActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, SearchActivity::class.java))
         }
 
         val addUserButton = findViewById<Button>(R.id.add_user_button)
