@@ -42,11 +42,11 @@
                 android:text="@string/username"/>
 
             <EditText
-                android:id="@+id/login_email_edit_text"
+                android:id="@+id/login_username_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textEmailAddress"
+                android:inputType="text"
                 android:background="?attr/colorControlNormal" />
         </LinearLayout>
 

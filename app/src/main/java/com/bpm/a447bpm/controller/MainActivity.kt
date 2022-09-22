@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -90,19 +91,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.login)
 
         findViewById<Button>(R.id.login_button).setOnClickListener {
+            val username = findViewById<EditText>(R.id.login_username_edit_text).text.toString()
+            val password = findViewById<EditText>(R.id.login_password_edit_text).text.toString()
             if(credentialsValid()) {
-                login()
+                login(username, password)
             }
         }
     }
 
-    private fun login() {
+    private fun login(username: String, password: String) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val requestBody: RequestBody = MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart("username", "lol")
-                    .addFormDataPart("password", "lol")
+                    .addFormDataPart(getString(R.string.bpm_api_auth_username_field), username)
+                    .addFormDataPart(getString(R.string.bpm_api_auth_password_field), password)
                     .build()
                 val response = ApiClient(getString(R.string.bpm_api_url))
                     .apiService.login(requestBody)

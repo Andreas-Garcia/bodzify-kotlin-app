@@ -6,6 +6,8 @@
     <string name="bpm_api_data_name">data</string>
 
     <string name="bpm_api_auth_resource_name">auth</string>
+    <string name="bpm_api_auth_username_field">username</string>
+    <string name="bpm_api_auth_password_field">password</string>
     <string name="bpm_api_auth_refresh_action_name">refresh</string>
     <string name="bpm_api_auth_logout_action_name">logout</string>
 
