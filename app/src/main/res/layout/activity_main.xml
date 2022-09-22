@@ -13,7 +13,6 @@
         android:layout_height="?attr/actionBarSize"
         app:contentInsetStart="0dp" > <!-- Otherwise there will be a small space on the left -->
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

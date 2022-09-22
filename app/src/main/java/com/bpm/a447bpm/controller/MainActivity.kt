@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -16,6 +14,8 @@ import com.bpm.a447bpm.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 
 const val SHARED_PREFS = "shared_prefs"
@@ -77,9 +77,9 @@ class MainActivity : AppCompatActivity() {
                         .show()
                 }
             }
-    }
+        }
 
-    val webViewButton = findViewById<Button>(R.id.webview_button)
+        val webViewButton = findViewById<Button>(R.id.webview_button)
         webViewButton.setOnClickListener{
             val intent = Intent(this, WebViewActivity::class.java)
             startActivity(intent)
@@ -88,5 +88,39 @@ class MainActivity : AppCompatActivity() {
 
     private fun startLogin() {
         setContentView(R.layout.login)
+
+        findViewById<Button>(R.id.login_button).setOnClickListener {
+            if(credentialsValid()) {
+                login()
+            }
+        }
+    }
+
+    private fun login() {
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val requestBody: RequestBody = MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("username", "lol")
+                    .addFormDataPart("password", "lol")
+                    .build()
+                val response = ApiClient(getString(R.string.bpm_api_url))
+                    .apiService.login(requestBody)
+                if (response.body() != null) {
+                    Toast.makeText(this@MainActivity, response.toString(), Toast.LENGTH_LONG) .show()
+                    //sessionManager.saveAuthToken(loginResponse.authToken)
+                } else {
+                    Toast.makeText(this@MainActivity, "error null", Toast.LENGTH_LONG)
+                        .show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@MainActivity, "error " + e.message, Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
+    }
+
+    private fun credentialsValid(): Boolean {
+        return true
     }
 }
