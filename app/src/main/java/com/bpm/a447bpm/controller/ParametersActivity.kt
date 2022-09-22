@@ -22,7 +22,7 @@ class ParametersActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.logout_button).setOnClickListener{
             sessionManager.endSession()
+            finish()
         }
-
     }
 }

@@ -26,16 +26,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var searchButton: Button
     private lateinit var sessionManager: SessionManager
 
+    override fun onResume() {
+        super.onResume()
+        displayLoginOrMain()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        displayLoginOrMain()
+    }
 
+    private fun displayLoginOrMain() {
         sessionManager = SessionManager(this)
 
         if(sessionManager.user == null)
             startLogin()
         else
             startMain()
-        }
+    }
 
     private fun startMain() {
         setContentView(R.layout.activity_main)

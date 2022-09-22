@@ -29,21 +29,19 @@ class SessionManager {
             sharedPreferences.getString(SHARED_PREFERENCE_USER_JWTTOKEN_ACCESS_KEY, null)
         val userJwtTokenRefresh =
             sharedPreferences.getString(SHARED_PREFERENCE_USER_JWTTOKEN_REFRESH_KEY, null)
-        var jwtToken = if(userJwtTokenAccess != null && userJwtTokenRefresh != null) {
+        var jwtToken = if(userJwtTokenAccess != null && userJwtTokenRefresh != null)
             JwtToken(userJwtTokenAccess, userJwtTokenRefresh)
-        } else {
+        else
             null
-        }
-        user = if(username != null) {
+        user = if(username != null)
             User(
                 username,
                 sharedPreferences.getString(SHARED_PREFERENCE_USER_PASSWORD_KEY, null),
                 sharedPreferences.getString(SHARED_PREFERENCE_USER_EMAIL_KEY, null),
                 jwtToken
             )
-        } else {
+        else
             null
-        }
     }
 
     companion object {
