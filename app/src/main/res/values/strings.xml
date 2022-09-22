@@ -19,4 +19,8 @@
     <string name="add_button_label">Add</string>
     <string name="no_results">No results</string>
     <string name="parameters">Parameters</string>
+    <string name="login_title">Login</string>
+    <string name="welcome_title">Wech!!</string>
+    <string name="username">Identifier</string>
+    <string name="password">Password</string>
 </resources>
