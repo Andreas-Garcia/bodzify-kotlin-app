@@ -8,10 +8,25 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"/>
+        android:layout_height="?attr/actionBarSize">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:id="@+id/parameter"
+                android:layout_gravity="right|center_vertical"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_baseline_settings_24"
+                android:background="@null"
+                android:tint="?attr/colorControlNormal"/>
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <include layout="@layout/content_main" />
 
