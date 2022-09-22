@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bpm.a447bpm.R
 import com.bpm.a447bpm.api.ApiClient
+import com.bpm.a447bpm.api.SessionManager
+import com.bpm.a447bpm.model.JwtToken
 import com.bpm.a447bpm.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -18,29 +20,18 @@ import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
-
-const val SHARED_PREFS = "shared_prefs"
-const val EMAIL_KEY = "email_key"
-const val PASSWORD_KEY = "password_key"
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var parameterImageView: ImageView
     private lateinit var searchButton: Button
-
-    private lateinit var sharedPreferences: SharedPreferences
-    private var email: String? = null
-    private var password: String? = null
-
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
-        email = sharedPreferences.getString(EMAIL_KEY, null)
-        password = sharedPreferences.getString(PASSWORD_KEY, null)
+        sessionManager = SessionManager(this)
 
-        if(email == null)
+        if(sessionManager.user == null)
             startLogin()
         else
             startMain()
@@ -61,23 +52,6 @@ class MainActivity : AppCompatActivity() {
 
         val addUserButton = findViewById<Button>(R.id.add_user_button)
         addUserButton.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
-                try {
-                    val response = ApiClient(getString(R.string.bpm_api_url))
-                        .apiService.createUser(User("koko", "kiki"), "{% csrf_token %}")
-                    if (response.body() != null) {
-                        Toast.makeText(this@MainActivity, response.toString(), Toast.LENGTH_LONG)
-                            .show()
-                        //sessionManager.saveAuthToken(loginResponse.authToken)
-                    } else {
-                        Toast.makeText(this@MainActivity, "error null", Toast.LENGTH_LONG)
-                            .show()
-                    }
-                } catch (e: Exception) {
-                    Toast.makeText(this@MainActivity, "error" + e.message, Toast.LENGTH_LONG)
-                        .show()
-                }
-            }
         }
 
         val webViewButton = findViewById<Button>(R.id.webview_button)
@@ -89,7 +63,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun startLogin() {
         setContentView(R.layout.login)
-
         findViewById<Button>(R.id.login_button).setOnClickListener {
             val username = findViewById<EditText>(R.id.login_username_edit_text).text.toString()
             val password = findViewById<EditText>(R.id.login_password_edit_text).text.toString()
@@ -110,8 +83,11 @@ class MainActivity : AppCompatActivity() {
                 val response = ApiClient(getString(R.string.bpm_api_url))
                     .apiService.login(requestBody)
                 if (response.body() != null) {
-                    Toast.makeText(this@MainActivity, response.toString(), Toast.LENGTH_LONG) .show()
-                    //sessionManager.saveAuthToken(loginResponse.authToken)
+                    Toast.makeText(this@MainActivity, response.toString(), Toast.LENGTH_LONG)
+                        .show()
+                    sessionManager.startSession(
+                        User(username, password, null, response.body()!!))
+                    startLogin()
                 } else {
                     Toast.makeText(this@MainActivity, "error null", Toast.LENGTH_LONG)
                         .show()

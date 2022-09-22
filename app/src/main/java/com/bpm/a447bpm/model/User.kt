@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 @Keep
 @Serializable
 data class User (
-    val name: String,
-    val password: String,
+    val username: String,
+    val password: String?,
+    val email: String?,
+    val jwtToken: JwtToken?
 )
