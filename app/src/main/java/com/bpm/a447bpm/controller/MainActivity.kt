@@ -1,8 +1,6 @@
 package com.bpm.a447bpm.controller
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -12,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bpm.a447bpm.R
 import com.bpm.a447bpm.api.ApiClient
 import com.bpm.a447bpm.api.SessionManager
-import com.bpm.a447bpm.model.JwtToken
 import com.bpm.a447bpm.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -88,13 +85,13 @@ class MainActivity : AppCompatActivity() {
                     .addFormDataPart(getString(R.string.bpm_api_auth_username_field), username)
                     .addFormDataPart(getString(R.string.bpm_api_auth_password_field), password)
                     .build()
-                val response = ApiClient(getString(R.string.bpm_api_url))
+                val response = ApiClient(this@MainActivity)
                     .apiService.login(requestBody)
                 if (response.body() != null) {
                     Toast.makeText(this@MainActivity, response.toString(), Toast.LENGTH_LONG)
                         .show()
                     sessionManager.startSession(
-                        User(username, password, null, response.body()!!))
+                        User(username, response.body()!!))
                     startMain()
                 } else {
                     Toast.makeText(this@MainActivity, "error null", Toast.LENGTH_LONG)
@@ -108,6 +105,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun credentialsValid(): Boolean {
+        //TODO
         return true
     }
 }

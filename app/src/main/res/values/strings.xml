@@ -2,7 +2,7 @@
     <string name="app_name">447bpm</string>
     <string name="app_label">447bpm</string>
 
-    <string name="bpm_api_url">http://185.224.139.218:8080</string>
+    <string name="bpm_api_base_url">http://185.224.139.218:8080</string>
     <string name="bpm_api_data_name">data</string>
 
     <string name="bpm_api_auth_resource_name">auth</string>
@@ -26,4 +26,6 @@
     <string name="password">Password</string>
     <string name="login_button">Login</string>
     <string name="logout">Logout</string>
+    <string name="bpm_api_auth_bearer_format">Bearer %s</string>
+    <string name="bpm_api_songs_external_source_myfreemp_value">myfreemp3</string>
 </resources>

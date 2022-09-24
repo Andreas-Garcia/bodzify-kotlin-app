@@ -1,5 +1,7 @@
 package com.bpm.a447bpm.api
 
+import android.content.Context
+import com.bpm.a447bpm.R
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -9,10 +11,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 object ApiClient {
+
     private lateinit var baseUrl: String
 
-    operator fun invoke(baseUrl: String): ApiClient {
-        this.baseUrl = baseUrl
+    operator fun invoke(context: Context): ApiClient {
+        this.baseUrl = context.getString(R.string.bpm_api_base_url)
         return this
     }
 

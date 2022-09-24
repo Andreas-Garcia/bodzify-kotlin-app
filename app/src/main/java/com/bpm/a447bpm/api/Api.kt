@@ -10,6 +10,7 @@ import retrofit2.http.*
 interface Api {
     @GET("songs/external/")
     suspend fun searchSongs(
+        @Header("Authorization") authorization: String,
         @Query("source") source: String,
         @Query("query") query: String
     ): Response<MutableList<Song>>
