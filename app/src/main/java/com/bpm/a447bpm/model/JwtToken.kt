@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 @Keep
 @Serializable
 data class JwtToken (
-    val access: String,
+    var access: String,
     val refresh: String,
 )

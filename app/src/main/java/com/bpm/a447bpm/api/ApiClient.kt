@@ -19,12 +19,12 @@ object ApiClient {
         return this
     }
 
-    private val gson : Gson by lazy {
+    private val gson: Gson by lazy {
         GsonBuilder().setLenient()
             .create()
     }
 
-    private val httpClient : OkHttpClient by lazy {
+    private val httpClient: OkHttpClient by lazy {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val httpClientBuilder = OkHttpClient.Builder()
@@ -32,7 +32,7 @@ object ApiClient {
         httpClientBuilder.build()
     }
 
-    private val retrofit : Retrofit by lazy {
+    private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(httpClient)
@@ -40,7 +40,7 @@ object ApiClient {
             .build()
     }
 
-    val apiService : Api by lazy {
-        retrofit.create(Api::class.java)
+    val apiService: ApiInterface by lazy {
+        retrofit.create(ApiInterface::class.java)
     }
 }

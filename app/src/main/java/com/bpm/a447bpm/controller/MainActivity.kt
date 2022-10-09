@@ -5,23 +5,12 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.bpm.a447bpm.R
-import com.bpm.a447bpm.api.ApiClient
-import com.bpm.a447bpm.api.SessionManager
-import com.bpm.a447bpm.model.User
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var parameterImageView: ImageView
     private lateinit var searchButton: Button
-    private lateinit var sessionManager: SessionManager
 
     override fun onResume() {
         super.onResume()
@@ -34,9 +23,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayLoginOrMain() {
-        sessionManager = SessionManager(this)
-
-        if(sessionManager.user == null)
+        if(!sessionManager.isLoggedIn())
             startLogin()
         else
             startMain()
@@ -72,34 +59,9 @@ class MainActivity : AppCompatActivity() {
             val username = findViewById<EditText>(R.id.login_username_edit_text).text.toString()
             val password = findViewById<EditText>(R.id.login_password_edit_text).text.toString()
             if(credentialsValid()) {
-                login(username, password)
-            }
-        }
-    }
-
-    private fun login(username: String, password: String) {
-        GlobalScope.launch(Dispatchers.Main) {
-            try {
-                val requestBody: RequestBody = MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart(getString(R.string.bpm_api_auth_username_field), username)
-                    .addFormDataPart(getString(R.string.bpm_api_auth_password_field), password)
-                    .build()
-                val response = ApiClient(this@MainActivity)
-                    .apiService.login(requestBody)
-                if (response.body() != null) {
-                    Toast.makeText(this@MainActivity, response.toString(), Toast.LENGTH_LONG)
-                        .show()
-                    sessionManager.startSession(
-                        User(username, response.body()!!))
+                apiManager.login(this, username, password) {
                     startMain()
-                } else {
-                    Toast.makeText(this@MainActivity, "error null", Toast.LENGTH_LONG)
-                        .show()
                 }
-            } catch (e: Exception) {
-                Toast.makeText(this@MainActivity, "error " + e.message, Toast.LENGTH_LONG)
-                    .show()
             }
         }
     }

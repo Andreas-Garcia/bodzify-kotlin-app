@@ -28,4 +28,9 @@
     <string name="logout">Logout</string>
     <string name="bpm_api_auth_bearer_format">Bearer %s</string>
     <string name="bpm_api_songs_external_source_myfreemp_value">myfreemp3</string>
+    <string name="bpm_api_songs_external_download_url">url</string>
+    <string name="bpm_api_auth_refresh_refresh_field">refresh</string>
+    <string name="bpm_api_songs_external_download_title">title</string>
+    <string name="bpm_api_songs_external_download_artist">artist</string>
+    <string name="bpm_api_songs_external_download_date">date</string>
 </resources>
