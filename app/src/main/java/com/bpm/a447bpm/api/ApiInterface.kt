@@ -19,14 +19,14 @@ interface ApiInterface {
     @POST("auth/token/refresh/")
     suspend fun refresh(@Body refreshTokenRequestBody: RequestBody): Response<JWTTokenAccessDTO>
 
-    @GET("songs/external/")
+    @GET("external/songs/")
     suspend fun searchSongs(
         @Header("Authorization") authorization: String,
         @Query("source") source: String,
         @Query("query") query: String
     ): Response<MutableList<SongExternal>>
 
-    @POST("songs/external/download/")
+    @POST("external/songs/download/")
     suspend fun downloadExternalSong(
         @Header("Authorization") authorization: String,
         @Body externalSongRequestBody: RequestBody
