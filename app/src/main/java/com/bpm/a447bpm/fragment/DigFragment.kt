@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.SearchView
 import com.bpm.a447bpm.R
-import com.bpm.a447bpm.adapter.SongListAdapter
+import com.bpm.a447bpm.adapter.ExternalSongListAdapter
 import com.bpm.a447bpm.model.SongExternal
 
 class DigFragment : BaseFragment() {
 
-    private lateinit var searchView: SearchView
-    private lateinit var songListView: ListView
+    private lateinit var digSearchView: SearchView
+    private lateinit var externalSongListView: ListView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,18 +25,18 @@ class DigFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchView = requireView().findViewById(R.id.dig_search_view)
-        songListView = requireView().findViewById(R.id.dug_songs_list_view)
+        digSearchView = requireView().findViewById(R.id.dig_search_view)
+        externalSongListView = requireView().findViewById(R.id.external_songs_list_view)
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        digSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
                     apiManager.digSongs(requireContext(), query) {
                             externalSongs: MutableList<SongExternal>? ->
                         var externalSongsToDisplay: MutableList<SongExternal> =
                             externalSongs ?: arrayListOf()
-                        songListView.adapter =
-                            SongListAdapter(
+                        externalSongListView.adapter =
+                            ExternalSongListAdapter(
                                 requireActivity(),
                                 apiManager,
                                 sessionManager,

@@ -3,7 +3,9 @@ package com.bpm.a447bpm.api
 import android.content.Context
 import android.widget.Toast
 import com.bpm.a447bpm.R
+import com.bpm.a447bpm.dto.ResponseJSON
 import com.bpm.a447bpm.model.SongExternal
+import com.bpm.a447bpm.model.SongLibrary
 import com.bpm.a447bpm.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -72,30 +74,53 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
         }
     }
 
+    fun searchLibrarySongs(context: Context,
+                 callback: (songsExternal: ResponseJSON<MutableList<SongLibrary>>?) -> Unit) {
+        val accessToken = sessionManager.getUser()!!.jwtToken?.access
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val response = apiClient.apiService
+                    .searchLibrarySongs(format(context.getString(R.string.bpm_api_auth_bearer_format), accessToken!!))
+                if (response.isSuccessful) {
+                    callback(response.body())
+                } else {
+                    if(response.code() == 401) {
+                        refresh(context) { searchLibrarySongs(context, callback) }
+                    } else {
+                        Toast.makeText(context,
+                            context.getString(R.string.error_occurred_label) + " " + response.toString(), Toast.LENGTH_LONG)
+                            .show()
+                    }
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, context.getString(R.string.error_occurred_label)+ " " + e.message, Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
+    }
+
     fun digSongs(context: Context,
                  query: String,
                  callback: (songsExternal: MutableList<SongExternal>?) -> Unit) {
         val accessToken = sessionManager.getUser()!!.jwtToken?.access
-        if(accessToken != null) {
-            GlobalScope.launch(Dispatchers.Main) {
-                try {
-                    val response = apiClient.apiService
-                        .searchSongs(format(context.getString(R.string.bpm_api_auth_bearer_format), accessToken), context.getString(R.string.bpm_api_songs_external_source_myfreemp_value), query)
-                    if (response.isSuccessful) {
-                        callback(response.body())
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val response = apiClient.apiService
+                    .digSongs(format(context.getString(R.string.bpm_api_auth_bearer_format), accessToken!!), context.getString(R.string.bpm_api_songs_external_source_myfreemp_value), query)
+                if (response.isSuccessful) {
+                    callback(response.body())
+                } else {
+                    if(response.code() == 401) {
+                        refresh(context) { digSongs(context, query, callback) }
                     } else {
-                        if(response.code() == 401) {
-                            refresh(context) { digSongs(context, query, callback) }
-                        } else {
-                            Toast.makeText(context,
-                                context.getString(R.string.error_occurred_label) + " " + response.toString(), Toast.LENGTH_LONG)
-                                .show()
-                        }
+                        Toast.makeText(context,
+                            context.getString(R.string.error_occurred_label) + " " + response.toString(), Toast.LENGTH_LONG)
+                            .show()
                     }
-                } catch (e: Exception) {
-                    Toast.makeText(context, context.getString(R.string.error_occurred_label)+ " " + e.message, Toast.LENGTH_LONG)
-                        .show()
                 }
+            } catch (e: Exception) {
+                Toast.makeText(context, context.getString(R.string.error_occurred_label)+ " " + e.message, Toast.LENGTH_LONG)
+                    .show()
             }
         }
     }

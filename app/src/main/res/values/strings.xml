@@ -35,4 +35,5 @@
     <string name="bpm_api_songs_external_download_date">date</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="library_song_sync_button_label">Sync</string>
 </resources>

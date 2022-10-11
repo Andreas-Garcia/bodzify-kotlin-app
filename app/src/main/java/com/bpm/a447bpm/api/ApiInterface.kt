@@ -2,7 +2,9 @@ package com.bpm.a447bpm.api
 
 import com.bpm.a447bpm.model.JwtToken
 import com.bpm.a447bpm.dto.JWTTokenAccessDTO
+import com.bpm.a447bpm.dto.ResponseJSON
 import com.bpm.a447bpm.model.SongExternal
+import com.bpm.a447bpm.model.SongLibrary
 import com.bpm.a447bpm.model.User
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -19,8 +21,13 @@ interface ApiInterface {
     @POST("auth/token/refresh/")
     suspend fun refresh(@Body refreshTokenRequestBody: RequestBody): Response<JWTTokenAccessDTO>
 
+    @GET("songs/")
+    suspend fun searchLibrarySongs(
+        @Header("Authorization") authorization: String
+    ): Response<ResponseJSON<MutableList<SongLibrary>>>
+
     @GET("external/songs/")
-    suspend fun searchSongs(
+    suspend fun digSongs(
         @Header("Authorization") authorization: String,
         @Query("source") source: String,
         @Query("query") query: String

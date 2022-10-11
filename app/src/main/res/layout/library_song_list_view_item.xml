@@ -1,6 +1,5 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,7 +17,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/song_artist_textview"
+                android:id="@+id/library_song_artist_textview"
                 android:layout_width="match_parent"
                 android:layout_height="17dp"
                 android:layout_marginStart="15dp"
@@ -28,7 +27,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/song_title_textview"
+                android:id="@+id/library_song_title_textview"
                 android:layout_width="match_parent"
                 android:layout_height="17dp"
                 android:layout_marginStart="15dp"
@@ -39,10 +38,10 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/add_button"
+            android:id="@+id/library_song_sync_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:text="@string/add_button_label" />
+            android:text="@string/library_song_sync_button_label" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
