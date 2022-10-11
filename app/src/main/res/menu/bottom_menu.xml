@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Library"
+        android:id="@+id/navigation_bar_item_library"
+        android:icon="@drawable/ic_baseline_library_music_24"
+        />
+    <item
+        android:title="Dig"
+        android:id="@+id/navigation_bar_item_dig"
+        android:icon="@drawable/ic_baseline_search_24"
+        />
+    <item
+        android:title="Settings"
+        android:id="@+id/navigation_bar_item_settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        />
+</menu>

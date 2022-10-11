@@ -72,9 +72,9 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
         }
     }
 
-    fun searchSongs(context: Context,
-                            query: String,
-                            callback: (songsExternal: MutableList<SongExternal>?) -> Unit) {
+    fun digSongs(context: Context,
+                 query: String,
+                 callback: (songsExternal: MutableList<SongExternal>?) -> Unit) {
         val accessToken = sessionManager.getUser()!!.jwtToken?.access
         if(accessToken != null) {
             GlobalScope.launch(Dispatchers.Main) {
@@ -85,7 +85,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
                         callback(response.body())
                     } else {
                         if(response.code() == 401) {
-                            refresh(context) { searchSongs(context, query, callback) }
+                            refresh(context) { digSongs(context, query, callback) }
                         } else {
                             Toast.makeText(context,
                                 context.getString(R.string.error_occurred_label) + " " + response.toString(), Toast.LENGTH_LONG)
