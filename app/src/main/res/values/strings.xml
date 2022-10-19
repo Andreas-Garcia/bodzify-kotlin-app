@@ -20,7 +20,7 @@
 
     <string name="add_button_label">Add</string>
     <string name="no_results">No results</string>
-    <string name="parameters">Parameters</string>
+    <string name="settings">Settings</string>
     <string name="welcome_title">Wech!!</string>
     <string name="username">Identifier</string>
     <string name="password">Password</string>
@@ -33,4 +33,9 @@
     <string name="bpm_api_songs_external_download_title">title</string>
     <string name="bpm_api_songs_external_download_artist">artist</string>
     <string name="bpm_api_songs_external_download_date">date</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="library_song_sync_button_label">Sync</string>
+    <string name="rating_content_description">Rating</string>
+    <string name="bpm_api_songs_external_download_duration">duration</string>
 </resources>

@@ -15,7 +15,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="31">
         <activity
-            android:name=".controller.MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".controller.SearchActivity"
+            android:name=".activity.SearchActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
@@ -33,12 +33,12 @@
                 android:resource="@xml/searchable"/>
         </activity>
         <activity
-            android:name=".controller.WebViewActivity"
+            android:name=".activity.WebViewActivity"
             android:label="@string/app_name">
         </activity>
         <activity
-            android:name=".controller.ParametersActivity"
-            android:label="@string/parameters">
+            android:name=".activity.ParametersActivity"
+            android:label="@string/settings">
         </activity>
     </application>
 

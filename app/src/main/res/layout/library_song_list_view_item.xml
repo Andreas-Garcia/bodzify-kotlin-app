@@ -1,0 +1,63 @@
+<LinearLayout android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/library_song_artist_textview"
+                android:layout_width="match_parent"
+                android:layout_height="17dp"
+                android:layout_marginStart="15dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/library_song_title_textview"
+                android:layout_width="match_parent"
+                android:layout_height="17dp"
+                android:layout_marginStart="15dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/library_song_genre_textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="0.7"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/library_song_rating_imageView"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:srcCompat="@android:drawable/btn_star"
+        android:contentDescription="@string/rating_content_description"/>
+
+    <Button
+        android:id="@+id/library_song_sync_button"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:text="@string/library_song_sync_button_label" />
+</LinearLayout>
