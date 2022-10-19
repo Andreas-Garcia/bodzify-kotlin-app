@@ -139,6 +139,8 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
                     .getString(R.string.bpm_api_songs_external_download_title)
                 val postSongArtistField = context
                     .getString(R.string.bpm_api_songs_external_download_artist)
+                val postSongDurationField = context
+                    .getString(R.string.bpm_api_songs_external_download_duration)
                 val postSongDateField = context
                     .getString(R.string.bpm_api_songs_external_download_date)
                 val jwtTokenAccess = user.jwtToken.access
@@ -148,6 +150,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
                     .addFormDataPart(postSongUrlField, songExternal.url)
                     .addFormDataPart(postSongTitleField, songExternal.title)
                     .addFormDataPart(postSongArtistField, songExternal.artist)
+                    .addFormDataPart(postSongDurationField, "" + songExternal.duration)
                     .addFormDataPart(postSongDateField, "" + songExternal.date)
                     .build()
                 val response = apiClient.apiService
