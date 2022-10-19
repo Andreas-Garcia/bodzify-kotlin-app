@@ -8,7 +8,9 @@ import android.widget.ListView
 import android.widget.SearchView
 import com.bpm.a447bpm.R
 import com.bpm.a447bpm.adapter.ExternalSongListAdapter
+import com.bpm.a447bpm.dto.ResponseJSON
 import com.bpm.a447bpm.model.SongExternal
+import com.bpm.a447bpm.model.SongLibrary
 
 class DigFragment : BaseFragment() {
 
@@ -32,7 +34,8 @@ class DigFragment : BaseFragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
                     apiManager.digSongs(requireContext(), query) {
-                            externalSongs: MutableList<SongExternal>? ->
+                            responseJSON: ResponseJSON<MutableList<SongExternal>>? ->
+                        val externalSongs: MutableList<SongExternal> = responseJSON!!.data
                         var externalSongsToDisplay: MutableList<SongExternal> =
                             externalSongs ?: arrayListOf()
                         externalSongListView.adapter =

@@ -7,7 +7,6 @@ import android.widget.*
 import com.bpm.a447bpm.R
 import com.bpm.a447bpm.api.ApiManager
 import com.bpm.a447bpm.api.SessionManager
-import com.bpm.a447bpm.model.SongExternal
 import com.bpm.a447bpm.model.SongLibrary
 
 class LibrarySongListAdapter(private val activity: Activity,
@@ -22,11 +21,14 @@ class LibrarySongListAdapter(private val activity: Activity,
 
         val artistTextView = rowView.findViewById<TextView>(R.id.library_song_artist_textview)
         val titleTextView = rowView.findViewById<TextView>(R.id.library_song_title_textview)
+        val genreTextView = rowView.findViewById<TextView>(R.id.library_song_genre_textView)
+        val ratingImageView = rowView.findViewById<ImageView>(R.id.library_song_rating_imageView)
         val syncButton = rowView.findViewById<Button>(R.id.library_song_sync_button)
 
         val librarySong = librarySongs[position]
-        artistTextView.text = librarySong.path
-        titleTextView.text = "" + librarySong.addedOn
+        artistTextView.text = librarySong.artist
+        titleTextView.text = librarySong.title
+        genreTextView.text = librarySong.genre
 
         syncButton.setOnClickListener {
             //TODO

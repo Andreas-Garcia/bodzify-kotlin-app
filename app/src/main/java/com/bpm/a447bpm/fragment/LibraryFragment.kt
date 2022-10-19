@@ -33,7 +33,7 @@ class LibraryFragment : BaseFragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 apiManager.searchLibrarySongs(requireContext()) {
                     responseJSON: ResponseJSON<MutableList<SongLibrary>>? ->
-                    val librarySongs: MutableList<SongLibrary> = responseJSON!!.results
+                    val librarySongs: MutableList<SongLibrary> = responseJSON!!.data
                     var librarySongsToDisplay: MutableList<SongLibrary> =
                         librarySongs ?: arrayListOf()
                     librarySongListView.adapter = LibrarySongListAdapter(

@@ -101,12 +101,17 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
 
     fun digSongs(context: Context,
                  query: String,
-                 callback: (songsExternal: MutableList<SongExternal>?) -> Unit) {
+                 callback: (songsExternal: ResponseJSON<MutableList<SongExternal>>?) -> Unit) {
         val accessToken = sessionManager.getUser()!!.jwtToken?.access
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val response = apiClient.apiService
-                    .digSongs(format(context.getString(R.string.bpm_api_auth_bearer_format), accessToken!!), context.getString(R.string.bpm_api_songs_external_source_myfreemp_value), query)
+                    .digSongs(
+                        format(
+                            context.getString(R.string.bpm_api_auth_bearer_format),
+                            accessToken!!),
+                        context.getString(R.string.bpm_api_songs_external_source_myfreemp_value),
+                        query)
                 if (response.isSuccessful) {
                     callback(response.body())
                 } else {

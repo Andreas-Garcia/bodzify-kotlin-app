@@ -31,7 +31,7 @@ interface ApiInterface {
         @Header("Authorization") authorization: String,
         @Query("source") source: String,
         @Query("query") query: String
-    ): Response<MutableList<SongExternal>>
+    ): Response<ResponseJSON<MutableList<SongExternal>>>
 
     @POST("external/songs/download/")
     suspend fun downloadExternalSong(
