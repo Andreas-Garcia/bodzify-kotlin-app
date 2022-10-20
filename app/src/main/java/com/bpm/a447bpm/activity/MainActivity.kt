@@ -61,9 +61,10 @@ class MainActivity : AppCompatActivity() {
             LibraryFragment()
         ).commit()
 
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.itemIconTintList = null
 
-        bottomNav.setOnItemSelectedListener { menuItem ->
+        bottomNavigationView.setOnItemSelectedListener { menuItem ->
             var selectedFragment: Fragment? = null
             when (menuItem.itemId) {
                 R.id.navigation_bar_item_library -> selectedFragment = LibraryFragment()
