@@ -31,17 +31,7 @@ class LibraryFragment : BaseFragment() {
 
         librarySearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                apiManager.searchLibrarySongs(requireContext()) {
-                    responseJSON: ResponseJSON<MutableList<SongLibrary>>? ->
-                    val librarySongs: MutableList<SongLibrary> = responseJSON!!.data
-                    var librarySongsToDisplay: MutableList<SongLibrary> =
-                        librarySongs ?: arrayListOf()
-                    librarySongListView.adapter = LibrarySongListAdapter(
-                            requireActivity(),
-                            apiManager,
-                            sessionManager,
-                            librarySongsToDisplay)
-                }
+                searchLibrarySongs()
                 return false
             }
 
@@ -49,5 +39,20 @@ class LibraryFragment : BaseFragment() {
                 return true
             }
         })
+        searchLibrarySongs()
+    }
+
+    fun searchLibrarySongs() {
+        apiManager.searchLibrarySongs(requireContext()) {
+                responseJSON: ResponseJSON<MutableList<SongLibrary>>? ->
+            val librarySongs: MutableList<SongLibrary> = responseJSON!!.data
+            var librarySongsToDisplay: MutableList<SongLibrary> =
+                librarySongs ?: arrayListOf()
+            librarySongListView.adapter = LibrarySongListAdapter(
+                requireActivity(),
+                apiManager,
+                sessionManager,
+                librarySongsToDisplay)
+        }
     }
 }
