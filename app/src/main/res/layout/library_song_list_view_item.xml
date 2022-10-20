@@ -58,6 +58,13 @@
         android:id="@+id/library_song_sync_button"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
         android:text="@string/library_song_sync_button_label" />
+
+    <ImageView
+        android:id="@+id/library_song_edit_imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_gravity="center_vertical"
+        app:srcCompat="@drawable/ic_baseline_more_vert_24" />
 </LinearLayout>

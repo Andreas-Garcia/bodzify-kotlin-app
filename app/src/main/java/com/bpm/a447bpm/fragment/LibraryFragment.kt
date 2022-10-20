@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.ListView
 import android.widget.SearchView
 import com.bpm.a447bpm.R
 import com.bpm.a447bpm.adapter.LibrarySongListAdapter
 import com.bpm.a447bpm.dto.ResponseJSON
 import com.bpm.a447bpm.model.SongLibrary
+
 
 class LibraryFragment : BaseFragment() {
 
