@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startLogin(sessionManager: SessionManager) {
-        setContentView(R.layout.login)
+        setContentView(R.layout.activity_login)
         findViewById<Button>(R.id.login_button).setOnClickListener {
             val username = findViewById<EditText>(R.id.login_username_edit_text).text.toString()
             val password = findViewById<EditText>(R.id.login_password_edit_text).text.toString()

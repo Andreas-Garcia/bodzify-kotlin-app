@@ -4,8 +4,8 @@ import android.content.Context
 import android.widget.Toast
 import com.bpm.a447bpm.R
 import com.bpm.a447bpm.dto.ResponseJSON
-import com.bpm.a447bpm.model.SongExternal
-import com.bpm.a447bpm.model.SongLibrary
+import com.bpm.a447bpm.model.MineSong
+import com.bpm.a447bpm.model.LibrarySong
 import com.bpm.a447bpm.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -74,8 +74,25 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
         }
     }
 
-    fun searchLibrarySongs(context: Context,
-                 callback: (songsExternal: ResponseJSON<MutableList<SongLibrary>>?) -> Unit) {
+    fun updateSong(context: Context, librarySong: LibrarySong, callback:
+        (librarySongs: ResponseJSON<MutableList<LibrarySong>>?) -> Unit) {
+        val user = sessionManager.getUser()
+        val accessToken = user!!.jwtToken?.access
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val response = apiClient.apiService.updateSong(
+                    format(context.getString(R.string.bpm_api_auth_bearer_format), accessToken!!),
+                    user.id,
+                    librarySong.id)
+
+            } catch (e: Exception) {
+                Toast.makeText(context, context.getString(R.string.error_occurred_label)+ " " + e.message, Toast.LENGTH_LONG)
+                    .show()
+            }
+    }
+
+    fun searchLibrarySongs(context: Context, callback:
+        (songsExternal: ResponseJSON<MutableList<LibrarySong>>?) -> Unit) {
         val accessToken = sessionManager.getUser()!!.jwtToken?.access
         GlobalScope.launch(Dispatchers.Main) {
             try {
@@ -101,7 +118,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
 
     fun digSongs(context: Context,
                  query: String,
-                 callback: (songsExternal: ResponseJSON<MutableList<SongExternal>>?) -> Unit) {
+                 callback: (songsExternal: ResponseJSON<MutableList<MineSong>>?) -> Unit) {
         val accessToken = sessionManager.getUser()!!.jwtToken?.access
         GlobalScope.launch(Dispatchers.Main) {
             try {
@@ -130,7 +147,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
         }
     }
 
-    fun downloadExternalSong(context: Context, user: User, songExternal: SongExternal) {
+    fun downloadExternalSong(context: Context, user: User, songExternal: MineSong) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val postSongUrlField = context
@@ -154,7 +171,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
                     .addFormDataPart(postSongDateField, "" + songExternal.date)
                     .build()
                 val response = apiClient.apiService
-                    .downloadExternalSong(format(context.getString(R.string.bpm_api_auth_bearer_format), jwtTokenAccess), downloadExternalSongRequestBody)
+                    .downloadMineSong(format(context.getString(R.string.bpm_api_auth_bearer_format), jwtTokenAccess), downloadExternalSongRequestBody)
 
                 if (response.isSuccessful) {
                     Toast.makeText(context, response.body().toString(), Toast.LENGTH_LONG).show()

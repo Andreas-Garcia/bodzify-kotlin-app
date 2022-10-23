@@ -21,7 +21,6 @@
         <activity
             android:name=".activity.SongEditionActivity"
             android:exported="false"
-            android:label="@string/title_activity_song_edition"
             android:theme="@style/Theme.447bpm.NoActionBar" />
         <activity
             android:name=".activity.MainActivity"
