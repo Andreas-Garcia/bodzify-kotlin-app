@@ -9,7 +9,8 @@ import android.widget.SearchView
 import com.bpm.a447bpm.R
 import com.bpm.a447bpm.adapter.LibrarySongListAdapter
 import com.bpm.a447bpm.dto.ResponseJSON
-import com.bpm.a447bpm.model.SongLibrary
+import com.bpm.a447bpm.model.LibrarySong
+
 
 class LibraryFragment : BaseFragment() {
 
@@ -44,9 +45,9 @@ class LibraryFragment : BaseFragment() {
 
     fun searchLibrarySongs() {
         apiManager.searchLibrarySongs(requireContext()) {
-                responseJSON: ResponseJSON<MutableList<SongLibrary>>? ->
-            val librarySongs: MutableList<SongLibrary> = responseJSON!!.data
-            var librarySongsToDisplay: MutableList<SongLibrary> =
+                responseJSON: ResponseJSON<MutableList<LibrarySong>>? ->
+            val librarySongs: MutableList<LibrarySong> = responseJSON!!.data
+            var librarySongsToDisplay: MutableList<LibrarySong> =
                 librarySongs ?: arrayListOf()
             librarySongListView.adapter = LibrarySongListAdapter(
                 requireActivity(),

@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Keep
 @Serializable
-data class SongExternal (
+data class MineSong (
     val title: String,
     val artist: String,
     val duration: Int,

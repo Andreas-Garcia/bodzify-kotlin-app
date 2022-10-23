@@ -38,4 +38,16 @@
     <string name="library_song_sync_button_label">Sync</string>
     <string name="rating_content_description">Rating</string>
     <string name="bpm_api_songs_external_download_duration">duration</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="added_on">Added on</string>
+    <string name="released_on">Released on</string>
+    <string name="language">Language</string>
+    <string name="duration">Duration</string>
+    <string name="rating">Rating</string>
+    <string name="genre">Genre</string>
+    <string name="album">Album</string>
+    <string name="artist">Artist</string>
+    <string name="title">Title</string>
+    <string name="filename">Filename</string>
 </resources>

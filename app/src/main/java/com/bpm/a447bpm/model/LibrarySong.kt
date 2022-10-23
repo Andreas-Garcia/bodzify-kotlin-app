@@ -4,8 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Keep
 @Serializable
-data class SongLibrary (
+data class LibrarySong (
     val url: String,
+    val filename: String,
+    val fileExtension: String,
     val title: String?,
     val artist: String?,
     val album: String?,
@@ -13,5 +15,6 @@ data class SongLibrary (
     val duration: String,
     val rating: String?,
     val language: String?,
-    val addedOn: Int
+    val releasedOn: String?,
+    val addedOn: String
 )

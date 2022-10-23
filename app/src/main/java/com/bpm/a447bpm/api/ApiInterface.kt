@@ -1,14 +1,15 @@
 package com.bpm.a447bpm.api
 
-import com.bpm.a447bpm.model.JwtToken
 import com.bpm.a447bpm.dto.JWTTokenAccessDTO
 import com.bpm.a447bpm.dto.ResponseJSON
-import com.bpm.a447bpm.model.SongExternal
-import com.bpm.a447bpm.model.SongLibrary
+import com.bpm.a447bpm.model.MineSong
+import com.bpm.a447bpm.model.JwtToken
+import com.bpm.a447bpm.model.LibrarySong
 import com.bpm.a447bpm.model.User
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
+
 
 interface ApiInterface {
 
@@ -21,20 +22,27 @@ interface ApiInterface {
     @POST("auth/token/refresh/")
     suspend fun refresh(@Body refreshTokenRequestBody: RequestBody): Response<JWTTokenAccessDTO>
 
-    @GET("songs/")
+    @GET("{user_id}/songs/")
     suspend fun searchLibrarySongs(
         @Header("Authorization") authorization: String
-    ): Response<ResponseJSON<MutableList<SongLibrary>>>
+    ): Response<ResponseJSON<MutableList<LibrarySong>>>
 
-    @GET("external/songs/")
+    @PUT("{user_id}/song/{song_id}")
+    suspend fun updateSong(
+        @Header("Authorization") authorization: String,
+        @Path("user_id") userId: String?,
+        @Path("song_id") songId: String?
+    ): Response<LibrarySong>
+
+    @GET("mine/songs/")
     suspend fun digSongs(
         @Header("Authorization") authorization: String,
         @Query("source") source: String,
         @Query("query") query: String
-    ): Response<ResponseJSON<MutableList<SongExternal>>>
+    ): Response<ResponseJSON<MutableList<MineSong>>>
 
-    @POST("external/songs/download/")
-    suspend fun downloadExternalSong(
+    @POST("mine/songs/download/")
+    suspend fun downloadMineSong(
         @Header("Authorization") authorization: String,
         @Body externalSongRequestBody: RequestBody
     ): Response<JWTTokenAccessDTO>
