@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.SearchView
 import com.bpm.a447bpm.R
-import com.bpm.a447bpm.adapter.ExternalSongListAdapter
+import com.bpm.a447bpm.adapter.MineSongListAdapter
 import com.bpm.a447bpm.dto.ResponseJSON
 import com.bpm.a447bpm.model.MineSong
 
@@ -38,7 +38,7 @@ class DigFragment : BaseFragment() {
                         var externalSongsToDisplay: MutableList<MineSong> =
                             externalSongs ?: arrayListOf()
                         externalSongListView.adapter =
-                            ExternalSongListAdapter(
+                            MineSongListAdapter(
                                 requireActivity(),
                                 apiManager,
                                 sessionManager,
