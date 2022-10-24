@@ -22,15 +22,16 @@ interface ApiInterface {
     @POST("auth/token/refresh/")
     suspend fun refresh(@Body refreshTokenRequestBody: RequestBody): Response<JWTTokenAccessDTO>
 
-    @GET("{user_id}/songs/")
+    @GET("users/{username}/songs/")
     suspend fun searchLibrarySongs(
-        @Header("Authorization") authorization: String
+        @Header("Authorization") authorization: String,
+        @Path("username") username: String?
     ): Response<ResponseJSON<MutableList<LibrarySong>>>
 
-    @PUT("{user_id}/song/{song_id}")
+    @PUT("users/{username}/song/{song_id}")
     suspend fun updateSong(
         @Header("Authorization") authorization: String,
-        @Path("user_id") userId: String?,
+        @Path("username") username: String?,
         @Path("song_id") songId: String?
     ): Response<LibrarySong>
 

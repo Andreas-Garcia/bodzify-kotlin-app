@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 @Keep
 @Serializable
 data class LibrarySong (
+    val id: String,
     val url: String,
     val filename: String,
     val fileExtension: String,

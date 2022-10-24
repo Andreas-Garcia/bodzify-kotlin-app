@@ -2,7 +2,7 @@
     <string name="app_name">447bpm</string>
     <string name="app_label">447bpm</string>
 
-    <string name="bpm_api_base_url">http://185.224.139.218:8080</string>
+    <string name="bpm_api_base_url">https://bodzify.com</string>
     <string name="bpm_api_data_name">data</string>
 
     <string name="bpm_api_auth_resource_name">auth</string>
