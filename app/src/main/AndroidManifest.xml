@@ -16,12 +16,12 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.447bpm"
+        android:theme="@style/Theme.bodzify"
         tools:targetApi="31">
         <activity
             android:name="com.bodzify.activity.SongEditionActivity"
             android:exported="false"
-            android:theme="@style/Theme.447bpm.NoActionBar" />
+            android:theme="@style/Theme.bodzify.NoActionBar" />
         <activity
             android:name="com.bodzify.activity.MainActivity"
             android:exported="true">
