@@ -1,2 +1,2 @@
 # bodzify-kotlin-app
-Mobile app to dig and download tracks using a genre-based structure using the bodzify API
+Mobile app to handle your personal music library
