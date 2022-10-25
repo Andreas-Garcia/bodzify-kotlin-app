@@ -54,16 +54,19 @@ class SessionManager {
     private fun fetchSession(user: User?) {
         val editor = sharedPreferences.edit()
         var usernameToPut: String? = null
+        var passwordToPut: String? = null
         var jwtTokenAccessToPut: String? = null
         var jwtTokenRefreshToPut: String? = null
 
         if(user != null) {
             usernameToPut = user!!.username
+            passwordToPut = user!!.password
             jwtTokenAccessToPut = user!!.jwtToken.access
             jwtTokenRefreshToPut = user!!.jwtToken.refresh
         }
 
         editor.putString(SHARED_PREFERENCE_USER_USERNAME_KEY, usernameToPut)
+        editor.putString(SHARED_PREFERENCE_USER_PASSWORD_KEY, passwordToPut)
         editor.putString(SHARED_PREFERENCE_USER_JWTTOKEN_ACCESS_KEY, jwtTokenAccessToPut)
         editor.putString(SHARED_PREFERENCE_USER_JWTTOKEN_REFRESH_KEY, jwtTokenRefreshToPut)
         editor.apply()
