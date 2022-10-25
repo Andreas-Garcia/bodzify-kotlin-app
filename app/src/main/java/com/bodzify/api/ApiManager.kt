@@ -84,7 +84,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
                 val response = apiClient.apiService.updateSong(
                     format(context.getString(R.string.api_auth_bearer_format), accessToken!!),
                     user.username,
-                    librarySong.id
+                    librarySong.uuid
                 )
 
             } catch (e: Exception) {
