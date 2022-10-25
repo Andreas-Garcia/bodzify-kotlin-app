@@ -45,7 +45,6 @@ class LibrarySongListAdapter(private val activity: Activity,
         editImageView.setOnClickListener {
             val intent = Intent(
                 this@LibrarySongListAdapter.context, SongEditionActivity::class.java)
-            val a = Json.encodeToString(librarySong)
             intent.putExtra(EXTRA_MESSAGE, Json.encodeToString(librarySong))
             startActivity(this.context, intent, null)
         }
