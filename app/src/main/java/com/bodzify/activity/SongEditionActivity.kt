@@ -31,15 +31,15 @@ class SongEditionActivity : AppCompatActivity() {
         val addedOnTextView = findViewById<TextView>(R.id.song_edition_added_on_textView)
 
         val librarySong = Json.decodeFromString<LibrarySong>(intent.getStringExtra(EXTRA_MESSAGE)!!)
-        filenameTextView.text = librarySong!!.filename
-        titleEditText.setText(librarySong!!.title)
-        artistEditText.setText(librarySong!!.artist)
-        albumEditText.setText(librarySong!!.album)
-        genreEditText.setText(librarySong!!.genre)
-        ratingEditText.setText(librarySong!!.rating)
-        languageEditText.setText(librarySong!!.language)
-        durationTextView.text = librarySong!!.duration
-        releasedOnEditText.setText(librarySong!!.releasedOn)
-        addedOnTextView.text = librarySong!!.addedOn
+        filenameTextView.text = librarySong.filename
+        titleEditText.setText(librarySong.title)
+        artistEditText.setText(librarySong.artist)
+        albumEditText.setText(librarySong.album)
+        genreEditText.setText(librarySong.genre)
+        ratingEditText.setText(librarySong.rating)
+        languageEditText.setText(librarySong.language)
+        durationTextView.text = librarySong.duration
+        releasedOnEditText.setText(librarySong.releasedOn)
+        addedOnTextView.text = librarySong.addedOn
     }
 }

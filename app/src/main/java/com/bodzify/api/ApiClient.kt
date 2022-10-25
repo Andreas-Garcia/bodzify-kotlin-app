@@ -15,7 +15,7 @@ object ApiClient {
     private lateinit var baseUrl: String
 
     operator fun invoke(context: Context): ApiClient {
-        this.baseUrl = context.getString(R.string.bpm_api_base_url)
+        this.baseUrl = context.getString(R.string.api_base_url)
         return this
     }
 
