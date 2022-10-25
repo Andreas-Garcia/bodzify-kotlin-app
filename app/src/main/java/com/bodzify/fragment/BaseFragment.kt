@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.bodzify.api.ApiClient
 import com.bodzify.api.ApiManager
-import com.bodzify.api.SessionManager
+import com.bodzify.session.SessionManager
 
 abstract class BaseFragment: Fragment() {
 

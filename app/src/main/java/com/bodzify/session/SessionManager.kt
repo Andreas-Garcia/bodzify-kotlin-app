@@ -1,4 +1,4 @@
-package com.bodzify.api
+package com.bodzify.session
 
 import android.content.Context
 import android.content.SharedPreferences

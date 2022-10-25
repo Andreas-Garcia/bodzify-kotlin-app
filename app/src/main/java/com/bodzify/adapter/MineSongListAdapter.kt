@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.bodzify.R
 import com.bodzify.api.ApiManager
-import com.bodzify.api.SessionManager
+import com.bodzify.session.SessionManager
 import com.bodzify.model.MineSong
 
 class MineSongListAdapter(private val activity: Activity,

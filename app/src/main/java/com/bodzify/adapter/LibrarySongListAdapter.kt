@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat.startActivity
 import com.bodzify.R
 import com.bodzify.activity.SongEditionActivity
 import com.bodzify.api.ApiManager
-import com.bodzify.api.SessionManager
+import com.bodzify.session.SessionManager
 import com.bodzify.model.LibrarySong
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

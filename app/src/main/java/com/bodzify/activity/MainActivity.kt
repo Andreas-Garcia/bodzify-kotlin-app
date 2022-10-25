@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import com.bodzify.R
 import com.bodzify.api.ApiClient
 import com.bodzify.api.ApiManager
-import com.bodzify.api.SessionManager
+import com.bodzify.session.SessionManager
 import com.bodzify.fragment.DigFragment
 import com.bodzify.fragment.LibraryFragment
 import com.bodzify.fragment.SettingsFragment
