@@ -1,20 +1,21 @@
 <resources>
-    <string name="app_name">447bpm</string>
-    <string name="app_label">447bpm</string>
+    <string name="app_name">bodzify</string>
+    <string name="app_label">bodzify</string>
 
-    <string name="bpm_api_base_url">https://bodzify.com</string>
-    <string name="bpm_api_data_name">data</string>
+    <string name="api_base_url">https://bodzify.com</string>
+    <string name="api_data_name">data</string>
 
-    <string name="bpm_api_auth_resource_name">auth</string>
-    <string name="bpm_api_auth_username_field">username</string>
-    <string name="bpm_api_auth_password_field">password</string>
-    <string name="bpm_api_auth_refresh_action_name">refresh</string>
-    <string name="bpm_api_auth_logout_action_name">logout</string>
+    <string name="api_auth_username_field">username</string>
+    <string name="api_auth_password_field">password</string>
+    <string name="api_auth_bearer_format">Bearer %s</string>
+    <string name="api_auth_refresh_refresh_field">refresh</string>
 
-    <string name="bpm_api_songs_resource_name">songs</string>
-    <string name="bpm_api_songs_external_resource_name">external</string>
-    <string name="bpm_api_songs_external_source_parameter_name">source</string>
-    <string name="bpm_api_songs_external_query_parameter_name">query</string>
+    <string name="api_mine_songs_source_myfreemp_value">myfreemp3</string>
+    <string name="api_mine_song_url">url</string>
+    <string name="api_mine_song_title">title</string>
+    <string name="api_mine_song_artist">artist</string>
+    <string name="api_mine_song_released_on">date</string>
+
     <string name="search_hint">Search song, artist</string>
     <string name="error_occurred_label">Error Occurred: </string>
 
@@ -26,15 +27,7 @@
     <string name="password">Password</string>
     <string name="login_button">Login</string>
     <string name="logout">Logout</string>
-    <string name="bpm_api_auth_bearer_format">Bearer %s</string>
-    <string name="bpm_api_songs_external_source_myfreemp_value">myfreemp3</string>
-    <string name="bpm_api_songs_external_download_url">url</string>
-    <string name="bpm_api_auth_refresh_refresh_field">refresh</string>
-    <string name="bpm_api_songs_external_download_title">title</string>
-    <string name="bpm_api_songs_external_download_artist">artist</string>
-    <string name="bpm_api_songs_external_download_date">date</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="library_song_sync_button_label">Sync</string>
     <string name="rating_content_description">Rating</string>
     <string name="bpm_api_songs_external_download_duration">duration</string>

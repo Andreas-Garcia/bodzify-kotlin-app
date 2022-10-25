@@ -1,12 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.447bpm" parent="Theme.AppCompat.NoActionBar"></style>
+    <style name="Theme.bodzify" parent="Theme.AppCompat.NoActionBar"></style>
 
-    <style name="Theme.447bpm.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.bodzify.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.447bpm.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.bodzify.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Theme.447bpm.NoActionBar">
+    <style name="Theme.bodzify.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

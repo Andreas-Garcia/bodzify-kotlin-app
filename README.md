@@ -1,2 +1,2 @@
-# 447bpm-kotlin-app
-Mobile app to handle your personnal music library
+# bodzify-kotlin-app
+Mobile app to handle your personal music library
