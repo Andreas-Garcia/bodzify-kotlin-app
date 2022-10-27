@@ -8,6 +8,6 @@ data class MineSong (
     val title: String,
     val artist: String,
     val duration: Int,
-    val date: Int,
+    val releaseDate: Int,
     val url : String,
 )

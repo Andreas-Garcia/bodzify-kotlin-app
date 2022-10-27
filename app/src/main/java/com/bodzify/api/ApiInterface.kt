@@ -1,8 +1,6 @@
 package com.bodzify.api
 
-import com.bodzify.dto.SongUpdateDTO
-import com.bodzify.dto.JWTTokenAccessDTO
-import com.bodzify.dto.ResponseJSON
+import com.bodzify.dto.*
 import com.bodzify.model.MineSong
 import com.bodzify.model.JwtToken
 import com.bodzify.model.LibrarySong
@@ -18,7 +16,7 @@ interface ApiInterface {
     suspend fun createUser(@Body user: User, @Tag csrfToken : String): Response<User>
 
     @POST("auth/token/")
-    suspend fun login(@Body loginCredentialsRequestBody: RequestBody): Response<JwtToken>
+    suspend fun login(@Body credentialsDTO: CredentialsDTO): Response<JwtToken>
 
     @POST("auth/token/refresh/")
     suspend fun refresh(@Body refreshTokenRequestBody: RequestBody): Response<JWTTokenAccessDTO>
@@ -34,7 +32,7 @@ interface ApiInterface {
         @Header("Authorization") authorization: String,
         @Path("username") username: String,
         @Path("song_id") songId: String,
-        @Body updateSongRequestBody: SongUpdateDTO
+        @Body librarySongUpdateDTO: LibrarySongUpdateDTO
     ): Response<LibrarySong>
 
     @GET("mine/songs/")
@@ -47,6 +45,6 @@ interface ApiInterface {
     @POST("mine/songs/download/")
     suspend fun downloadMineSong(
         @Header("Authorization") authorization: String,
-        @Body externalSongRequestBody: RequestBody
+        @Body mineSongDownloadDTO: MineSongDownloadDTO
     ): Response<JWTTokenAccessDTO>
 }

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bodzify.R
 import com.bodzify.api.ApiClient
 import com.bodzify.api.ApiManager
-import com.bodzify.dto.SongUpdateDTO
+import com.bodzify.dto.LibrarySongUpdateDTO
 import com.bodzify.dto.ResponseJSON
 import com.bodzify.model.LibrarySong
 import com.bodzify.session.SessionManager
@@ -58,7 +58,7 @@ class SongEditionActivity : AppCompatActivity() {
         saveButton.setOnClickListener {
             apiManager.updateLibrarySong(this,
                 librarySong.uuid,
-                SongUpdateDTO(
+                LibrarySongUpdateDTO(
                     titleEditText.text.toString(),
                     artistEditText.text.toString(),
                     albumEditText.text.toString(),
