@@ -3,6 +3,7 @@ package com.bodzify.api
 import android.content.Context
 import android.widget.Toast
 import com.bodzify.R
+import com.bodzify.dto.SongUpdateDTO
 import com.bodzify.dto.ResponseJSON
 import com.bodzify.model.MineSong
 import com.bodzify.model.LibrarySong
@@ -75,8 +76,8 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
         }
     }
 
-    fun updateLibrarySong(context: Context, librarySong: LibrarySong, callback:
-        (librarySongs: ResponseJSON<MutableList<LibrarySong>>?) -> Unit) {
+    fun updateLibrarySong(context: Context, songUuid: String, songUpdateDTO: SongUpdateDTO, callback:
+        (librarySongs: ResponseJSON<LibrarySong>?) -> Unit) {
         val user = sessionManager.getUser()
         val accessToken = user!!.jwtToken?.access
         GlobalScope.launch(Dispatchers.Main) {
@@ -84,9 +85,9 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
                 val response = apiClient.apiService.updateSong(
                     format(context.getString(R.string.api_auth_bearer_format), accessToken!!),
                     user.username,
-                    librarySong.uuid
+                    songUuid,
+                    songUpdateDTO
                 )
-
             } catch (e: Exception) {
                 Toast.makeText(
                     context,
@@ -138,7 +139,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
                         format(
                             context.getString(R.string.api_auth_bearer_format),
                             accessToken!!),
-                        context.getString(R.string.api_mine_songs_source_myfreemp_value),
+                        context.getString(R.string.api_mine_song_source_myfreemp_value),
                         query)
                 if (response.isSuccessful) {
                     callback(response.body())
@@ -168,7 +169,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
                 val postSongArtistField = context
                     .getString(R.string.api_mine_song_artist)
                 val postSongDurationField = context
-                    .getString(R.string.bpm_api_songs_external_download_duration)
+                    .getString(R.string.api_mine_song_duration)
                 val postSongDateField = context
                     .getString(R.string.api_mine_song_released_on)
                 val jwtTokenAccess = user.jwtToken.access

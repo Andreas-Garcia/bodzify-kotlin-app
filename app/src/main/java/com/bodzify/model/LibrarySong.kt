@@ -13,7 +13,7 @@ data class LibrarySong (
     val album: String?,
     val genre: String?,
     val duration: String,
-    val rating: String?,
+    val rating: Int?,
     val language: String?,
     val releasedOn: String?,
     val addedOn: String
