@@ -3,10 +3,7 @@ package com.bodzify.api
 import android.content.Context
 import android.widget.Toast
 import com.bodzify.R
-import com.bodzify.dto.CredentialsDTO
-import com.bodzify.dto.LibrarySongUpdateDTO
-import com.bodzify.dto.MineSongDownloadDTO
-import com.bodzify.dto.ResponseJSON
+import com.bodzify.dto.*
 import com.bodzify.model.MineSong
 import com.bodzify.model.LibrarySong
 import com.bodzify.model.User
@@ -23,11 +20,8 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
     private fun refresh(context: Context, callback: () -> Unit) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                val requestBody: RequestBody = MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart(context.getString(R.string.api_auth_refresh_refresh_field), sessionManager.getUser()!!.jwtToken.refresh).build()
-
-                val response = apiClient.apiService.refresh(requestBody)
+                val response = apiClient.apiService.refresh(
+                        RefreshTokenDTO(sessionManager.getUser()!!.jwtToken.refresh))
                 if (response.isSuccessful && response.body() != null) {
                     var user = sessionManager.getUser()
                     user!!.jwtToken.access = response.body()!!.access

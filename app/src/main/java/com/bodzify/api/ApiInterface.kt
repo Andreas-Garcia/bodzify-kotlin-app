@@ -19,7 +19,7 @@ interface ApiInterface {
     suspend fun login(@Body credentialsDTO: CredentialsDTO): Response<JwtToken>
 
     @POST("auth/token/refresh/")
-    suspend fun refresh(@Body refreshTokenRequestBody: RequestBody): Response<JWTTokenAccessDTO>
+    suspend fun refresh(@Body refreshTokenDTO: RefreshTokenDTO): Response<JWTTokenAccessDTO>
 
     @GET("users/{username}/songs/")
     suspend fun searchLibrarySongs(
