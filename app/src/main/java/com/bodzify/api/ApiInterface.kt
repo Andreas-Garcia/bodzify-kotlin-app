@@ -1,5 +1,6 @@
 package com.bodzify.api
 
+import com.bodzify.dto.SongUpdateDTO
 import com.bodzify.dto.JWTTokenAccessDTO
 import com.bodzify.dto.ResponseJSON
 import com.bodzify.model.MineSong
@@ -28,11 +29,12 @@ interface ApiInterface {
         @Path("username") username: String?
     ): Response<ResponseJSON<MutableList<LibrarySong>>>
 
-    @PUT("users/{username}/song/{song_id}")
+    @PUT("users/{username}/songs/{song_id}/")
     suspend fun updateSong(
         @Header("Authorization") authorization: String,
-        @Path("username") username: String?,
-        @Path("song_id") songId: String?
+        @Path("username") username: String,
+        @Path("song_id") songId: String,
+        @Body updateSongRequestBody: SongUpdateDTO
     ): Response<LibrarySong>
 
     @GET("mine/songs/")
