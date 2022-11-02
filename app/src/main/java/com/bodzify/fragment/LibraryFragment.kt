@@ -40,6 +40,7 @@ class LibraryFragment : BaseFragment() {
                 return true
             }
         })
+
         searchLibrarySongs()
     }
 

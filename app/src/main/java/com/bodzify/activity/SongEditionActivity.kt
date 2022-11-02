@@ -31,6 +31,7 @@ class SongEditionActivity : AppCompatActivity() {
         val albumArtworkImageView = findViewById<ImageView>(
             R.id.song_edition_album_artwork_imageView)
         val filenameTextView = findViewById<TextView>(R.id.song_edition_filename_textView)
+        val urlTextView = findViewById<TextView>(R.id.song_edition_url_textView)
         val titleEditText = findViewById<EditText>(R.id.song_edition_title_editText)
         val artistEditText = findViewById<EditText>(R.id.song_edition_artist_editText)
         val albumEditText = findViewById<EditText>(R.id.song_edition_album_editText)
@@ -45,6 +46,7 @@ class SongEditionActivity : AppCompatActivity() {
 
         val librarySong = Json.decodeFromString<LibrarySong>(intent.getStringExtra(EXTRA_MESSAGE)!!)
         filenameTextView.text = librarySong.filename
+        urlTextView.text = getString(R.string.api_base_url) + librarySong.relativeUrl
         titleEditText.setText(librarySong.title)
         artistEditText.setText(librarySong.artist)
         albumEditText.setText(librarySong.album)

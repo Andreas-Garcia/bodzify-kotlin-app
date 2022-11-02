@@ -2,6 +2,8 @@ package com.bodzify.adapter
 
 import android.app.Activity
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +49,21 @@ class LibrarySongListAdapter(private val activity: Activity,
                 this@LibrarySongListAdapter.context, SongEditionActivity::class.java)
             intent.putExtra(EXTRA_MESSAGE, Json.encodeToString(librarySong))
             startActivity(this.context, intent, null)
+        }
+
+        rowView.setOnClickListener() {
+            val url = "https://bodzify.com/users/lol/songs/2tfuS8x8FoDuUzKhAq3Syi/download/"
+            val mediaPlayer = MediaPlayer().apply {
+                setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build()
+                )
+                setDataSource(url)
+                prepare() // might take long! (for buffering, etc)
+                start()
+            }
         }
 
         return rowView
