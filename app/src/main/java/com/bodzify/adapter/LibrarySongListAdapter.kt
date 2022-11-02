@@ -32,7 +32,7 @@ class LibrarySongListAdapter(
         val artistTextView = rowView.findViewById<TextView>(R.id.library_song_artist_textview)
         val titleTextView = rowView.findViewById<TextView>(R.id.library_song_title_textview)
         val genreTextView = rowView.findViewById<TextView>(R.id.library_song_genre_textView)
-        val ratingImageView = rowView.findViewById<ImageView>(R.id.library_song_rating_imageView)
+        val ratingImageView = rowView.findViewById<ImageView>(R.id.player_overlay_play_pause_imageView)
         val syncButton = rowView.findViewById<Button>(R.id.library_song_sync_button)
         val editImageView = rowView.findViewById<ImageView>(R.id.library_song_edit_imageView)
 
