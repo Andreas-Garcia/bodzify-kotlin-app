@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Keep
 @Serializable
-data class ResponseJSON <T>(
+data class PaginatedResponseDTO <T>(
     val count: Int,
     val next: String,
     val previous: String,

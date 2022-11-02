@@ -1,6 +1,8 @@
 package com.bodzify.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.AlarmClock
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.viewModels
@@ -10,24 +12,40 @@ import androidx.lifecycle.Observer
 import com.bodzify.R
 import com.bodzify.api.ApiClient
 import com.bodzify.api.ApiManager
-import com.bodzify.session.SessionManager
 import com.bodzify.fragment.DigFragment
 import com.bodzify.fragment.LibraryFragment
+import com.bodzify.fragment.PlayerOverlayFragment
 import com.bodzify.fragment.SettingsFragment
+import com.bodzify.session.SessionManager
 import com.bodzify.viewmodel.LogoutViewModel
+import com.bodzify.viewmodel.PlayerViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 
 class MainActivity : AppCompatActivity() {
     private val logoutViewModel: LogoutViewModel by viewModels()
+    private val playerViewModel: PlayerViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        logoutViewModel.logoutPerformed.observe(this, Observer { logoutPerformed ->
-            if(logoutPerformed) {
-                startLogin(SessionManager(this))
-            }
+
+        logoutViewModel.logoutPerformedLiveData.observe(this, Observer {
+            startLogin(SessionManager(this))
         })
+
+        playerViewModel.songSelectedLiveData.observe(this, Observer {
+            librarySong ->
+            val bundle = Bundle()
+            bundle.putSerializable(AlarmClock.EXTRA_MESSAGE, librarySong)
+            val fragInfo = PlayerOverlayFragment()
+            fragInfo.arguments = bundle
+            supportFragmentManager.beginTransaction().replace(
+                R.id.player_overlay_fragment_container,
+                fragInfo).commit()
+        })
+
         displayLoginOrMain()
     }
 
@@ -57,11 +75,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.beginTransaction().replace(
-            R.id.fragment_container,
+            R.id.main_fragment_container,
             LibraryFragment()
         ).commit()
 
+        supportFragmentManager.beginTransaction().replace(
+            R.id.player_overlay_fragment_container,
+            PlayerOverlayFragment()
+        ).commit()
+
+        setUpBottomNavigationMenu()
+    }
+
+    private fun setUpBottomNavigationMenu() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+        // to let the menu icon drawables handle icons appearance changes depending on icons states
         bottomNavigationView.itemIconTintList = null
 
         bottomNavigationView.setOnItemSelectedListener { menuItem ->
@@ -71,8 +100,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_bar_item_dig -> selectedFragment = DigFragment()
                 R.id.navigation_bar_item_settings -> selectedFragment = SettingsFragment()
             }
+
             supportFragmentManager.beginTransaction().replace(
-                R.id.fragment_container,
+                R.id.main_fragment_container,
                 selectedFragment!!
             ).commit()
             return@setOnItemSelectedListener true

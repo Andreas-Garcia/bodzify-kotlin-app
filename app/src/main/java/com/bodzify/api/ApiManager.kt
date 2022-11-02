@@ -16,7 +16,6 @@ import okhttp3.internal.format
 class ApiManager (private val sessionManager: SessionManager, private val apiClient: ApiClient){
 
     private fun refresh(context: Context, callback: () -> Unit) {
-        val refresh = sessionManager.getUser()!!.jwtToken.refresh
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val response = apiClient.apiService.refresh(
@@ -63,7 +62,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
     }
 
     fun updateLibrarySong(context: Context, songUuid: String, songUpdateDTO: LibrarySongUpdateDTO, callback:
-        (librarySongs: ResponseJSON<LibrarySong>?) -> Unit) {
+        (librarySongs: PaginatedResponseDTO<LibrarySong>?) -> Unit) {
         val user = sessionManager.getUser()
         val accessToken = user!!.jwtToken?.access
         GlobalScope.launch(Dispatchers.Main) {
@@ -86,7 +85,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
     }
 
     fun searchLibrarySongs(context: Context, callback:
-        (songsExternal: ResponseJSON<MutableList<LibrarySong>>?) -> Unit) {
+        (songsExternal: PaginatedResponseDTO<MutableList<LibrarySong>>?) -> Unit) {
         val user = sessionManager.getUser()
         val accessToken = user!!.jwtToken?.access
         GlobalScope.launch(Dispatchers.Main) {
@@ -116,7 +115,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
 
     fun digSongs(context: Context,
                  query: String,
-                 callback: (songsExternal: ResponseJSON<MutableList<MineSong>>?) -> Unit) {
+                 callback: (songsExternal: PaginatedResponseDTO<MutableList<MineSong>>?) -> Unit) {
         val accessToken = sessionManager.getUser()!!.jwtToken?.access
         GlobalScope.launch(Dispatchers.Main) {
             try {
