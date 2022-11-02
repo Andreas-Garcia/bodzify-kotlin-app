@@ -8,7 +8,7 @@ import android.widget.ListView
 import android.widget.SearchView
 import com.bodzify.R
 import com.bodzify.adapter.MineSongListAdapter
-import com.bodzify.dto.ResponseJSON
+import com.bodzify.dto.PaginatedResponseDTO
 import com.bodzify.model.MineSong
 
 class DigFragment : BaseFragment() {
@@ -33,7 +33,7 @@ class DigFragment : BaseFragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
                     apiManager.digSongs(requireContext(), query) {
-                            responseJSON: ResponseJSON<MutableList<MineSong>>? ->
+                            responseJSON: PaginatedResponseDTO<MutableList<MineSong>>? ->
                         val externalSongs: MutableList<MineSong> = responseJSON!!.data
                         var externalSongsToDisplay: MutableList<MineSong> =
                             externalSongs ?: arrayListOf()

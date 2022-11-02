@@ -6,13 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.SearchView
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.bodzify.R
 import com.bodzify.adapter.LibrarySongListAdapter
-import com.bodzify.dto.ResponseJSON
+import com.bodzify.dto.PaginatedResponseDTO
 import com.bodzify.model.LibrarySong
-
+import com.bodzify.viewmodel.PlayerViewModel
 
 class LibraryFragment : BaseFragment() {
+    private val playerViewModel: PlayerViewModel by activityViewModels()
 
     private lateinit var librarySearchView: SearchView
     private lateinit var librarySongListView: ListView
@@ -46,7 +49,7 @@ class LibraryFragment : BaseFragment() {
 
     fun searchLibrarySongs() {
         apiManager.searchLibrarySongs(requireContext()) {
-                responseJSON: ResponseJSON<MutableList<LibrarySong>>? ->
+                responseJSON: PaginatedResponseDTO<MutableList<LibrarySong>>? ->
             val librarySongs: MutableList<LibrarySong> = responseJSON!!.data
             var librarySongsToDisplay: MutableList<LibrarySong> =
                 librarySongs ?: arrayListOf()
@@ -54,7 +57,8 @@ class LibraryFragment : BaseFragment() {
                 requireActivity(),
                 apiManager,
                 sessionManager,
-                librarySongsToDisplay)
+                librarySongsToDisplay,
+                playerViewModel)
         }
     }
 }

@@ -18,4 +18,4 @@ data class LibrarySong (
     val language: String?,
     val releasedOn: String?,
     val addedOn: String
-)
+) : java.io.Serializable

@@ -24,7 +24,7 @@ interface ApiInterface {
     suspend fun searchLibrarySongs(
         @Header("Authorization") authorization: String,
         @Path("username") username: String?
-    ): Response<ResponseJSON<MutableList<LibrarySong>>>
+    ): Response<PaginatedResponseDTO<MutableList<LibrarySong>>>
 
     @PUT("users/{username}/songs/{songUuid}/")
     suspend fun updateSong(
@@ -39,7 +39,7 @@ interface ApiInterface {
         @Header("Authorization") authorization: String,
         @Query("source") source: String,
         @Query("query") query: String
-    ): Response<ResponseJSON<MutableList<MineSong>>>
+    ): Response<PaginatedResponseDTO<MutableList<MineSong>>>
 
     @POST("mine/songs/download/")
     suspend fun downloadMineSong(

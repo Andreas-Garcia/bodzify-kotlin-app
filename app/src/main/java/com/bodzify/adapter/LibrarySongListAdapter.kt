@@ -2,8 +2,6 @@ package com.bodzify.adapter
 
 import android.app.Activity
 import android.content.Intent
-import android.media.AudioAttributes
-import android.media.MediaPlayer
 import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.view.View
 import android.view.ViewGroup
@@ -14,14 +12,17 @@ import com.bodzify.activity.SongEditionActivity
 import com.bodzify.api.ApiManager
 import com.bodzify.session.SessionManager
 import com.bodzify.model.LibrarySong
+import com.bodzify.viewmodel.PlayerViewModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-
-class LibrarySongListAdapter(private val activity: Activity,
-                             private val apiManager: ApiManager,
-                             private val sessionManager: SessionManager,
-                             private val librarySongs: MutableList<LibrarySong>)
+class LibrarySongListAdapter(
+    private val activity: Activity,
+    private val apiManager: ApiManager,
+    private val sessionManager: SessionManager,
+    private val librarySongs: MutableList<LibrarySong>,
+    private val playerViewModel: PlayerViewModel
+)
     : ArrayAdapter<LibrarySong>(activity, R.layout.list_view_item_library_song, librarySongs) {
 
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
@@ -52,18 +53,19 @@ class LibrarySongListAdapter(private val activity: Activity,
         }
 
         rowView.setOnClickListener() {
-            val url = "https://bodzify.com/users/lol/songs/2tfuS8x8FoDuUzKhAq3Syi/download/"
-            val mediaPlayer = MediaPlayer().apply {
+            playerViewModel.selectSong(librarySong)
+            /*val mediaPlayer = MediaPlayer().apply {
                 setAudioAttributes(
                     AudioAttributes.Builder()
                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                         .setUsage(AudioAttributes.USAGE_MEDIA)
                         .build()
                 )
-                setDataSource(url)
+                setDataSource(context.getString(R.string.api_base_url) + librarySong.relativeUrl
+                        + "download/")
                 prepare() // might take long! (for buffering, etc)
                 start()
-            }
+            }*/
         }
 
         return rowView
