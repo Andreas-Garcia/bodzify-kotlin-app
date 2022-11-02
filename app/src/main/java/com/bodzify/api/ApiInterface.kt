@@ -5,7 +5,6 @@ import com.bodzify.model.MineSong
 import com.bodzify.model.JwtToken
 import com.bodzify.model.LibrarySong
 import com.bodzify.model.User
-import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -19,7 +18,7 @@ interface ApiInterface {
     suspend fun login(@Body credentialsDTO: CredentialsDTO): Response<JwtToken>
 
     @POST("auth/token/refresh/")
-    suspend fun refresh(@Body refreshTokenDTO: RefreshTokenDTO): Response<JWTTokenAccessDTO>
+    suspend fun refresh(@Body refreshTokenDTO: JWTRefreshTokenDTO): Response<JWTTokenAccessDTO>
 
     @GET("users/{username}/songs/")
     suspend fun searchLibrarySongs(
@@ -27,11 +26,11 @@ interface ApiInterface {
         @Path("username") username: String?
     ): Response<ResponseJSON<MutableList<LibrarySong>>>
 
-    @PUT("users/{username}/songs/{song_id}/")
+    @PUT("users/{username}/songs/{songUuid}/")
     suspend fun updateSong(
         @Header("Authorization") authorization: String,
         @Path("username") username: String,
-        @Path("song_id") songId: String,
+        @Path("songUuid") songUuid: String,
         @Body librarySongUpdateDTO: LibrarySongUpdateDTO
     ): Response<LibrarySong>
 

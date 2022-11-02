@@ -11,17 +11,16 @@ import com.bodzify.session.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.internal.format
 
 class ApiManager (private val sessionManager: SessionManager, private val apiClient: ApiClient){
 
     private fun refresh(context: Context, callback: () -> Unit) {
+        val refresh = sessionManager.getUser()!!.jwtToken.refresh
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val response = apiClient.apiService.refresh(
-                        RefreshTokenDTO(sessionManager.getUser()!!.jwtToken.refresh))
+                        JWTRefreshTokenDTO(sessionManager.getUser()!!.jwtToken.refresh))
                 if (response.isSuccessful && response.body() != null) {
                     var user = sessionManager.getUser()
                     user!!.jwtToken.access = response.body()!!.access
