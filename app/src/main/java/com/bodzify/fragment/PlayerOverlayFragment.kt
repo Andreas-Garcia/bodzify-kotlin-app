@@ -16,6 +16,7 @@ class PlayerOverlayFragment : BaseFragment() {
 
     private lateinit var artistTextView: TextView
     private lateinit var titleTextView: TextView
+    private lateinit var genreTextView: TextView
 
     private lateinit var librarySong: LibrarySong
 
@@ -29,14 +30,16 @@ class PlayerOverlayFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        titleTextView = requireView().findViewById<TextView>(R.id.playing_song_title_textview)
-        artistTextView = requireView().findViewById<TextView>(R.id.playing_song_artist_textview)
+        titleTextView = requireView().findViewById<TextView>(R.id.player_overlay_title_textview)
+        artistTextView = requireView().findViewById<TextView>(R.id.player_overlay_artist_textview)
+        genreTextView = requireView().findViewById<TextView>(R.id.player_overlay_genre_textview)
 
         val bundle = this.arguments
         if( bundle != null) {
-            val librarySong = bundle!!.getSerializable(AlarmClock.EXTRA_MESSAGE) as LibrarySong
+            librarySong = bundle!!.getSerializable(AlarmClock.EXTRA_MESSAGE) as LibrarySong
             titleTextView.text = librarySong.title
             artistTextView.text = librarySong.artist
+            genreTextView.text = librarySong.genre
         }
     }
 }

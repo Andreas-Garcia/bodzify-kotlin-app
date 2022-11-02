@@ -1,6 +1,5 @@
 package com.bodzify.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.provider.AlarmClock
 import android.widget.Button
@@ -20,8 +19,6 @@ import com.bodzify.session.SessionManager
 import com.bodzify.viewmodel.LogoutViewModel
 import com.bodzify.viewmodel.PlayerViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,11 +36,12 @@ class MainActivity : AppCompatActivity() {
             librarySong ->
             val bundle = Bundle()
             bundle.putSerializable(AlarmClock.EXTRA_MESSAGE, librarySong)
-            val fragInfo = PlayerOverlayFragment()
-            fragInfo.arguments = bundle
+            val playerOverlayFragment = PlayerOverlayFragment()
+            playerOverlayFragment.arguments = bundle
             supportFragmentManager.beginTransaction().replace(
                 R.id.player_overlay_fragment_container,
-                fragInfo).commit()
+                playerOverlayFragment
+            ).commit()
         })
 
         displayLoginOrMain()
