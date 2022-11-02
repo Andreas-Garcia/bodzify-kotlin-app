@@ -52,7 +52,6 @@ class LibrarySongListAdapter(private val activity: Activity,
         }
 
         rowView.setOnClickListener() {
-            val url = "https://bodzify.com/users/lol/songs/2tfuS8x8FoDuUzKhAq3Syi/download/"
             val mediaPlayer = MediaPlayer().apply {
                 setAudioAttributes(
                     AudioAttributes.Builder()
@@ -60,7 +59,8 @@ class LibrarySongListAdapter(private val activity: Activity,
                         .setUsage(AudioAttributes.USAGE_MEDIA)
                         .build()
                 )
-                setDataSource(url)
+                setDataSource(context.getString(R.string.api_base_url) + librarySong.relativeUrl
+                        + "download/")
                 prepare() // might take long! (for buffering, etc)
                 start()
             }
