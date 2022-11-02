@@ -10,7 +10,74 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:attr/windowBackground"
-        android:layout_above="@id/bottom_navigation" />
+        android:layout_above="@id/bottom_navigation" >
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/background_playing_song_layout"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        android:layout_above="@id/bottom_navigation" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:weightSum="1"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/playing_song_artist_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"
+                    android:layout_marginStart="15dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/playing_song_title_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"
+                    android:layout_marginStart="15dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/playing_song_genre_textView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="0.7"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/playing_song_rating_imageView"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@android:drawable/btn_star"
+            android:contentDescription="@string/rating_content_description"/>
+
+        <ImageView
+            android:id="@+id/library_song_rating_imageView"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@android:drawable/ic_media_play"
+            android:contentDescription="@string/rating_content_description"/>
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -21,5 +88,4 @@
         app:itemIconTint="@color/bottom_nav_color"
         app:itemTextColor="@color/bottom_nav_color"
         app:menu="@menu/bottom_menu" />
-
 </RelativeLayout>
