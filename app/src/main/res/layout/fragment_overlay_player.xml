@@ -22,7 +22,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/playing_song_artist_textview"
+                android:id="@+id/player_overlay_artist_textview"
                 android:layout_width="match_parent"
                 android:layout_height="17dp"
                 android:layout_marginStart="15dp"
@@ -31,7 +31,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/playing_song_title_textview"
+                android:id="@+id/player_overlay_title_textview"
                 android:layout_width="match_parent"
                 android:layout_height="17dp"
                 android:layout_marginStart="15dp"
@@ -42,7 +42,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/playing_song_genre_textView"
+            android:id="@+id/player_overlay_genre_textview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -50,7 +50,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/playing_song_rating_imageView"
+        android:id="@+id/player_overlay_rating_imageView"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -58,7 +58,7 @@
         android:contentDescription="@string/rating_content_description"/>
 
     <ImageView
-        android:id="@+id/library_song_rating_imageView"
+        android:id="@+id/player_overlay_play_pause_imageView"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
