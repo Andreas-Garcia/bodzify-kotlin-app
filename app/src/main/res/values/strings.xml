@@ -44,4 +44,5 @@
     <string name="artist">Artist</string>
     <string name="title">Title</string>
     <string name="filename">Filename</string>
+    <string name="link">Link</string>
 </resources>
