@@ -18,8 +18,8 @@ import kotlinx.serialization.json.Json
 
 class SongEditionActivity : AppCompatActivity() {
 
-    protected lateinit var sessionManager: SessionManager
-    protected lateinit var apiManager: ApiManager
+    private lateinit var sessionManager: SessionManager
+    private lateinit var apiManager: ApiManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,8 +69,8 @@ class SongEditionActivity : AppCompatActivity() {
                     languageEditText.text.toString()
                 )
             ) {
-                    responseJSON: PaginatedResponseDTO<LibrarySong>? ->
-                val librarySong: LibrarySong = responseJSON!!.data
+                    librarySong: LibrarySong ->
+                val librarySong: LibrarySong = librarySong
             }
         }
     }
