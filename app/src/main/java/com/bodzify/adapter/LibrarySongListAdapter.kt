@@ -35,6 +35,7 @@ class LibrarySongListAdapter(
         val ratingImageView = rowView.findViewById<ImageView>(R.id.player_overlay_play_pause_imageView)
         val syncButton = rowView.findViewById<Button>(R.id.library_song_sync_button)
         val editImageView = rowView.findViewById<ImageView>(R.id.library_song_edit_imageView)
+        val playableLayout = rowView.findViewById<LinearLayout>(R.id.library_song_playable_layout)
 
         val librarySong: LibrarySong = librarySongs[position]
         artistTextView.text = librarySong.artist
@@ -52,7 +53,7 @@ class LibrarySongListAdapter(
             startActivity(this.context, intent, null)
         }
 
-        rowView.setOnClickListener() {
+        playableLayout.setOnClickListener {
             playerViewModel.selectSong(librarySong)
             /*val mediaPlayer = MediaPlayer().apply {
                 setAudioAttributes(

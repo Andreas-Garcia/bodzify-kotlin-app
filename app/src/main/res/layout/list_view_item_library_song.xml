@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
+        android:id="@+id/library_song_playable_layout"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:weightSum="1"

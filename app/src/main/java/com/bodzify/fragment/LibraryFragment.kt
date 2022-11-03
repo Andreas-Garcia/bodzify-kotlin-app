@@ -51,8 +51,7 @@ class LibraryFragment : BaseFragment() {
         apiManager.searchLibrarySongs(requireContext()) {
                 responseJSON: PaginatedResponseDTO<MutableList<LibrarySong>>? ->
             val librarySongs: MutableList<LibrarySong> = responseJSON!!.data
-            var librarySongsToDisplay: MutableList<LibrarySong> =
-                librarySongs ?: arrayListOf()
+            var librarySongsToDisplay: MutableList<LibrarySong> = librarySongs ?: arrayListOf()
             librarySongListView.adapter = LibrarySongListAdapter(
                 requireActivity(),
                 apiManager,
