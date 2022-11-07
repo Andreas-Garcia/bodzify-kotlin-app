@@ -9,15 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.viewModels
 import com.bodzify.R
 import com.bodzify.api.ApiClient
 import com.bodzify.model.LibraryTrack
-import com.bodzify.viewmodel.PlayerViewModel
 
 class PlayerOverlayFragment : BaseFragment() {
-    private val playerViewModel: PlayerViewModel by viewModels()
-
     private lateinit var artistTextView: TextView
     private lateinit var titleTextView: TextView
     private lateinit var genreTextView: TextView
@@ -56,12 +52,23 @@ class PlayerOverlayFragment : BaseFragment() {
                         .build()
                 )
                 setDataSource(ApiClient.baseUrlWithVersion + libraryTrack.relativeUrl + "download/")
-                prepare() // might take long! (for buffering, etc)
+                prepare()
                 start()
             }
-
             playPauseImageView
                 .setImageDrawable(requireContext().getDrawable(R.drawable.ic_baseline_pause_24))
+            playPauseImageView.setOnClickListener {
+                if(mediaPlayer.isPlaying) {
+                    playPauseImageView.setImageDrawable(
+                        requireContext().getDrawable(R.drawable.ic_baseline_play_arrow_24))
+                    mediaPlayer.pause()
+                }
+                else {
+                    playPauseImageView.setImageDrawable(
+                        requireContext().getDrawable(R.drawable.ic_baseline_pause_24))
+                    mediaPlayer.start()
+                }
+            }
         }
     }
 }
