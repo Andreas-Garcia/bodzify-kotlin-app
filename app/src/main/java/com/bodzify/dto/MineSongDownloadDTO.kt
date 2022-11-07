@@ -1,7 +1,6 @@
 package com.bodzify.dto
 
 import com.bodzify.model.MineSong
-import java.util.*
 
 class MineSongDownloadDTO (
     val title: String,
@@ -15,6 +14,6 @@ class MineSongDownloadDTO (
         mineSong.artist,
         mineSong.url,
         mineSong.duration,
-        mineSong.releaseDate
+        mineSong.releaseOn
     )
 }

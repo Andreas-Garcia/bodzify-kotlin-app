@@ -11,39 +11,45 @@ import retrofit2.http.*
 
 interface ApiInterface {
 
-    @POST("user/create")
+    @POST(RELATIVE_URL_WITH_API + "user/create")
     suspend fun createUser(@Body user: User, @Tag csrfToken : String): Response<User>
 
-    @POST("auth/token/")
+    @POST(RELATIVE_URL_WITH_API + "auth/token/")
     suspend fun login(@Body credentialsDTO: CredentialsDTO): Response<JwtToken>
 
-    @POST("auth/token/refresh/")
+    @POST(RELATIVE_URL_WITH_API + "auth/token/refresh/")
     suspend fun refresh(@Body refreshTokenDTO: JWTRefreshTokenDTO): Response<JWTTokenAccessDTO>
 
-    @GET("users/{username}/songs/")
+    @GET(RELATIVE_URL_WITH_API + "tracks/")
     suspend fun searchLibrarySongs(
         @Header("Authorization") authorization: String,
-        @Path("username") username: String?
     ): Response<PaginatedResponseDTO<MutableList<LibrarySong>>>
 
-    @PUT("users/{username}/songs/{songUuid}/")
+    @PUT("/tracks/{trackUuid}/")
     suspend fun updateSong(
         @Header("Authorization") authorization: String,
-        @Path("username") username: String,
-        @Path("songUuid") songUuid: String,
+        @Path("trackUuid") songUuid: String,
         @Body librarySongUpdateDTO: LibrarySongUpdateDTO
     ): Response<LibrarySong>
 
-    @GET("mine/songs/")
+    @GET(RELATIVE_URL_WITH_API + "mine/tracks/")
     suspend fun digSongs(
         @Header("Authorization") authorization: String,
-        @Query("source") source: String,
-        @Query("query") query: String
+        @Query("source") source: String = MINE_TRACKS_SOURCE_DEFAULT,
+        @Query("query") query: String,
+        @Query("page") page: Int = 0,
+        @Query("pageSize") pageSize: Int = 29
     ): Response<PaginatedResponseDTO<MutableList<MineSong>>>
 
-    @POST("mine/songs/download/")
+    @POST("mine/tracks/download/")
     suspend fun downloadMineSong(
         @Header("Authorization") authorization: String,
         @Body mineSongDownloadDTO: MineSongDownloadDTO
     ): Response<JWTTokenAccessDTO>
+
+    companion object {
+        private const val API_VERSION = "v1"
+        const val RELATIVE_URL_WITH_API = "api/$API_VERSION/"
+        const val MINE_TRACKS_SOURCE_DEFAULT = "myfreemp3"
+    }
 }

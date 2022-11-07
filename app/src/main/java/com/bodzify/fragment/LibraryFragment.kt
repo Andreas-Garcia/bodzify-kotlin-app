@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.bodzify.R
 import com.bodzify.adapter.LibrarySongListAdapter
 import com.bodzify.dto.PaginatedResponseDTO
@@ -50,7 +49,7 @@ class LibraryFragment : BaseFragment() {
     fun searchLibrarySongs() {
         apiManager.searchLibrarySongs(requireContext()) {
                 responseJSON: PaginatedResponseDTO<MutableList<LibrarySong>>? ->
-            val librarySongs: MutableList<LibrarySong> = responseJSON!!.data
+            val librarySongs: MutableList<LibrarySong> = responseJSON!!.results
             var librarySongsToDisplay: MutableList<LibrarySong> = librarySongs ?: arrayListOf()
             librarySongListView.adapter = LibrarySongListAdapter(
                 requireActivity(),
