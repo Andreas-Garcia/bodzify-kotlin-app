@@ -12,10 +12,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
 
-    private lateinit var baseUrl: String
+    private const val BASE_URL = "https://bodzify.com/"
+    private const val API_VERSION = "v1"
+    lateinit var baseUrlWithVersion: String
 
     operator fun invoke(context: Context): ApiClient {
-        this.baseUrl = context.getString(R.string.api_base_url)
+        this.baseUrlWithVersion = BASE_URL + "api/" + API_VERSION + "/"
         return this
     }
 
@@ -34,7 +36,7 @@ object ApiClient {
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(baseUrlWithVersion)
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

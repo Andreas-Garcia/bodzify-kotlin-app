@@ -45,7 +45,7 @@ class TrackEditionActivity : AppCompatActivity() {
 
         val libraryTrack = Json.decodeFromString<LibraryTrack>(intent.getStringExtra(EXTRA_MESSAGE)!!)
         filenameTextView.text = libraryTrack.filename
-        urlTextView.text = getString(R.string.api_base_url) + libraryTrack.relativeUrl
+        urlTextView.text = ApiClient.baseUrlWithVersion + libraryTrack.relativeUrl
         titleEditText.setText(libraryTrack.title)
         artistEditText.setText(libraryTrack.artist)
         albumEditText.setText(libraryTrack.album)
