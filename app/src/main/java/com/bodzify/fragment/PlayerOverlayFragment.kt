@@ -1,5 +1,7 @@
 package com.bodzify.fragment
 
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.provider.AlarmClock
 import android.view.LayoutInflater
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import com.bodzify.R
+import com.bodzify.api.ApiClient
 import com.bodzify.model.LibraryTrack
 import com.bodzify.viewmodel.PlayerViewModel
 
@@ -40,6 +43,18 @@ class PlayerOverlayFragment : BaseFragment() {
             titleTextView.text = libraryTrack.title
             artistTextView.text = libraryTrack.artist
             genreTextView.text = libraryTrack.genre
+
+            val mediaPlayer = MediaPlayer().apply {
+                setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build()
+                )
+                setDataSource(ApiClient.baseUrlWithVersion + libraryTrack.relativeUrl + "download/")
+                prepare() // might take long! (for buffering, etc)
+                start()
+            }
         }
     }
 }

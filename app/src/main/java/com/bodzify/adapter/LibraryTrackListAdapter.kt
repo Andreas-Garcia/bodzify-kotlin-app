@@ -55,18 +55,6 @@ class LibraryTrackListAdapter(
 
         playableLayout.setOnClickListener {
             playerViewModel.selectTrack(libraryTrack)
-            /*val mediaPlayer = MediaPlayer().apply {
-                setAudioAttributes(
-                    AudioAttributes.Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .build()
-                )
-                setDataSource(context.getString(R.string.api_base_url) + librarySong.relativeUrl
-                        + "download/")
-                prepare() // might take long! (for buffering, etc)
-                start()
-            }*/
         }
         return rowView
     }
