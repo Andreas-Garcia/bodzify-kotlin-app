@@ -25,7 +25,7 @@ interface ApiInterface {
         @Header("Authorization") authorization: String,
     ): Response<PaginatedResponseDTO<MutableList<LibrarySong>>>
 
-    @PUT("/tracks/{trackUuid}/")
+    @PUT(RELATIVE_URL_WITH_API + "tracks/{trackUuid}/")
     suspend fun updateSong(
         @Header("Authorization") authorization: String,
         @Path("trackUuid") songUuid: String,
@@ -41,7 +41,7 @@ interface ApiInterface {
         @Query("pageSize") pageSize: Int = 29
     ): Response<PaginatedResponseDTO<MutableList<MineSong>>>
 
-    @POST("mine/tracks/download/")
+    @POST(RELATIVE_URL_WITH_API + "mine/tracks/download/")
     suspend fun downloadMineSong(
         @Header("Authorization") authorization: String,
         @Body mineSongDownloadDTO: MineSongDownloadDTO
