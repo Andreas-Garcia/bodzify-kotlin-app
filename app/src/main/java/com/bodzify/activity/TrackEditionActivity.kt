@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bodzify.R
 import com.bodzify.api.ApiClient
 import com.bodzify.api.ApiManager
-import com.bodzify.dto.LibraryTrackUpdateDTO
+import com.bodzify.dto.LibraryTrackUpdateDto
 import com.bodzify.model.LibraryTrack
 import com.bodzify.session.SessionManager
 import kotlinx.serialization.decodeFromString
@@ -57,9 +57,9 @@ class TrackEditionActivity : AppCompatActivity() {
         addedOnTextView.text = libraryTrack.addedOn
 
         saveButton.setOnClickListener {
-            apiManager.updateLibrarySong(this,
+            apiManager.updateLibraryTrack(this,
                 libraryTrack.uuid,
-                LibraryTrackUpdateDTO(
+                LibraryTrackUpdateDto(
                     titleEditText.text.toString(),
                     artistEditText.text.toString(),
                     albumEditText.text.toString(),

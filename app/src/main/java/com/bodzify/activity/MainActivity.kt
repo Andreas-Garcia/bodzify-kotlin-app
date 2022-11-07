@@ -11,40 +11,67 @@ import androidx.lifecycle.Observer
 import com.bodzify.R
 import com.bodzify.api.ApiClient
 import com.bodzify.api.ApiManager
+import com.bodzify.application.AppApplication
+import com.bodzify.database.Play
 import com.bodzify.fragment.DigFragment
 import com.bodzify.fragment.LibraryFragment
 import com.bodzify.fragment.PlayerOverlayFragment
 import com.bodzify.fragment.SettingsFragment
+import com.bodzify.model.LibraryTrack
 import com.bodzify.session.SessionManager
+import com.bodzify.util.observeOnce
 import com.bodzify.viewmodel.LogoutViewModel
+import com.bodzify.viewmodel.PlayViewModel
+import com.bodzify.viewmodel.PlayViewModelFactory
 import com.bodzify.viewmodel.PlayerViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var sessionManager: SessionManager
+    private lateinit var apiManager: ApiManager
+
     private val logoutViewModel: LogoutViewModel by viewModels()
     private val playerViewModel: PlayerViewModel by viewModels()
+
+    private val playViewModel: PlayViewModel by viewModels {
+        PlayViewModelFactory((application as AppApplication).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        logoutViewModel.logoutPerformedLiveData.observe(this, Observer {
-            startLogin(SessionManager(this))
+        sessionManager = SessionManager(this)
+        apiManager = ApiManager(sessionManager, ApiClient(this))
+
+        displayLoginOrMain()
+
+        playViewModel.lastPlay.observeOnce(this, Observer {
+                play ->
+            if(play != null) {
+                apiManager.retrieveLibraryTrack(this, play.track) {
+                        libraryTrack -> createFragmentForTrack(libraryTrack, false)
+                }
+            }
         })
 
         playerViewModel.trackSelectedLiveData.observe(this, Observer {
-            librarySong ->
-            val bundle = Bundle()
-            bundle.putSerializable(AlarmClock.EXTRA_MESSAGE, librarySong)
-            val playerOverlayFragment = PlayerOverlayFragment()
-            playerOverlayFragment.arguments = bundle
-            supportFragmentManager.beginTransaction().replace(
-                R.id.player_overlay_fragment_container,
-                playerOverlayFragment
-            ).commit()
+            libraryTrack ->
+            playViewModel.insert(libraryTrack)
+            createFragmentForTrack(libraryTrack, true)
         })
 
-        displayLoginOrMain()
+        logoutViewModel.logoutPerformedLiveData.observe(this, Observer {
+            startLogin(SessionManager(this))
+        })
+    }
+
+    private fun createFragmentForTrack(libraryTrack: LibraryTrack, toPause: Boolean) {
+        val playerOverlayFragment = PlayerOverlayFragment(libraryTrack, toPause)
+        supportFragmentManager.beginTransaction().replace(
+            R.id.player_overlay_fragment_container,
+            playerOverlayFragment
+        ).commit()
     }
 
     private fun displayLoginOrMain() {
@@ -77,11 +104,6 @@ class MainActivity : AppCompatActivity() {
             LibraryFragment()
         ).commit()
 
-        supportFragmentManager.beginTransaction().replace(
-            R.id.player_overlay_fragment_container,
-            PlayerOverlayFragment()
-        ).commit()
-
         setUpBottomNavigationMenu()
     }
 
@@ -110,5 +132,9 @@ class MainActivity : AppCompatActivity() {
     private fun credentialsValid(): Boolean {
         //TODO
         return true
+    }
+
+    companion object {
+        private const val DATABASE_NAME:String = "BODZIFY"
     }
 }

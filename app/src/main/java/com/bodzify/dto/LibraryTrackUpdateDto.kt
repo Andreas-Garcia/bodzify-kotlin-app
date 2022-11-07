@@ -1,6 +1,6 @@
 package com.bodzify.dto
 
-class LibraryTrackUpdateDTO (
+class LibraryTrackUpdateDto (
     val title: String?,
     val artist: String?,
     val album: String?,

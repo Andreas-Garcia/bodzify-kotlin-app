@@ -2,7 +2,7 @@ package com.bodzify.dto
 
 import com.bodzify.model.MineTrack
 
-class MineTrackDownloadDTO (
+class MineTrackDownloadDto (
     val title: String,
     val artist: String,
     val url: String,
