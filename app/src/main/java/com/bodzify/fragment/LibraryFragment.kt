@@ -8,16 +8,16 @@ import android.widget.ListView
 import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import com.bodzify.R
-import com.bodzify.adapter.LibrarySongListAdapter
+import com.bodzify.adapter.LibraryTrackListAdapter
 import com.bodzify.dto.PaginatedResponseDTO
-import com.bodzify.model.LibrarySong
+import com.bodzify.model.LibraryTrack
 import com.bodzify.viewmodel.PlayerViewModel
 
 class LibraryFragment : BaseFragment() {
     private val playerViewModel: PlayerViewModel by activityViewModels()
 
-    private lateinit var librarySearchView: SearchView
-    private lateinit var librarySongListView: ListView
+    private lateinit var libraryTracksSearchView: SearchView
+    private lateinit var libraryTracksListView: ListView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,12 +29,12 @@ class LibraryFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        librarySearchView = requireView().findViewById(R.id.library_search_view)
-        librarySongListView = requireView().findViewById(R.id.library_songs_list_view)
+        libraryTracksSearchView = requireView().findViewById(R.id.library_tracks_search_view)
+        libraryTracksListView = requireView().findViewById(R.id.library_tracks_list_view)
 
-        librarySearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        libraryTracksSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                searchLibrarySongs()
+                searchLibraryTracks()
                 return false
             }
 
@@ -42,20 +42,17 @@ class LibraryFragment : BaseFragment() {
                 return true
             }
         })
-
-        searchLibrarySongs()
+        searchLibraryTracks()
     }
 
-    fun searchLibrarySongs() {
-        apiManager.searchLibrarySongs(requireContext()) {
-                responseJSON: PaginatedResponseDTO<MutableList<LibrarySong>>? ->
-            val librarySongs: MutableList<LibrarySong> = responseJSON!!.results
-            var librarySongsToDisplay: MutableList<LibrarySong> = librarySongs ?: arrayListOf()
-            librarySongListView.adapter = LibrarySongListAdapter(
+    fun searchLibraryTracks() {
+        apiManager.searchLibraryTracks(requireContext()) {
+                responseJSON: PaginatedResponseDTO<MutableList<LibraryTrack>>? ->
+            libraryTracksListView.adapter = LibraryTrackListAdapter(
                 requireActivity(),
                 apiManager,
                 sessionManager,
-                librarySongsToDisplay,
+                responseJSON!!.results ?: arrayListOf(),
                 playerViewModel)
         }
     }

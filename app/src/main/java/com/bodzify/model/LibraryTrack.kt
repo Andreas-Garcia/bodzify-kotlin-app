@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Keep
 @Serializable
-data class LibrarySong (
+data class LibraryTrack (
     val uuid: String,
     val relativeUrl: String,
     val filename: String,

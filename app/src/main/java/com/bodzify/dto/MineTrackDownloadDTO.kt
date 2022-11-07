@@ -1,15 +1,15 @@
 package com.bodzify.dto
 
-import com.bodzify.model.MineSong
+import com.bodzify.model.MineTrack
 
-class MineSongDownloadDTO (
+class MineTrackDownloadDTO (
     val title: String,
     val artist: String,
     val url: String,
     val duration: Int,
     val releaseDate: Int,
 ) {
-    constructor (mineSong: MineSong) : this(
+    constructor (mineSong: MineTrack) : this(
         mineSong.title,
         mineSong.artist,
         mineSong.url,

@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.SearchView
 import com.bodzify.R
-import com.bodzify.adapter.MineSongListAdapter
+import com.bodzify.adapter.MineTrackListAdapter
 import com.bodzify.dto.PaginatedResponseDTO
-import com.bodzify.model.MineSong
+import com.bodzify.model.MineTrack
 
 class DigFragment : BaseFragment() {
 
     private lateinit var digSearchView: SearchView
-    private lateinit var externalSongListView: ListView
+    private lateinit var mineTrackListView: ListView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,22 +27,19 @@ class DigFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         digSearchView = requireView().findViewById(R.id.dig_search_view)
-        externalSongListView = requireView().findViewById(R.id.external_songs_list_view)
+        mineTrackListView = requireView().findViewById(R.id.mine_tracks_list_view)
 
         digSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
-                    apiManager.digSongs(requireContext(), query) {
-                            responseJSON: PaginatedResponseDTO<MutableList<MineSong>>? ->
-                        val externalSongs: MutableList<MineSong> = responseJSON!!.results
-                        var externalSongsToDisplay: MutableList<MineSong> =
-                            externalSongs ?: arrayListOf()
-                        externalSongListView.adapter =
-                            MineSongListAdapter(
+                    apiManager.digTracks(requireContext(), query) {
+                            responseJSON: PaginatedResponseDTO<MutableList<MineTrack>>? ->
+                        mineTrackListView.adapter =
+                            MineTrackListAdapter(
                                 requireActivity(),
                                 apiManager,
                                 sessionManager,
-                                externalSongsToDisplay)
+                                responseJSON!!.results ?: arrayListOf())
                     }
                 }
                 return false
