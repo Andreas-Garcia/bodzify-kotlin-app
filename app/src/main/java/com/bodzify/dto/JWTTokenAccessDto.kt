@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Keep
 @Serializable
-data class JWTTokenAccessDTO (
+data class JWTTokenAccessDto (
     val access: String,
 )

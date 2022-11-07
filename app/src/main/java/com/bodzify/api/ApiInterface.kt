@@ -15,21 +15,27 @@ interface ApiInterface {
     suspend fun createUser(@Body user: User, @Tag csrfToken : String): Response<User>
 
     @POST("auth/token/")
-    suspend fun login(@Body credentialsDTO: CredentialsDTO): Response<JwtToken>
+    suspend fun login(@Body credentialsDTO: CredentialsDto): Response<JwtToken>
 
     @POST("auth/token/refresh/")
-    suspend fun refresh(@Body refreshTokenDTO: JWTRefreshTokenDTO): Response<JWTTokenAccessDTO>
+    suspend fun refresh(@Body refreshTokenDTO: JWTRefreshTokenDto): Response<JWTTokenAccessDto>
 
     @GET("tracks/")
     suspend fun searchLibraryTracks(
         @Header("Authorization") authorization: String,
-    ): Response<PaginatedResponseDTO<MutableList<LibraryTrack>>>
+    ): Response<PaginatedResponseDto<MutableList<LibraryTrack>>>
+
+    @GET("tracks/{trackUuid}/")
+    suspend fun retrieveLibraryTrack(
+        @Header("Authorization") authorization: String,
+        @Path("trackUuid") trackUuid: String,
+    ): Response<LibraryTrack>
 
     @PUT("tracks/{trackUuid}/")
     suspend fun updateTrack(
         @Header("Authorization") authorization: String,
         @Path("trackUuid") trackUuid: String,
-        @Body libraryTrackUpdateDTO: LibraryTrackUpdateDTO
+        @Body libraryTrackUpdateDTO: LibraryTrackUpdateDto
     ): Response<LibraryTrack>
 
     @GET("mine/tracks/")
@@ -39,13 +45,13 @@ interface ApiInterface {
         @Query("query") query: String,
         @Query("page") page: Int = 0,
         @Query("pageSize") pageSize: Int = 29
-    ): Response<PaginatedResponseDTO<MutableList<MineTrack>>>
+    ): Response<PaginatedResponseDto<MutableList<MineTrack>>>
 
     @POST("mine/tracks/download/")
     suspend fun downloadMineTrack(
         @Header("Authorization") authorization: String,
-        @Body mineTrackDownloadDTO: MineTrackDownloadDTO
-    ): Response<JWTTokenAccessDTO>
+        @Body mineTrackDownloadDTO: MineTrackDownloadDto
+    ): Response<JWTTokenAccessDto>
 
     companion object {
         const val MINE_TRACKS_SOURCE_DEFAULT = "myfreemp3"

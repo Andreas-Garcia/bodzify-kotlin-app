@@ -9,7 +9,7 @@ import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import com.bodzify.R
 import com.bodzify.adapter.LibraryTrackListAdapter
-import com.bodzify.dto.PaginatedResponseDTO
+import com.bodzify.dto.PaginatedResponseDto
 import com.bodzify.model.LibraryTrack
 import com.bodzify.viewmodel.PlayerViewModel
 
@@ -47,7 +47,7 @@ class LibraryFragment : BaseFragment() {
 
     fun searchLibraryTracks() {
         apiManager.searchLibraryTracks(requireContext()) {
-                responseJSON: PaginatedResponseDTO<MutableList<LibraryTrack>>? ->
+                responseJSON: PaginatedResponseDto<MutableList<LibraryTrack>>? ->
             libraryTracksListView.adapter = LibraryTrackListAdapter(
                 requireActivity(),
                 apiManager,

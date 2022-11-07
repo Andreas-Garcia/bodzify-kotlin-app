@@ -43,4 +43,5 @@
     <string name="title">Title</string>
     <string name="filename">Filename</string>
     <string name="link">Link</string>
+    <string name="error_empty_response_message">The response is empty.</string>
 </resources>

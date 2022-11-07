@@ -19,7 +19,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val response = apiClient.apiService.refresh(
-                        JWTRefreshTokenDTO(sessionManager.getUser()!!.jwtToken.refresh))
+                        JWTRefreshTokenDto(sessionManager.getUser()!!.jwtToken.refresh))
                 if (response.isSuccessful && response.body() != null) {
                     var user = sessionManager.getUser()
                     user!!.jwtToken.access = response.body()!!.access
@@ -47,7 +47,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
     fun login(context: Context, username: String, password: String, callback: () -> Unit) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                val response = apiClient.apiService.login(CredentialsDTO(username, password))
+                val response = apiClient.apiService.login(CredentialsDto(username, password))
                 if (response.body() != null) {
                     Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show()
                     sessionManager.startSession(User(username, password, response.body()!!))
@@ -61,16 +61,16 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
         }
     }
 
-    fun updateLibrarySong(context: Context,
-                          trackUuid: String,
-                          songUpdateDTO: LibraryTrackUpdateDTO,
-                          callback: (librarySong: LibraryTrack) -> Unit) {
+    fun updateLibraryTrack(context: Context,
+                           trackUuid: String,
+                           libraryTrackUpdateDTO: LibraryTrackUpdateDto,
+                           callback: (libraryTrack: LibraryTrack) -> Unit) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val response = apiClient.apiService.updateTrack(
                     format(context.getString(R.string.api_auth_bearer_format), sessionManager.getUser()!!.jwtToken!!.access),
                     trackUuid,
-                    songUpdateDTO
+                    libraryTrackUpdateDTO
                 )
                 if (response.body() != null) {
                     if(response.isSuccessful) {
@@ -88,8 +88,46 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
         }
     }
 
+    fun retrieveLibraryTrack(context: Context,
+                          trackUuid: String,
+                          callback: (librarySong: LibraryTrack) -> Unit) {
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val response = apiClient.apiService.retrieveLibraryTrack(
+                    format(context.getString(R.string.api_auth_bearer_format), sessionManager.getUser()!!.jwtToken!!.access),
+                    trackUuid)
+                if (response.body() != null) {
+                    if(response.isSuccessful) {
+                        callback(response.body()!!)
+                    }
+                    if(response.code() == 401) {
+                        refresh(context) { retrieveLibraryTrack(context, trackUuid, callback) }
+                    } else {
+                        Toast.makeText(context,
+                            context.getString(R.string.error_occurred_label) + " " + response.toString(), Toast.LENGTH_LONG)
+                            .show()
+                    }
+                }
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.error_occurred_label)
+                            + " " + context.getString(R.string.error_empty_response_message),
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+            } catch (e: Exception) {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.error_occurred_label) + " " + e.message,
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+            }
+        }
+    }
+
     fun searchLibraryTracks(context: Context, callback:
-        (songsExternal: PaginatedResponseDTO<MutableList<LibraryTrack>>?) -> Unit) {
+        (songsExternal: PaginatedResponseDto<MutableList<LibraryTrack>>?) -> Unit) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val response = apiClient.apiService
@@ -115,7 +153,8 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
 
     fun digTracks(context: Context,
                   query: String,
-                  callback: (songsExternal: PaginatedResponseDTO<MutableList<MineTrack>>?) -> Unit) {
+                  callback: (songsExternal: PaginatedResponseDto<MutableList<MineTrack>>?)
+                  -> Unit) {
         val accessToken = sessionManager.getUser()!!.jwtToken?.access
         GlobalScope.launch(Dispatchers.Main) {
             try {
@@ -151,7 +190,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
                 val response = apiClient.apiService.downloadMineTrack(
                         format(context.getString(R.string.api_auth_bearer_format),
                         jwtTokenAccess),
-                        MineTrackDownloadDTO(mineSong)
+                        MineTrackDownloadDto(mineSong)
                     )
 
                 if (response.isSuccessful) {

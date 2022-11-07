@@ -8,7 +8,7 @@ import android.widget.ListView
 import android.widget.SearchView
 import com.bodzify.R
 import com.bodzify.adapter.MineTrackListAdapter
-import com.bodzify.dto.PaginatedResponseDTO
+import com.bodzify.dto.PaginatedResponseDto
 import com.bodzify.model.MineTrack
 
 class DigFragment : BaseFragment() {
@@ -33,7 +33,7 @@ class DigFragment : BaseFragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
                     apiManager.digTracks(requireContext(), query) {
-                            responseJSON: PaginatedResponseDTO<MutableList<MineTrack>>? ->
+                            responseJSON: PaginatedResponseDto<MutableList<MineTrack>>? ->
                         mineTrackListView.adapter =
                             MineTrackListAdapter(
                                 requireActivity(),
