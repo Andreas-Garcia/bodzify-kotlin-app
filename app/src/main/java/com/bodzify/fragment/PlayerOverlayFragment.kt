@@ -21,6 +21,8 @@ class PlayerOverlayFragment : BaseFragment() {
 
     private lateinit var libraryTrack: LibraryTrack
 
+    private var mediaPlayer: MediaPlayer? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,7 +46,7 @@ class PlayerOverlayFragment : BaseFragment() {
             artistTextView.text = libraryTrack.artist
             genreTextView.text = libraryTrack.genre
 
-            val mediaPlayer = MediaPlayer().apply {
+            mediaPlayer = MediaPlayer().apply {
                 setAudioAttributes(
                     AudioAttributes.Builder()
                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -58,17 +60,25 @@ class PlayerOverlayFragment : BaseFragment() {
             playPauseImageView
                 .setImageDrawable(requireContext().getDrawable(R.drawable.ic_baseline_pause_24))
             playPauseImageView.setOnClickListener {
-                if(mediaPlayer.isPlaying) {
+                if(mediaPlayer!!.isPlaying) {
                     playPauseImageView.setImageDrawable(
                         requireContext().getDrawable(R.drawable.ic_baseline_play_arrow_24))
-                    mediaPlayer.pause()
+                    mediaPlayer!!.pause()
                 }
                 else {
                     playPauseImageView.setImageDrawable(
                         requireContext().getDrawable(R.drawable.ic_baseline_pause_24))
-                    mediaPlayer.start()
+                    mediaPlayer!!.start()
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        if(mediaPlayer != null){
+            mediaPlayer!!.stop()
+        }
+
+        super.onDestroy()
     }
 }
