@@ -62,16 +62,14 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
     }
 
     fun updateLibrarySong(context: Context,
-                          songUuid: String,
+                          trackUuid: String,
                           songUpdateDTO: LibrarySongUpdateDTO,
                           callback: (librarySong: LibrarySong) -> Unit) {
-        val user = sessionManager.getUser()
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val response = apiClient.apiService.updateSong(
-                    format(context.getString(R.string.api_auth_bearer_format), user!!.jwtToken!!.access),
-                    user!!.username,
-                    songUuid,
+                    format(context.getString(R.string.api_auth_bearer_format), sessionManager.getUser()!!.jwtToken!!.access),
+                    trackUuid,
                     songUpdateDTO
                 )
                 if (response.body() != null) {
@@ -92,15 +90,11 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
 
     fun searchLibrarySongs(context: Context, callback:
         (songsExternal: PaginatedResponseDTO<MutableList<LibrarySong>>?) -> Unit) {
-        val user = sessionManager.getUser()
-        val accessToken = user!!.jwtToken?.access
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val response = apiClient.apiService
                     .searchLibrarySongs(
-                        format(context.getString(R.string.api_auth_bearer_format),
-                            accessToken!!),
-                        user.username)
+                        format(context.getString(R.string.api_auth_bearer_format), sessionManager.getUser()!!.jwtToken?.access!!))
                 if (response.isSuccessful) {
                     callback(response.body())
                 } else {

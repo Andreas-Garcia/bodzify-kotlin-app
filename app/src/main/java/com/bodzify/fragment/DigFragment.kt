@@ -34,7 +34,7 @@ class DigFragment : BaseFragment() {
                 if (query != null) {
                     apiManager.digSongs(requireContext(), query) {
                             responseJSON: PaginatedResponseDTO<MutableList<MineSong>>? ->
-                        val externalSongs: MutableList<MineSong> = responseJSON!!.data
+                        val externalSongs: MutableList<MineSong> = responseJSON!!.results
                         var externalSongsToDisplay: MutableList<MineSong> =
                             externalSongs ?: arrayListOf()
                         externalSongListView.adapter =
