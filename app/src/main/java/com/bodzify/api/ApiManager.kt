@@ -100,21 +100,24 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
                     if(response.isSuccessful) {
                         callback(response.body()!!)
                     }
-                    if(response.code() == 401) {
-                        refresh(context) { retrieveLibraryTrack(context, trackUuid, callback) }
-                    } else {
-                        Toast.makeText(context,
-                            context.getString(R.string.error_occurred_label) + " " + response.toString(), Toast.LENGTH_LONG)
-                            .show()
+                    else {
+                        if(response.code() == 401) {
+                            refresh(context) { retrieveLibraryTrack(context, trackUuid, callback) }
+                        } else {
+                            Toast.makeText(context,
+                                context.getString(R.string.error_occurred_label) + " " + response.toString(), Toast.LENGTH_LONG)
+                                .show()
+                        }
                     }
                 }
-                Toast.makeText(
-                    context,
-                    context.getString(R.string.error_occurred_label)
-                            + " " + context.getString(R.string.error_empty_response_message),
-                    Toast.LENGTH_LONG
-                )
-                    .show()
+                else {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.error_occurred_label) + " " + context.getString(R.string.error_empty_response_message),
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+                }
             } catch (e: Exception) {
                 Toast.makeText(
                     context,

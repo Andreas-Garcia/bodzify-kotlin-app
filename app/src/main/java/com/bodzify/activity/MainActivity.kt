@@ -47,12 +47,12 @@ class MainActivity : AppCompatActivity() {
 
         playViewModel.lastPlay.observe(this, Observer { play ->
             apiManager.retrieveLibraryTrack(this, play.track) {
-                libraryTrack -> createFragmentForTrack(libraryTrack)
+                libraryTrack -> createFragmentForTrack(libraryTrack, false)
             }
         })
 
         playerViewModel.trackSelectedLiveData.observe(this, Observer {
-            libraryTrack -> createFragmentForTrack(libraryTrack)
+            libraryTrack -> createFragmentForTrack(libraryTrack, true)
         })
 
         logoutViewModel.logoutPerformedLiveData.observe(this, Observer {
@@ -60,11 +60,9 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun createFragmentForTrack(libraryTrack: LibraryTrack) {
+    private fun createFragmentForTrack(libraryTrack: LibraryTrack, toPause: Boolean) {
         val bundle = Bundle()
-        bundle.putSerializable(AlarmClock.EXTRA_MESSAGE, libraryTrack)
-        val playerOverlayFragment = PlayerOverlayFragment()
-        playerOverlayFragment.arguments = bundle
+        val playerOverlayFragment = PlayerOverlayFragment(libraryTrack, toPause)
         supportFragmentManager.beginTransaction().replace(
             R.id.player_overlay_fragment_container,
             playerOverlayFragment
@@ -99,11 +97,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(
             R.id.main_fragment_container,
             LibraryFragment()
-        ).commit()
-
-        supportFragmentManager.beginTransaction().replace(
-            R.id.player_overlay_fragment_container,
-            PlayerOverlayFragment()
         ).commit()
 
         setUpBottomNavigationMenu()
