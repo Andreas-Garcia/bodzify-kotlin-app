@@ -2,8 +2,6 @@
     <string name="app_name">bodzify</string>
     <string name="app_label">bodzify</string>
 
-    <string name="api_base_url">https://bodzify.com</string>
-
     <string name="api_data_name">data</string>
 
     <string name="api_auth_username_field">username</string>
