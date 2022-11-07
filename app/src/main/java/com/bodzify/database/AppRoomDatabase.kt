@@ -9,7 +9,7 @@ import com.bodzify.dao.PlayDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Play::class], version = 1, exportSchema = false)
+@Database(entities = [Play::class], version = 4, exportSchema = false)
 abstract class AppRoomDatabase() : RoomDatabase() {
 
     abstract fun playDao(): PlayDao
@@ -22,7 +22,7 @@ abstract class AppRoomDatabase() : RoomDatabase() {
             super.onCreate(db)
             INSTANCE?.let { database ->
                 scope.launch {
-                    database.playDao().insert(Play(track = "QuqKcKf44xjRzKJZK72S5i"))
+                    // TODO POPULATE
                 }
             }
         }
@@ -43,6 +43,7 @@ abstract class AppRoomDatabase() : RoomDatabase() {
                     AppRoomDatabase::class.java,
                     DATABASE_NAME
                 )
+                    .fallbackToDestructiveMigration()
                     .addCallback(AppDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance

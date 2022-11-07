@@ -2,12 +2,14 @@ package com.bodzify.viewmodel
 
 import androidx.lifecycle.*
 import com.bodzify.database.Play
+import com.bodzify.model.LibraryTrack
 import com.bodzify.repository.AppRepository
 import kotlinx.coroutines.launch
 
 class PlayViewModel(private val repository: AppRepository) : ViewModel() {
-    fun insert(play: Play) = viewModelScope.launch {
-        repository.insertPlay(play)
+
+    fun insert(libraryTrack: LibraryTrack) = viewModelScope.launch {
+        repository.insertPlay(libraryTrack)
     }
 
     val lastPlay: LiveData<Play> = repository.lastPlay.asLiveData()

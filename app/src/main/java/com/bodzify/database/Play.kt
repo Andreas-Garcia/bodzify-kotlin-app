@@ -9,6 +9,5 @@ import java.time.LocalDateTime
 class Play (
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "track") val track: String,
-    @ColumnInfo(name = "datetime", defaultValue = "CURRENT_TIMESTAMP")
-    val localDateTime: String = ""
+    @ColumnInfo(name = "datetime") val dateTime: String
 )

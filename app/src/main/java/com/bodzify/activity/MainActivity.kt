@@ -19,6 +19,7 @@ import com.bodzify.fragment.PlayerOverlayFragment
 import com.bodzify.fragment.SettingsFragment
 import com.bodzify.model.LibraryTrack
 import com.bodzify.session.SessionManager
+import com.bodzify.util.observeOnce
 import com.bodzify.viewmodel.LogoutViewModel
 import com.bodzify.viewmodel.PlayViewModel
 import com.bodzify.viewmodel.PlayViewModelFactory
@@ -45,14 +46,19 @@ class MainActivity : AppCompatActivity() {
 
         displayLoginOrMain()
 
-        playViewModel.lastPlay.observe(this, Observer { play ->
-            apiManager.retrieveLibraryTrack(this, play.track) {
-                libraryTrack -> createFragmentForTrack(libraryTrack, false)
+        playViewModel.lastPlay.observeOnce(this, Observer {
+                play ->
+            if(play != null) {
+                apiManager.retrieveLibraryTrack(this, play.track) {
+                        libraryTrack -> createFragmentForTrack(libraryTrack, false)
+                }
             }
         })
 
         playerViewModel.trackSelectedLiveData.observe(this, Observer {
-            libraryTrack -> createFragmentForTrack(libraryTrack, true)
+            libraryTrack ->
+            playViewModel.insert(libraryTrack)
+            createFragmentForTrack(libraryTrack, true)
         })
 
         logoutViewModel.logoutPerformedLiveData.observe(this, Observer {
@@ -61,7 +67,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createFragmentForTrack(libraryTrack: LibraryTrack, toPause: Boolean) {
-        val bundle = Bundle()
         val playerOverlayFragment = PlayerOverlayFragment(libraryTrack, toPause)
         supportFragmentManager.beginTransaction().replace(
             R.id.player_overlay_fragment_container,
