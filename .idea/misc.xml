@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/background_playing_song_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_album_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_pause_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/layout_playing_song_background.xml" value="0.1755" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.1" />

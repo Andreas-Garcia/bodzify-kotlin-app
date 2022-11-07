@@ -7,6 +7,7 @@ import android.provider.AlarmClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import com.bodzify.R
@@ -20,6 +21,7 @@ class PlayerOverlayFragment : BaseFragment() {
     private lateinit var artistTextView: TextView
     private lateinit var titleTextView: TextView
     private lateinit var genreTextView: TextView
+    private lateinit var playPauseImageView: ImageView
 
     private lateinit var libraryTrack: LibraryTrack
 
@@ -36,6 +38,8 @@ class PlayerOverlayFragment : BaseFragment() {
         titleTextView = requireView().findViewById<TextView>(R.id.player_overlay_title_textview)
         artistTextView = requireView().findViewById<TextView>(R.id.player_overlay_artist_textview)
         genreTextView = requireView().findViewById<TextView>(R.id.player_overlay_genre_textview)
+        playPauseImageView = requireView()
+            .findViewById<ImageView>(R.id.player_overlay_play_pause_imageView)
 
         val bundle = this.arguments
         if( bundle != null) {
@@ -55,6 +59,9 @@ class PlayerOverlayFragment : BaseFragment() {
                 prepare() // might take long! (for buffering, etc)
                 start()
             }
+
+            playPauseImageView
+                .setImageDrawable(requireContext().getDrawable(R.drawable.ic_baseline_pause_24))
         }
     }
 }
