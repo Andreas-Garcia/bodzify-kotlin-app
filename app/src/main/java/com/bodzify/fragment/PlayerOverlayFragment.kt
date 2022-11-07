@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import com.bodzify.R
-import com.bodzify.model.LibrarySong
+import com.bodzify.model.LibraryTrack
 import com.bodzify.viewmodel.PlayerViewModel
 
 class PlayerOverlayFragment : BaseFragment() {
@@ -18,7 +18,7 @@ class PlayerOverlayFragment : BaseFragment() {
     private lateinit var titleTextView: TextView
     private lateinit var genreTextView: TextView
 
-    private lateinit var librarySong: LibrarySong
+    private lateinit var libraryTrack: LibraryTrack
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,10 +36,10 @@ class PlayerOverlayFragment : BaseFragment() {
 
         val bundle = this.arguments
         if( bundle != null) {
-            librarySong = bundle!!.getSerializable(AlarmClock.EXTRA_MESSAGE) as LibrarySong
-            titleTextView.text = librarySong.title
-            artistTextView.text = librarySong.artist
-            genreTextView.text = librarySong.genre
+            libraryTrack = bundle!!.getSerializable(AlarmClock.EXTRA_MESSAGE) as LibraryTrack
+            titleTextView.text = libraryTrack.title
+            artistTextView.text = libraryTrack.artist
+            genreTextView.text = libraryTrack.genre
         }
     }
 }

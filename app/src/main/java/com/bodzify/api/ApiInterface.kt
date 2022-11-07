@@ -1,9 +1,9 @@
 package com.bodzify.api
 
 import com.bodzify.dto.*
-import com.bodzify.model.MineSong
+import com.bodzify.model.MineTrack
 import com.bodzify.model.JwtToken
-import com.bodzify.model.LibrarySong
+import com.bodzify.model.LibraryTrack
 import com.bodzify.model.User
 import retrofit2.Response
 import retrofit2.http.*
@@ -21,30 +21,30 @@ interface ApiInterface {
     suspend fun refresh(@Body refreshTokenDTO: JWTRefreshTokenDTO): Response<JWTTokenAccessDTO>
 
     @GET(RELATIVE_URL_WITH_API + "tracks/")
-    suspend fun searchLibrarySongs(
+    suspend fun searchLibraryTracks(
         @Header("Authorization") authorization: String,
-    ): Response<PaginatedResponseDTO<MutableList<LibrarySong>>>
+    ): Response<PaginatedResponseDTO<MutableList<LibraryTrack>>>
 
     @PUT(RELATIVE_URL_WITH_API + "tracks/{trackUuid}/")
-    suspend fun updateSong(
+    suspend fun updateTrack(
         @Header("Authorization") authorization: String,
-        @Path("trackUuid") songUuid: String,
-        @Body librarySongUpdateDTO: LibrarySongUpdateDTO
-    ): Response<LibrarySong>
+        @Path("trackUuid") trackUuid: String,
+        @Body libraryTrackUpdateDTO: LibraryTrackUpdateDTO
+    ): Response<LibraryTrack>
 
     @GET(RELATIVE_URL_WITH_API + "mine/tracks/")
-    suspend fun digSongs(
+    suspend fun digTracks(
         @Header("Authorization") authorization: String,
         @Query("source") source: String = MINE_TRACKS_SOURCE_DEFAULT,
         @Query("query") query: String,
         @Query("page") page: Int = 0,
         @Query("pageSize") pageSize: Int = 29
-    ): Response<PaginatedResponseDTO<MutableList<MineSong>>>
+    ): Response<PaginatedResponseDTO<MutableList<MineTrack>>>
 
     @POST(RELATIVE_URL_WITH_API + "mine/tracks/download/")
-    suspend fun downloadMineSong(
+    suspend fun downloadMineTrack(
         @Header("Authorization") authorization: String,
-        @Body mineSongDownloadDTO: MineSongDownloadDTO
+        @Body mineTrackDownloadDTO: MineTrackDownloadDTO
     ): Response<JWTTokenAccessDTO>
 
     companion object {

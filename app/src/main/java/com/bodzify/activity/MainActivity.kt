@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             startLogin(SessionManager(this))
         })
 
-        playerViewModel.songSelectedLiveData.observe(this, Observer {
+        playerViewModel.trackSelectedLiveData.observe(this, Observer {
             librarySong ->
             val bundle = Bundle()
             bundle.putSerializable(AlarmClock.EXTRA_MESSAGE, librarySong)

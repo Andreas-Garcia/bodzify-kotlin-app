@@ -25,7 +25,7 @@
             android:text="@string/filename" />
 
         <TextView
-            android:id="@+id/song_edition_filename_textView"
+            android:id="@+id/track_edition_filename_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -44,7 +44,7 @@
             android:text="@string/link" />
 
         <TextView
-            android:id="@+id/song_edition_url_textView"
+            android:id="@+id/track_edition_url_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -63,7 +63,7 @@
             android:text="@string/title" />
 
         <EditText
-            android:id="@+id/song_edition_title_editText"
+            android:id="@+id/track_edition_title_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -85,7 +85,7 @@
             android:text="@string/artist" />
 
         <EditText
-            android:id="@+id/song_edition_artist_editText"
+            android:id="@+id/track_edition_artist_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -107,7 +107,7 @@
             android:text="@string/album" />
 
         <EditText
-            android:id="@+id/song_edition_album_editText"
+            android:id="@+id/track_edition_album_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -129,7 +129,7 @@
             android:text="@string/genre" />
 
         <EditText
-            android:id="@+id/song_edition_genre_editText"
+            android:id="@+id/track_edition_genre_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -151,7 +151,7 @@
             android:text="@string/rating" />
 
         <EditText
-            android:id="@+id/song_edition_rating_editText"
+            android:id="@+id/track_edition_rating_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -173,7 +173,7 @@
             android:text="@string/duration" />
 
         <TextView
-            android:id="@+id/song_edition_duration_textView"
+            android:id="@+id/track_edition_duration_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -193,7 +193,7 @@
             android:text="@string/language" />
 
         <EditText
-            android:id="@+id/song_edition_language_editText"
+            android:id="@+id/track_edition_language_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -215,7 +215,7 @@
             android:text="@string/released_on" />
 
         <EditText
-            android:id="@+id/song_edition_released_on_editText"
+            android:id="@+id/track_edition_released_on_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -237,7 +237,7 @@
             android:text="@string/added_on" />
 
         <TextView
-            android:id="@+id/song_edition_added_on_textView"
+            android:id="@+id/track_edition_added_on_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -251,14 +251,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/song_edition_cancel_button"
+            android:id="@+id/track_edition_cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/cancel" />
 
         <Button
-            android:id="@+id/song_edition_save_button"
+            android:id="@+id/track_edition_save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

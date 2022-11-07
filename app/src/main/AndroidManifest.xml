@@ -24,7 +24,7 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".activity.SongEditionActivity"
+            android:name=".activity.TrackEditionActivity"
             android:screenOrientation="portrait"
             android:exported="false"
             android:theme="@style/Theme.bodzify.NoActionBar" />

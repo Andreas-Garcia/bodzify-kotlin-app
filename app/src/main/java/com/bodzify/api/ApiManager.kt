@@ -4,8 +4,8 @@ import android.content.Context
 import android.widget.Toast
 import com.bodzify.R
 import com.bodzify.dto.*
-import com.bodzify.model.MineSong
-import com.bodzify.model.LibrarySong
+import com.bodzify.model.MineTrack
+import com.bodzify.model.LibraryTrack
 import com.bodzify.model.User
 import com.bodzify.session.SessionManager
 import kotlinx.coroutines.Dispatchers
@@ -63,11 +63,11 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
 
     fun updateLibrarySong(context: Context,
                           trackUuid: String,
-                          songUpdateDTO: LibrarySongUpdateDTO,
-                          callback: (librarySong: LibrarySong) -> Unit) {
+                          songUpdateDTO: LibraryTrackUpdateDTO,
+                          callback: (librarySong: LibraryTrack) -> Unit) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                val response = apiClient.apiService.updateSong(
+                val response = apiClient.apiService.updateTrack(
                     format(context.getString(R.string.api_auth_bearer_format), sessionManager.getUser()!!.jwtToken!!.access),
                     trackUuid,
                     songUpdateDTO
@@ -88,18 +88,18 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
         }
     }
 
-    fun searchLibrarySongs(context: Context, callback:
-        (songsExternal: PaginatedResponseDTO<MutableList<LibrarySong>>?) -> Unit) {
+    fun searchLibraryTracks(context: Context, callback:
+        (songsExternal: PaginatedResponseDTO<MutableList<LibraryTrack>>?) -> Unit) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val response = apiClient.apiService
-                    .searchLibrarySongs(
+                    .searchLibraryTracks(
                         format(context.getString(R.string.api_auth_bearer_format), sessionManager.getUser()!!.jwtToken?.access!!))
                 if (response.isSuccessful) {
                     callback(response.body())
                 } else {
                     if(response.code() == 401) {
-                        refresh(context) { searchLibrarySongs(context, callback) }
+                        refresh(context) { searchLibraryTracks(context, callback) }
                     } else {
                         Toast.makeText(context,
                             context.getString(R.string.error_occurred_label) + " " + response.toString(), Toast.LENGTH_LONG)
@@ -113,14 +113,14 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
         }
     }
 
-    fun digSongs(context: Context,
-                 query: String,
-                 callback: (songsExternal: PaginatedResponseDTO<MutableList<MineSong>>?) -> Unit) {
+    fun digTracks(context: Context,
+                  query: String,
+                  callback: (songsExternal: PaginatedResponseDTO<MutableList<MineTrack>>?) -> Unit) {
         val accessToken = sessionManager.getUser()!!.jwtToken?.access
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val response = apiClient.apiService
-                    .digSongs(
+                    .digTracks(
                         format(
                             context.getString(R.string.api_auth_bearer_format),
                             accessToken!!),
@@ -130,7 +130,7 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
                     callback(response.body())
                 } else {
                     if(response.code() == 401) {
-                        refresh(context) { digSongs(context, query, callback) }
+                        refresh(context) { digTracks(context, query, callback) }
                     } else {
                         Toast.makeText(context,
                             context.getString(R.string.error_occurred_label) + " " + response.toString(), Toast.LENGTH_LONG)
@@ -144,14 +144,14 @@ class ApiManager (private val sessionManager: SessionManager, private val apiCli
         }
     }
 
-    fun downloadMineSong(context: Context, user: User, mineSong: MineSong) {
+    fun downloadMineTrack(context: Context, user: User, mineSong: MineTrack) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
                 val jwtTokenAccess = user.jwtToken.access
-                val response = apiClient.apiService.downloadMineSong(
+                val response = apiClient.apiService.downloadMineTrack(
                         format(context.getString(R.string.api_auth_bearer_format),
                         jwtTokenAccess),
-                        MineSongDownloadDTO(mineSong)
+                        MineTrackDownloadDTO(mineSong)
                     )
 
                 if (response.isSuccessful) {

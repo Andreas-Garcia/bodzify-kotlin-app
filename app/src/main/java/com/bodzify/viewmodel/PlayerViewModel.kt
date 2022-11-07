@@ -3,13 +3,13 @@ package com.bodzify.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bodzify.model.LibrarySong
+import com.bodzify.model.LibraryTrack
 
 class PlayerViewModel: ViewModel()  {
-    private val songSelectedMutableLiveData = MutableLiveData<LibrarySong>()
-    val songSelectedLiveData: LiveData<LibrarySong> get() = songSelectedMutableLiveData
+    private val trackSelectedMutableLiveData = MutableLiveData<LibraryTrack>()
+    val trackSelectedLiveData: LiveData<LibraryTrack> get() = trackSelectedMutableLiveData
 
-    fun selectSong(librarySong: LibrarySong) {
-        songSelectedMutableLiveData.value = librarySong
+    fun selectTrack(libraryTrack: LibraryTrack) {
+        trackSelectedMutableLiveData.value = libraryTrack
     }
 }
