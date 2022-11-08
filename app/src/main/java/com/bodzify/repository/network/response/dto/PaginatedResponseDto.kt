@@ -1,4 +1,4 @@
-package com.bodzify.repository.network.dto
+package com.bodzify.repository.network.response.dto
 import androidx.annotation.Keep
 import kotlinx.serialization.Serializable
 

@@ -9,7 +9,7 @@ import com.bodzify.repository.storage.dao.PlayDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Play::class], version = 4, exportSchema = false)
+@Database(entities = [Play::class], version = 5, exportSchema = false)
 abstract class AppRoomDatabase() : RoomDatabase() {
 
     abstract fun playDao(): PlayDao

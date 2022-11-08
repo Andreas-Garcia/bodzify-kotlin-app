@@ -8,18 +8,14 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat.startActivity
 import com.bodzify.R
-import com.bodzify.viewcontroller.activity.TrackEditionActivity
-import com.bodzify.repository.network.api.ApiManager
-import com.bodzify.session.SessionManager
 import com.bodzify.model.LibraryTrack
+import com.bodzify.viewcontroller.activity.TrackEditionActivity
 import com.bodzify.viewmodel.PlayerViewModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class LibraryTrackListAdapter(
     private val activity: Activity,
-    private val apiManager: ApiManager,
-    private val sessionManager: SessionManager,
     private val libraryTracks: MutableList<LibraryTrack>,
     private val playerViewModel: PlayerViewModel
 )

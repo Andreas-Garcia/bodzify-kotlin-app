@@ -9,11 +9,11 @@ import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import com.bodzify.R
 import com.bodzify.viewcontroller.adapter.LibraryTrackListAdapter
-import com.bodzify.repository.network.dto.PaginatedResponseDto
-import com.bodzify.model.LibraryTrack
+import com.bodzify.viewmodel.LibraryTrackViewModel
 import com.bodzify.viewmodel.PlayerViewModel
+import com.bodzify.viewmodel.util.observeOnce
 
-class LibraryFragment : BaseFragment() {
+class LibraryFragment(private val libraryTrackViewModel: LibraryTrackViewModel) : BaseFragment() {
     private val playerViewModel: PlayerViewModel by activityViewModels()
 
     private lateinit var libraryTracksSearchView: SearchView
@@ -46,13 +46,12 @@ class LibraryFragment : BaseFragment() {
     }
 
     fun searchLibraryTracks() {
-        apiManager.searchLibraryTracks(requireContext()) {
-                responseJSON: PaginatedResponseDto<MutableList<LibraryTrack>>? ->
+        libraryTrackViewModel.search()
+        libraryTrackViewModel.libraryTracksSearched.observeOnce(this) {
+            libraryTracks ->
             libraryTracksListView.adapter = LibraryTrackListAdapter(
                 requireActivity(),
-                apiManager,
-                sessionManager,
-                responseJSON!!.results ?: arrayListOf(),
+                libraryTracks ?: arrayListOf(),
                 playerViewModel)
         }
     }

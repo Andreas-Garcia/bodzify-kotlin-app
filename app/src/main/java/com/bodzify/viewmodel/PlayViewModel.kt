@@ -1,13 +1,16 @@
 package com.bodzify.viewmodel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
-import com.bodzify.repository.storage.database.Play
 import com.bodzify.model.LibraryTrack
 import com.bodzify.repository.PlayRepository
+import com.bodzify.repository.storage.database.Play
 import kotlinx.coroutines.launch
 
 class PlayViewModel(private val repository: PlayRepository) : ViewModel() {
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun insert(libraryTrack: LibraryTrack) = viewModelScope.launch {
         repository.insertPlay(libraryTrack)
     }

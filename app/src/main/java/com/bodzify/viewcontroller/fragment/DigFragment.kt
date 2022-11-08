@@ -8,10 +8,9 @@ import android.widget.ListView
 import android.widget.SearchView
 import com.bodzify.R
 import com.bodzify.viewcontroller.adapter.MineTrackListAdapter
-import com.bodzify.repository.network.dto.PaginatedResponseDto
-import com.bodzify.model.MineTrack
+import com.bodzify.viewmodel.MineTrackViewModel
 
-class DigFragment : BaseFragment() {
+class DigFragment(private val mineTrackViewModel: MineTrackViewModel) : BaseFragment() {
 
     private lateinit var digSearchView: SearchView
     private lateinit var mineTrackListView: ListView
@@ -29,18 +28,20 @@ class DigFragment : BaseFragment() {
         digSearchView = requireView().findViewById(R.id.dig_search_view)
         mineTrackListView = requireView().findViewById(R.id.mine_tracks_list_view)
 
+        mineTrackViewModel.mineTracksDug.observe(this@DigFragment) {
+                mineTracks ->
+            mineTrackListView.adapter = MineTrackListAdapter(
+                requireActivity(),
+                sessionManager,
+                mineTracks?: arrayListOf(),
+                mineTrackViewModel
+            )
+        }
+
         digSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
-                    apiManager.digTracks(requireContext(), query) {
-                            responseJSON: PaginatedResponseDto<MutableList<MineTrack>>? ->
-                        mineTrackListView.adapter =
-                            MineTrackListAdapter(
-                                requireActivity(),
-                                apiManager,
-                                sessionManager,
-                                responseJSON!!.results ?: arrayListOf())
-                    }
+                    mineTrackViewModel.dig(query)
                 }
                 return false
             }

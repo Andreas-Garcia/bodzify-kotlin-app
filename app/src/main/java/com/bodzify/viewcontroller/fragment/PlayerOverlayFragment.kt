@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bodzify.R
-import com.bodzify.repository.network.api.ApiClient
 import com.bodzify.model.LibraryTrack
+import com.bodzify.repository.network.api.RemoteDataSource
 
 class PlayerOverlayFragment(
     private val libraryTrack: LibraryTrack,
@@ -50,7 +50,8 @@ class PlayerOverlayFragment(
                     .setUsage(AudioAttributes.USAGE_MEDIA)
                     .build()
             )
-            setDataSource(ApiClient.baseUrlWithVersion + libraryTrack.relativeUrl + "download/")
+            setDataSource(
+                RemoteDataSource.BASE_URL_WITH_API_VERSION + libraryTrack.relativeUrl + "download/")
             prepare()
             start()
             pause()

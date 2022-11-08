@@ -15,7 +15,7 @@ class PlayRepository(private val playDao: PlayDao) {
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insertPlay(libraryTrack: LibraryTrack) {
-        playDao.insert(Play(track = libraryTrack.uuid, dateTime = LocalDateTime.now().toString()))
+        playDao.insert(Play(trackUuid = libraryTrack.uuid, dateTime = LocalDateTime.now().toString()))
     }
 
     val lastPlay: Flow<Play> = playDao.getLast()

@@ -1,54 +1,61 @@
 package com.bodzify.viewcontroller.activity
 
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bodzify.R
-import com.bodzify.repository.network.api.ApiClient
-import com.bodzify.repository.network.api.ApiManager
 import com.bodzify.application.AppApplication
+import com.bodzify.model.LibraryTrack
+import com.bodzify.model.User
+import com.bodzify.session.SessionManager
 import com.bodzify.viewcontroller.fragment.DigFragment
 import com.bodzify.viewcontroller.fragment.LibraryFragment
 import com.bodzify.viewcontroller.fragment.PlayerOverlayFragment
 import com.bodzify.viewcontroller.fragment.SettingsFragment
-import com.bodzify.model.LibraryTrack
-import com.bodzify.session.SessionManager
+import com.bodzify.viewmodel.*
 import com.bodzify.viewmodel.util.observeOnce
-import com.bodzify.viewmodel.LogoutViewModel
-import com.bodzify.viewmodel.PlayViewModel
-import com.bodzify.viewmodel.PlayViewModelFactory
-import com.bodzify.viewmodel.PlayerViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var sessionManager: SessionManager
-    private lateinit var apiManager: ApiManager
 
     private val logoutViewModel: LogoutViewModel by viewModels()
     private val playerViewModel: PlayerViewModel by viewModels()
-
     private val playViewModel: PlayViewModel by viewModels {
-        PlayViewModelFactory((application as AppApplication).repository)
+        PlayViewModelFactory((application as AppApplication).playRepository)
+    }
+    private val libraryTrackViewModel: LibraryTrackViewModel by viewModels {
+        LibraryTrackViewModelFactory((application as AppApplication).libraryTrackRepository)
+    }
+    private val authViewModel: AuthViewModel by viewModels {
+        AuthViewModelFactory((application as AppApplication).authRepository)
+    }
+    private val mineTrackViewModel: MineTrackViewModel by viewModels {
+        MineTrackViewModelFactory((application as AppApplication).mineTrackRepository)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         sessionManager = SessionManager(this)
-        apiManager = ApiManager(sessionManager, ApiClient(this))
 
         displayLoginOrMain()
 
         playViewModel.lastPlay.observeOnce(this, Observer {
                 play ->
             if(play != null) {
-                apiManager.retrieveLibraryTrack(this, play.track) {
-                        libraryTrack -> createFragmentForTrack(libraryTrack, false)
+                libraryTrackViewModel.retrieve(play.trackUuid)
+                libraryTrackViewModel.libraryTrackRetrieved.observeOnce(this) {
+                    libraryTrack ->
+                    createFragmentForTrack(libraryTrack, false)
                 }
             }
         })
@@ -86,8 +93,10 @@ class MainActivity : AppCompatActivity() {
             val username = findViewById<EditText>(R.id.login_username_edit_text).text.toString()
             val password = findViewById<EditText>(R.id.login_password_edit_text).text.toString()
             if(credentialsValid()) {
-                ApiManager(sessionManager, ApiClient(this))
-                    .login(this, username, password) {
+                authViewModel.login(username, password)
+                authViewModel.jwtTokenGiven.observe(this) {
+                    jwtToken ->
+                    sessionManager.startSession(User(username, password, jwtToken))
                     startMain()
                 }
             }
@@ -99,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction().replace(
             R.id.main_fragment_container,
-            LibraryFragment()
+            LibraryFragment(libraryTrackViewModel)
         ).commit()
 
         setUpBottomNavigationMenu()
@@ -114,8 +123,9 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener { menuItem ->
             var selectedFragment: Fragment? = null
             when (menuItem.itemId) {
-                R.id.navigation_bar_item_library -> selectedFragment = LibraryFragment()
-                R.id.navigation_bar_item_dig -> selectedFragment = DigFragment()
+                R.id.navigation_bar_item_library ->
+                    selectedFragment = LibraryFragment(libraryTrackViewModel)
+                R.id.navigation_bar_item_dig -> selectedFragment = DigFragment(mineTrackViewModel)
                 R.id.navigation_bar_item_settings -> selectedFragment = SettingsFragment()
             }
 
@@ -130,9 +140,5 @@ class MainActivity : AppCompatActivity() {
     private fun credentialsValid(): Boolean {
         //TODO
         return true
-    }
-
-    companion object {
-        private const val DATABASE_NAME:String = "BODZIFY"
     }
 }

@@ -76,6 +76,12 @@ class SessionManager {
         fetchSession(user)
     }
 
+    fun saveAccessToken(accessToken: String) {
+        val user = getUser()
+        user!!.jwtToken.access = accessToken
+        fetchSession(user)
+    }
+
     fun endSession() {
         fetchSession(null)
     }

@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "play")
 class Play (
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    @ColumnInfo(name = "track") val track: String,
+    @ColumnInfo(name = "trackUuid") val trackUuid: String,
     @ColumnInfo(name = "datetime") val dateTime: String
 )

@@ -5,27 +5,32 @@ import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bodzify.R
-import com.bodzify.repository.network.api.ApiClient
-import com.bodzify.repository.network.api.ApiManager
-import com.bodzify.repository.network.dto.LibraryTrackUpdateDto
+import com.bodzify.application.AppApplication
 import com.bodzify.model.LibraryTrack
+import com.bodzify.repository.network.api.RemoteDataSource
 import com.bodzify.session.SessionManager
+import com.bodzify.viewmodel.LibraryTrackViewModel
+import com.bodzify.viewmodel.LibraryTrackViewModelFactory
+import com.bodzify.viewmodel.util.observeOnce
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 class TrackEditionActivity : AppCompatActivity() {
 
     private lateinit var sessionManager: SessionManager
-    private lateinit var apiManager: ApiManager
+
+    private val libraryTrackViewModel: LibraryTrackViewModel by viewModels {
+        LibraryTrackViewModelFactory((application as AppApplication).libraryTrackRepository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_track_edition)
 
         sessionManager = SessionManager(this)
-        apiManager = ApiManager(sessionManager, ApiClient(this))
 
         val albumArtworkImageView = findViewById<ImageView>(
             R.id.song_edition_album_artwork_imageView)
@@ -45,7 +50,7 @@ class TrackEditionActivity : AppCompatActivity() {
 
         val libraryTrack = Json.decodeFromString<LibraryTrack>(intent.getStringExtra(EXTRA_MESSAGE)!!)
         filenameTextView.text = libraryTrack.filename
-        urlTextView.text = ApiClient.baseUrlWithVersion + libraryTrack.relativeUrl
+        urlTextView.text = RemoteDataSource.BASE_URL_WITH_API_VERSION + libraryTrack.relativeUrl
         titleEditText.setText(libraryTrack.title)
         artistEditText.setText(libraryTrack.artist)
         albumEditText.setText(libraryTrack.album)
@@ -57,19 +62,18 @@ class TrackEditionActivity : AppCompatActivity() {
         addedOnTextView.text = libraryTrack.addedOn
 
         saveButton.setOnClickListener {
-            apiManager.updateLibraryTrack(this,
+            libraryTrackViewModel.update(
                 libraryTrack.uuid,
-                LibraryTrackUpdateDto(
-                    titleEditText.text.toString(),
-                    artistEditText.text.toString(),
-                    albumEditText.text.toString(),
-                    genreEditText.text.toString(),
-                    Integer.parseInt(ratingEditText.text.toString()),
-                    languageEditText.text.toString()
-                )
-            ) {
-                    librarySong: LibraryTrack ->
-                val librarySong: LibraryTrack = librarySong
+                titleEditText.text.toString(),
+                artistEditText.text.toString(),
+                albumEditText.text.toString(),
+                genreEditText.text.toString(),
+                Integer.parseInt(ratingEditText.text.toString()),
+                languageEditText.text.toString()
+            )
+            libraryTrackViewModel.libraryTrackUpdated.observeOnce(this){
+                    libraryTrack: LibraryTrack ->
+                // TODO
             }
         }
     }

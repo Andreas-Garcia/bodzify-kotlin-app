@@ -1,6 +1,6 @@
-package com.bodzify.repository.network.dto
+package com.bodzify.repository.network.request.dto
 
-class LibraryTrackUpdateDto (
+class LibraryTrackUpdateRequestDto (
     val title: String?,
     val artist: String?,
     val album: String?,
