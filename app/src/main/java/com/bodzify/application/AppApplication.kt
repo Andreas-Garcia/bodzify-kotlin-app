@@ -1,13 +1,13 @@
 package com.bodzify.application
 
 import android.app.Application
-import com.bodzify.database.AppRoomDatabase
-import com.bodzify.repository.AppRepository
+import com.bodzify.repository.storage.database.AppRoomDatabase
+import com.bodzify.repository.PlayRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
 class AppApplication: Application() {
-    val applicationScope = CoroutineScope(SupervisorJob())
-    val database by lazy { AppRoomDatabase.getDatabase(this, applicationScope) }
-    val repository by lazy { AppRepository(database.playDao()) }
+    private val applicationScope = CoroutineScope(SupervisorJob())
+    private val database by lazy { AppRoomDatabase.getDatabase(this, applicationScope) }
+    val repository by lazy { PlayRepository(database.playDao()) }
 }

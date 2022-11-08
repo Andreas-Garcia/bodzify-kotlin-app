@@ -21,16 +21,16 @@
         android:theme="@style/Theme.bodzify"
         tools:targetApi="31">
         <activity
-            android:name=".activity.PlayerActivity"
+            android:name="com.bodzify.viewcontroller.activity.PlayerActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".activity.TrackEditionActivity"
+            android:name="com.bodzify.viewcontroller.activity.TrackEditionActivity"
             android:screenOrientation="portrait"
             android:exported="false"
             android:theme="@style/Theme.bodzify.NoActionBar" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.bodzify.viewcontroller.activity.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>

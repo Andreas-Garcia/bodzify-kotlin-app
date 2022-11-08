@@ -1,0 +1,19 @@
+package com.bodzify.repository.network.dto
+
+import com.bodzify.model.MineTrack
+
+class MineTrackDownloadDto (
+    val title: String,
+    val artist: String,
+    val url: String,
+    val duration: Int,
+    val releaseDate: Int,
+) {
+    constructor (mineSong: MineTrack) : this(
+        mineSong.title,
+        mineSong.artist,
+        mineSong.url,
+        mineSong.duration,
+        mineSong.releaseOn
+    )
+}
