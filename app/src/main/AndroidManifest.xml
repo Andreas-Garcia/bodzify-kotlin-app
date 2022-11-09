@@ -6,8 +6,10 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
+        android:name=".application.AppApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -19,15 +21,20 @@
         android:theme="@style/Theme.bodzify"
         tools:targetApi="31">
         <activity
-            android:name="com.bodzify.activity.SongEditionActivity"
+            android:name="com.bodzify.viewcontroller.activity.PlayerActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name="com.bodzify.viewcontroller.activity.TrackEditionActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
             android:theme="@style/Theme.bodzify.NoActionBar" />
         <activity
-            android:name="com.bodzify.activity.MainActivity"
+            android:name="com.bodzify.viewcontroller.activity.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

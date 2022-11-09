@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class LogoutViewModel: ViewModel() {
-    private val mutableLogoutPerformed = MutableLiveData<Boolean>()
-    val logoutPerformed: LiveData<Boolean> get() = mutableLogoutPerformed
+    private val logoutPerformedMutableLiveData = MutableLiveData<Boolean>()
+    val logoutPerformedLiveData: LiveData<Boolean> get() = logoutPerformedMutableLiveData
 
     fun performLogout() {
-        mutableLogoutPerformed.value = true
+        logoutPerformedMutableLiveData.value = true
     }
 }
