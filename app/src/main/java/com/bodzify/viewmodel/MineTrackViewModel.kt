@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.bodzify.model.LibraryTrack
 import com.bodzify.model.MineTrack
-import com.bodzify.repository.MineTrackRepository
+import com.bodzify.datasource.repository.MineTrackRepository
 import kotlinx.coroutines.launch
 
 class MineTrackViewModel(private val repository: MineTrackRepository) : ViewModel() {

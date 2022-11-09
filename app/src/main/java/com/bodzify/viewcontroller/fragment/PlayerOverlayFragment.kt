@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bodzify.R
 import com.bodzify.model.LibraryTrack
-import com.bodzify.repository.network.api.RemoteDataSource
+import com.bodzify.datasource.network.api.RemoteDataSource
 
 class PlayerOverlayFragment(
     private val libraryTrack: LibraryTrack,

@@ -4,8 +4,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.bodzify.model.LibraryTrack
-import com.bodzify.repository.PlayRepository
-import com.bodzify.repository.storage.database.Play
+import com.bodzify.datasource.repository.PlayRepository
+import com.bodzify.datasource.storage.database.Play
 import kotlinx.coroutines.launch
 
 class PlayViewModel(private val repository: PlayRepository) : ViewModel() {

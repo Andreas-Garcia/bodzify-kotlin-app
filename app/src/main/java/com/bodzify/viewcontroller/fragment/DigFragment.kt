@@ -28,7 +28,7 @@ class DigFragment(private val mineTrackViewModel: MineTrackViewModel) : BaseFrag
         digSearchView = requireView().findViewById(R.id.dig_search_view)
         mineTrackListView = requireView().findViewById(R.id.mine_tracks_list_view)
 
-        mineTrackViewModel.mineTracksDug.observe(this@DigFragment) {
+        mineTrackViewModel.mineTracksDug.observe(viewLifecycleOwner) {
                 mineTracks ->
             mineTrackListView.adapter = MineTrackListAdapter(
                 requireActivity(),

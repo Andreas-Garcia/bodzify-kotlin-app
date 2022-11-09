@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bodzify.R
 import com.bodzify.application.AppApplication
 import com.bodzify.model.LibraryTrack
-import com.bodzify.repository.network.api.RemoteDataSource
+import com.bodzify.datasource.network.api.RemoteDataSource
 import com.bodzify.session.SessionManager
 import com.bodzify.viewmodel.LibraryTrackViewModel
 import com.bodzify.viewmodel.LibraryTrackViewModelFactory

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.bodzify.model.LibraryTrack
-import com.bodzify.repository.LibraryTrackRepository
+import com.bodzify.datasource.repository.LibraryTrackRepository
 import kotlinx.coroutines.launch
 
 class LibraryTrackViewModel(private val repository: LibraryTrackRepository) : ViewModel() {
