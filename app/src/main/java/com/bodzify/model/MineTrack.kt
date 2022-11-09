@@ -8,6 +8,6 @@ data class MineTrack (
     val title: String,
     val artist: String,
     val duration: Int,
-    val releaseOn: Int,
+    val releasedOn: Int,
     val url : String,
 )
