@@ -11,7 +11,6 @@ import com.bodzify.R
 import com.bodzify.viewcontroller.adapter.LibraryTrackListAdapter
 import com.bodzify.viewmodel.LibraryTrackViewModel
 import com.bodzify.viewmodel.PlayerViewModel
-import com.bodzify.viewmodel.util.observeOnce
 
 class LibraryFragment(private val libraryTrackViewModel: LibraryTrackViewModel) : BaseFragment() {
     private val playerViewModel: PlayerViewModel by activityViewModels()
@@ -23,6 +22,13 @@ class LibraryFragment(private val libraryTrackViewModel: LibraryTrackViewModel) 
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        libraryTrackViewModel.libraryTracksSearched.observe(viewLifecycleOwner) {
+                libraryTracks ->
+            libraryTracksListView.adapter = LibraryTrackListAdapter(
+                requireActivity(),
+                libraryTracks ?: arrayListOf(),
+                playerViewModel)
+        }
         return inflater.inflate(R.layout.fragment_library, container, false)
     }
 
@@ -34,7 +40,7 @@ class LibraryFragment(private val libraryTrackViewModel: LibraryTrackViewModel) 
 
         libraryTracksSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                searchLibraryTracks()
+                libraryTrackViewModel.search()
                 return false
             }
 
@@ -42,17 +48,6 @@ class LibraryFragment(private val libraryTrackViewModel: LibraryTrackViewModel) 
                 return true
             }
         })
-        searchLibraryTracks()
-    }
-
-    fun searchLibraryTracks() {
         libraryTrackViewModel.search()
-        libraryTrackViewModel.libraryTracksSearched.observeOnce(this) {
-            libraryTracks ->
-            libraryTracksListView.adapter = LibraryTrackListAdapter(
-                requireActivity(),
-                libraryTracks ?: arrayListOf(),
-                playerViewModel)
-        }
     }
 }

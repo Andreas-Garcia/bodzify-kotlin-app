@@ -7,7 +7,7 @@ import retrofit2.http.POST
 
 interface TokenRefreshApi: BaseApi {
     @FormUrlEncoded
-    @POST("auth/token/refresh")
+    @POST("auth/token/refresh/")
     suspend fun refreshAccessToken(
         @Field("refresh") refreshToken: String?
     ): AccessToken
