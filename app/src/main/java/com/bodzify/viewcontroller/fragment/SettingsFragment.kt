@@ -23,7 +23,7 @@ class SettingsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         requireView().findViewById<Button>(R.id.logout_button).setOnClickListener {
             sessionManager.endSession()
-            logoutViewModel.performLogout()
+            logoutViewModel.logout()
         }
     }
 }

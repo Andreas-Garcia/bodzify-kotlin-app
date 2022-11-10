@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bodzify.R
 import com.bodzify.application.AppApplication
+import com.bodzify.datasource.repository.BaseRepository
 import com.bodzify.model.LibraryTrack
 import com.bodzify.model.User
 import com.bodzify.session.SessionManager
@@ -26,19 +27,25 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var sessionManager: SessionManager
 
-    private val logoutViewModel: LogoutViewModel by viewModels()
     private val playerViewModel: PlayerViewModel by viewModels()
     private val playViewModel: PlayViewModel by viewModels {
         PlayViewModelFactory((application as AppApplication).playRepository)
     }
-    private val libraryTrackViewModel: LibraryTrackViewModel by viewModels {
-        LibraryTrackViewModelFactory((application as AppApplication).libraryTrackRepository)
-    }
     private val authViewModel: AuthViewModel by viewModels {
         AuthViewModelFactory((application as AppApplication).authRepository)
     }
+    private val libraryTrackViewModel: LibraryTrackViewModel by viewModels {
+        LibraryTrackViewModelFactory((application as AppApplication).libraryTrackRepository)
+    }
     private val mineTrackViewModel: MineTrackViewModel by viewModels {
         MineTrackViewModelFactory((application as AppApplication).mineTrackRepository)
+    }
+    private val logoutViewModel: LogoutViewModel by viewModels {
+        val baseRepositories = mutableListOf<BaseRepository>()
+        baseRepositories.add((application as AppApplication).authRepository)
+        baseRepositories.add((application as AppApplication).libraryTrackRepository)
+        baseRepositories.add((application as AppApplication).mineTrackRepository)
+        LogoutViewModelFactory(baseRepositories)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

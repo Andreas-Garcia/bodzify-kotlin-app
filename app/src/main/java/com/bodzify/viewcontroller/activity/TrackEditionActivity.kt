@@ -2,15 +2,15 @@ package com.bodzify.viewcontroller.activity
 
 import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.View
+import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.bodzify.R
 import com.bodzify.application.AppApplication
-import com.bodzify.model.LibraryTrack
 import com.bodzify.datasource.network.api.RemoteDataSource
+import com.bodzify.model.LibraryTrack
 import com.bodzify.session.SessionManager
 import com.bodzify.viewmodel.LibraryTrackViewModel
 import com.bodzify.viewmodel.LibraryTrackViewModelFactory
@@ -39,7 +39,14 @@ class TrackEditionActivity : AppCompatActivity() {
         val titleEditText = findViewById<EditText>(R.id.track_edition_title_editText)
         val artistEditText = findViewById<EditText>(R.id.track_edition_artist_editText)
         val albumEditText = findViewById<EditText>(R.id.track_edition_album_editText)
-        val genreEditText = findViewById<EditText>(R.id.track_edition_genre_editText)
+        val genreSelectButton = findViewById<Button>(R.id.track_edition_genre_select_button)
+        val genreLayout = findViewById<LinearLayout>(R.id.track_edition_genre_selection_layout)
+        val genreSelectionRecycleView =
+            findViewById<RecyclerView>(R.id.track_edition_genre_selection_recycleview)
+        val genreCancelButton =
+            findViewById<Button>(R.id.track_edition_genre_selection_cancel_button)
+        val genreValidateButton =
+            findViewById<Button>(R.id.track_edition_genre_selection_validate_button)
         val ratingEditText = findViewById<EditText>(R.id.track_edition_rating_editText)
         val languageEditText = findViewById<EditText>(R.id.track_edition_language_editText)
         val durationTextView = findViewById<TextView>(R.id.track_edition_duration_textView)
@@ -54,12 +61,20 @@ class TrackEditionActivity : AppCompatActivity() {
         titleEditText.setText(libraryTrack.title)
         artistEditText.setText(libraryTrack.artist)
         albumEditText.setText(libraryTrack.album)
-        genreEditText.setText(libraryTrack.genre)
+        genreSelectButton.setText(libraryTrack.genre)
         ratingEditText.setText("" + libraryTrack.rating)
         languageEditText.setText(libraryTrack.language)
         durationTextView.text = libraryTrack.duration
         releasedOnEditText.setText(libraryTrack.releasedOn)
         addedOnTextView.text = libraryTrack.addedOn
+
+        genreSelectButton.setOnClickListener {
+            genreLayout.visibility = View.VISIBLE
+        }
+
+        genreCancelButton.setOnClickListener {
+            genreLayout.visibility = View.GONE
+        }
 
         saveButton.setOnClickListener {
             libraryTrackViewModel.update(
@@ -67,7 +82,7 @@ class TrackEditionActivity : AppCompatActivity() {
                 titleEditText.text.toString(),
                 artistEditText.text.toString(),
                 albumEditText.text.toString(),
-                genreEditText.text.toString(),
+                genreSelectButton.text.toString(),
                 Integer.parseInt(ratingEditText.text.toString()),
                 languageEditText.text.toString()
             )

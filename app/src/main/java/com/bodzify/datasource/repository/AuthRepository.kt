@@ -16,13 +16,9 @@ class AuthRepository @Inject constructor(
     val jwtTokenGivenLiveData: LiveData<JwtToken>
         get() = jwtTokenGivenMutableLiveData
 
-    suspend fun login(
-        username: String,
-        password: String
-    ) = safeApiCall {
+    suspend fun login(username: String, password: String) = safeApiCall {
         jwtTokenGivenMutableLiveData.postValue(api.login(username, password))
     }
-
     suspend fun saveAccessTokens(accessToken: String) {
         userPreferences.saveAccessToken(accessToken)
     }

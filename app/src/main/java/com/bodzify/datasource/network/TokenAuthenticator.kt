@@ -16,8 +16,8 @@ class TokenAuthenticator @Inject constructor(
     private val tokenApi: TokenRefreshApi
 ) : Authenticator, BaseRepository(tokenApi) {
 
-    private val appContext = context.applicationContext
-    private val userPreferences = SessionManager(appContext)
+    private val applicationContext = context.applicationContext
+    private val userPreferences = SessionManager(applicationContext)
 
     override fun authenticate(route: Route?, response: Response): Request? {
         return runBlocking {
@@ -30,7 +30,11 @@ class TokenAuthenticator @Inject constructor(
                             "Bearer ${accessToken.value.access}")
                         .build()
                 }
-                else -> null
+                else -> {
+                    SessionManager(applicationContext).endSession()
+                    logout()
+                    null
+                }
             }
         }
     }
