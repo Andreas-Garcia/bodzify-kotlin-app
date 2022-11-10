@@ -73,9 +73,9 @@ class MainActivity : AppCompatActivity() {
             createFragmentForTrack(libraryTrack, true)
         })
 
-        logoutViewModel.logoutPerformedLiveData.observe(this, Observer {
-            startLogin(SessionManager(this))
-        })
+        logoutViewModel.observeLogoutPerformed(this) {
+            startMain()
+        }
     }
 
     private fun createFragmentForTrack(libraryTrack: LibraryTrack, toPause: Boolean) {
