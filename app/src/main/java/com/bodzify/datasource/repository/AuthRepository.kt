@@ -9,8 +9,8 @@ import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
     private val api: AuthApi,
-    private val userPreferences: SessionManager
-) : BaseRepository(api) {
+    sessionManager: SessionManager
+) : BaseRepository(api, sessionManager) {
 
     val jwtTokenGivenMutableLiveData = MutableLiveData<JwtToken>()
     val jwtTokenGivenLiveData: LiveData<JwtToken>
@@ -20,6 +20,6 @@ class AuthRepository @Inject constructor(
         jwtTokenGivenMutableLiveData.postValue(api.login(username, password))
     }
     suspend fun saveAccessTokens(accessToken: String) {
-        userPreferences.saveAccessToken(accessToken)
+        sessionManager.saveAccessToken(accessToken)
     }
 }

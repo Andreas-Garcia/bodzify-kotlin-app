@@ -1,8 +1,8 @@
 package com.bodzify.datasource.network.api
 
-import android.content.Context
 import com.bodzify.BuildConfig
 import com.bodzify.datasource.network.TokenAuthenticator
+import com.bodzify.session.SessionManager
 import okhttp3.Authenticator
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,9 +19,9 @@ class RemoteDataSource {
 
     fun <Api> buildApi(
         api: Class<Api>,
-        context: Context
+        sessionManager: SessionManager
     ): Api {
-        val authenticator = TokenAuthenticator(context, buildTokenApi())
+        val authenticator = TokenAuthenticator(buildTokenApi(), sessionManager)
         return Retrofit.Builder()
             .baseUrl(BASE_URL_WITH_API_VERSION)
             .client(getRetrofitClient(authenticator))

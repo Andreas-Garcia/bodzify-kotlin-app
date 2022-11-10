@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
 
-    val jwtTokenGiven: LiveData<JwtToken> = repository.jwtTokenGivenMutableLiveData
+    val jwtTokenGiven: LiveData<JwtToken> = repository.jwtTokenGivenLiveData
 
     fun login(username: String, password: String) = viewModelScope.launch {
         repository.login(username, password)

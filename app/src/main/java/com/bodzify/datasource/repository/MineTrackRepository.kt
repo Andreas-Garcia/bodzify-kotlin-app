@@ -11,8 +11,8 @@ import javax.inject.Inject
 
 class MineTrackRepository @Inject constructor(
     private val api: MineTrackApi,
-    private val userPreferences: SessionManager
-) : BaseRepository(api) {
+    sessionManager: SessionManager
+) : BaseRepository(api, sessionManager) {
 
     private val mineTracksMutableLiveData = MutableLiveData<MutableList<MineTrack>?>()
     val mineTracksDugLiveData: LiveData<MutableList<MineTrack>?>
@@ -20,7 +20,7 @@ class MineTrackRepository @Inject constructor(
 
     suspend fun dig(query: String) = safeApiCall {
         mineTracksMutableLiveData.postValue(api.dig(
-            authorization = userPreferences.getUser()!!.jwtToken.authorization,
+            authorization = sessionManager.getUser()!!.jwtToken.authorization,
             query = query
         ).body()!!.results)
     }
@@ -31,7 +31,7 @@ class MineTrackRepository @Inject constructor(
 
     suspend fun extract(mineTrack: MineTrack) = safeApiCall {
         mineTrackExtractedMutableLiveData.postValue(api.extract(
-            userPreferences.getUser()!!.jwtToken.authorization,
+            sessionManager.getUser()!!.jwtToken.authorization,
             MineTrackDownloadRequestDto(mineTrack)
         ).body())
     }

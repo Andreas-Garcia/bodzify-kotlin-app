@@ -10,8 +10,8 @@ import javax.inject.Inject
 
 class LibraryTrackRepository @Inject constructor(
     private val api: LibraryTrackApi,
-    private val userPreferences: SessionManager
-) : BaseRepository(api) {
+    sessionManager: SessionManager
+) : BaseRepository(api, sessionManager) {
 
     private val libraryTracksMutableLiveData = MutableLiveData<MutableList<LibraryTrack>?>()
     val libraryTracksLiveData: LiveData<MutableList<LibraryTrack>?>
@@ -19,7 +19,7 @@ class LibraryTrackRepository @Inject constructor(
 
     suspend fun search() = safeApiCall {
         libraryTracksMutableLiveData.postValue(
-            api.search(userPreferences.getUser()!!.jwtToken.authorization).body()!!.results)
+            api.search(sessionManager.getUser()!!.jwtToken.authorization).body()!!.results)
     }
 
     private val libraryTrackMutableLiveData = MutableLiveData<LibraryTrack>()
@@ -28,7 +28,7 @@ class LibraryTrackRepository @Inject constructor(
 
     suspend fun retrieve(trackUuid: String) = safeApiCall {
         libraryTrackMutableLiveData.postValue(api.retrieve(
-            userPreferences.getUser()!!.jwtToken.authorization,
+            sessionManager.getUser()!!.jwtToken.authorization,
             trackUuid
         ).body())
     }
@@ -47,7 +47,7 @@ class LibraryTrackRepository @Inject constructor(
         language: String?)
     = safeApiCall {
         libraryTrackUpdatedMutableLiveData.postValue(api.update(
-            userPreferences.getUser()!!.jwtToken.authorization,
+            sessionManager.getUser()!!.jwtToken.authorization,
             uuid,
             LibraryTrackUpdateRequestDto(
                 title = title,

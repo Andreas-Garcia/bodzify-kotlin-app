@@ -17,22 +17,24 @@ import kotlinx.coroutines.SupervisorJob
 class AppApplication: Application() {
     private val applicationScope = CoroutineScope(SupervisorJob())
     private val database by lazy { AppRoomDatabase.getDatabase(this, applicationScope) }
+    private val sessionManager by lazy { SessionManager(applicationContext)}
     val playRepository by lazy { PlayRepository(database.playDao()) }
     val libraryTrackRepository by lazy {
         LibraryTrackRepository(
-            RemoteDataSource().buildApi(LibraryTrackApi::class.java, applicationContext),
-            SessionManager(applicationContext)
+            RemoteDataSource().buildApi(LibraryTrackApi::class.java, sessionManager),
+            sessionManager
         )
     }
     val mineTrackRepository by lazy {
         MineTrackRepository(
-            RemoteDataSource().buildApi(MineTrackApi::class.java, applicationContext),
-            SessionManager(applicationContext)
+            RemoteDataSource().buildApi(MineTrackApi::class.java, sessionManager),
+            sessionManager
         )
     }
     val authRepository by lazy {
         AuthRepository(
-            RemoteDataSource().buildApi(AuthApi::class.java, applicationContext),
-            SessionManager(applicationContext))
+            RemoteDataSource().buildApi(AuthApi::class.java, sessionManager),
+            sessionManager
+        )
     }
 }

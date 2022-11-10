@@ -1,5 +1,4 @@
 package com.bodzify.datasource.network
-import android.content.Context
 import com.bodzify.datasource.network.api.TokenRefreshApi
 import com.bodzify.datasource.repository.BaseRepository
 import com.bodzify.model.AccessToken
@@ -12,18 +11,15 @@ import okhttp3.Route
 import javax.inject.Inject
 
 class TokenAuthenticator @Inject constructor(
-    context: Context,
-    private val tokenApi: TokenRefreshApi
-) : Authenticator, BaseRepository(tokenApi) {
-
-    private val applicationContext = context.applicationContext
-    private val userPreferences = SessionManager(applicationContext)
+    private val tokenApi: TokenRefreshApi,
+    sessionManager: SessionManager
+) : Authenticator, BaseRepository(tokenApi, sessionManager) {
 
     override fun authenticate(route: Route?, response: Response): Request? {
         return runBlocking {
             when (val accessToken = getUpdatedToken()) {
                 is Resource.Success -> {
-                    userPreferences.saveAccessToken(accessToken.value.access)
+                    sessionManager.saveAccessToken(accessToken.value.access)
                     response.request.newBuilder()
                         .header(
                             "Authorization",
@@ -31,7 +27,6 @@ class TokenAuthenticator @Inject constructor(
                         .build()
                 }
                 else -> {
-                    SessionManager(applicationContext).endSession()
                     logout()
                     null
                 }
@@ -40,7 +35,7 @@ class TokenAuthenticator @Inject constructor(
     }
 
     private suspend fun getUpdatedToken(): Resource<AccessToken> {
-        val refreshToken = userPreferences.getUser()!!.jwtToken.refresh
+        val refreshToken = sessionManager.getUser()!!.jwtToken.refresh
         return safeApiCall { tokenApi.refreshAccessToken(refreshToken) }
     }
 

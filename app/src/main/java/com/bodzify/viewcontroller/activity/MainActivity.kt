@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-        displayLoginOrMain()
+        displayLoginOrHome()
 
         playViewModel.lastPlay.observeOnce(this, Observer {
                 play ->
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         logoutViewModel.observeLogoutPerformed(this) {
-            startMain()
+            displayLoginOrHome()
         }
     }
 
@@ -86,12 +86,12 @@ class MainActivity : AppCompatActivity() {
         ).commit()
     }
 
-    private fun displayLoginOrMain() {
+    private fun displayLoginOrHome() {
         val sessionManager = SessionManager(this)
         if(!sessionManager.isLoggedIn())
             startLogin(sessionManager)
         else
-            startMain()
+            startHome()
     }
 
     private fun startLogin(sessionManager: SessionManager) {
@@ -104,13 +104,13 @@ class MainActivity : AppCompatActivity() {
                 authViewModel.jwtTokenGiven.observe(this) {
                     jwtToken ->
                     sessionManager.startSession(User(username, password, jwtToken))
-                    startMain()
+                    startHome()
                 }
             }
         }
     }
 
-    private fun startMain() {
+    private fun startHome() {
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.beginTransaction().replace(
