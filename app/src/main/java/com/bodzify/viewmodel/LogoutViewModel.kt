@@ -13,10 +13,14 @@ class LogoutViewModel(private val baseRepositories: MutableList<BaseRepository>)
         baseRepositories[0].logout()
     }
 
-    fun observeLogoutPerformed(lifecycleOwner: LifecycleOwner, observer: Observer<Boolean>) {
+    fun endSession() {
+        baseRepositories[0].endSession()
+    }
+
+    fun observeOnceLogoutPerformed(lifecycleOwner: LifecycleOwner, observer: Observer<Boolean>) {
         logoutPerformedLiveData.observe(lifecycleOwner, observer)
         for(baseRepository in baseRepositories) {
-            baseRepository.logoutPerformedLiveData.observe(lifecycleOwner) {
+            baseRepository.logoutPerformedLiveData.observeOnce(lifecycleOwner) {
                 logoutPerformedMutableLiveData.postValue(true)
             }
         }

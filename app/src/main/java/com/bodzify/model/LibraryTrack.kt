@@ -12,7 +12,7 @@ data class LibraryTrack (
     val title: String?,
     val artist: String?,
     val album: String?,
-    val genre: String?,
+    var genre: Genre?,
     val duration: String,
     val rating: Int?,
     val language: String?,

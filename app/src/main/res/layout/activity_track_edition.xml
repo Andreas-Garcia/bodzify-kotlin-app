@@ -281,16 +281,17 @@
         android:background="?attr/colorBackgroundFloating">
 
         <SearchView
+            android:id="@+id/track_edition_genre_selection_searchview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </SearchView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/track_edition_genre_selection_recycleview"
+        <ListView
+            android:id="@+id/track_edition_genre_selection_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
-        </androidx.recyclerview.widget.RecyclerView>
+        </ListView>
 
         <LinearLayout
             android:layout_width="match_parent"

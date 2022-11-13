@@ -14,8 +14,11 @@ open class BaseRepository (private val api: BaseApi,
         get() = logoutPerformedMutableLiveData
 
     suspend fun logout() = safeApiCall {
-        sessionManager.endSession()
-        logoutPerformedMutableLiveData.postValue(true)
         api.logout()
+    }
+
+    fun endSession() {
+        logoutPerformedMutableLiveData.postValue(true)
+        sessionManager.endSession()
     }
 }

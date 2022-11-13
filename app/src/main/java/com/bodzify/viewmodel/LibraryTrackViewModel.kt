@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class LibraryTrackViewModel(private val repository: LibraryTrackRepository) : ViewModel() {
 
     val libraryTracksSearched: LiveData<MutableList<LibraryTrack>?> =
-        repository.libraryTracksLiveData
+        repository.libraryTracksSearchedLiveData
     val libraryTrackRetrieved: LiveData<LibraryTrack> = repository.libraryTrackRetrievedLiveData
     val libraryTrackUpdated: LiveData<LibraryTrack> = repository.libraryTrackUpdatedLiveData
 

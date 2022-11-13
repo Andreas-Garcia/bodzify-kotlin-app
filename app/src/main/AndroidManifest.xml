@@ -21,22 +21,26 @@
         android:theme="@style/Theme.bodzify"
         tools:targetApi="31">
         <activity
+            android:name="com.bodzify.viewcontroller.activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity
             android:name="com.bodzify.viewcontroller.activity.PlayerActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name="com.bodzify.viewcontroller.activity.TrackEditionActivity"
             android:screenOrientation="portrait"
-            android:exported="false"
-            android:theme="@style/Theme.bodzify.NoActionBar" />
+            android:exported="false" />
         <activity
-            android:name="com.bodzify.viewcontroller.activity.MainActivity"
+            android:name="com.bodzify.viewcontroller.activity.HomeActivity"
             android:screenOrientation="portrait"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
     </application>
 

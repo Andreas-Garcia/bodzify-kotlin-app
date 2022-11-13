@@ -27,6 +27,7 @@ class TokenAuthenticator @Inject constructor(
                         .build()
                 }
                 else -> {
+                    endSession()
                     logout()
                     null
                 }

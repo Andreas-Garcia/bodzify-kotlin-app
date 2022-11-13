@@ -22,7 +22,7 @@ class SettingsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireView().findViewById<Button>(R.id.logout_button).setOnClickListener {
-            sessionManager.endSession()
+            logoutViewModel.endSession()
             logoutViewModel.logout()
         }
     }

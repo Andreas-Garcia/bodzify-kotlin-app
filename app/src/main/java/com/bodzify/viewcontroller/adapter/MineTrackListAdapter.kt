@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.bodzify.R
 import com.bodzify.model.MineTrack
 import com.bodzify.session.SessionManager
-import com.bodzify.viewcontroller.activity.MainActivity
+import com.bodzify.viewcontroller.activity.HomeActivity
 import com.bodzify.viewmodel.MineTrackViewModel
 import com.bodzify.viewmodel.util.observeOnce
 
@@ -33,7 +33,7 @@ class MineTrackListAdapter(private val activity: Activity,
 
         downloadButton.setOnClickListener {
             mineTrackViewModel.extract(mineTrack)
-            mineTrackViewModel.mineTrackExtracted.observeOnce(activity as MainActivity) {
+            mineTrackViewModel.mineTrackExtracted.observeOnce(activity as HomeActivity) {
                 // TODO
             }
         }
