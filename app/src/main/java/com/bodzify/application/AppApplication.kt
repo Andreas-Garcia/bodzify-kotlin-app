@@ -1,14 +1,8 @@
 package com.bodzify.application
 
 import android.app.Application
-import com.bodzify.datasource.network.api.AuthApi
-import com.bodzify.datasource.network.api.LibraryTrackApi
-import com.bodzify.datasource.network.api.MineTrackApi
-import com.bodzify.datasource.network.api.RemoteDataSource
-import com.bodzify.datasource.repository.AuthRepository
-import com.bodzify.datasource.repository.LibraryTrackRepository
-import com.bodzify.datasource.repository.MineTrackRepository
-import com.bodzify.datasource.repository.PlayRepository
+import com.bodzify.datasource.network.api.*
+import com.bodzify.datasource.repository.*
 import com.bodzify.datasource.storage.database.AppRoomDatabase
 import com.bodzify.session.SessionManager
 import kotlinx.coroutines.CoroutineScope
@@ -28,6 +22,12 @@ class AppApplication: Application() {
     val mineTrackRepository by lazy {
         MineTrackRepository(
             RemoteDataSource().buildApi(MineTrackApi::class.java, sessionManager),
+            sessionManager
+        )
+    }
+    val genreRepository by lazy {
+        GenreRepository(
+            RemoteDataSource().buildApi(GenreApi::class.java, sessionManager),
             sessionManager
         )
     }

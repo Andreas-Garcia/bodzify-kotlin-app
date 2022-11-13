@@ -13,21 +13,21 @@ class LibraryTrackRepository @Inject constructor(
     sessionManager: SessionManager
 ) : BaseRepository(api, sessionManager) {
 
-    private val libraryTracksMutableLiveData = MutableLiveData<MutableList<LibraryTrack>?>()
-    val libraryTracksLiveData: LiveData<MutableList<LibraryTrack>?>
-        get() = libraryTracksMutableLiveData
+    private val libraryTracksSearchedMutableLiveData = MutableLiveData<MutableList<LibraryTrack>?>()
+    val libraryTracksSearchedLiveData: LiveData<MutableList<LibraryTrack>?>
+        get() = libraryTracksSearchedMutableLiveData
 
     suspend fun search() = safeApiCall {
-        libraryTracksMutableLiveData.postValue(
+        libraryTracksSearchedMutableLiveData.postValue(
             api.search(sessionManager.getUser()!!.jwtToken.authorization).body()!!.results)
     }
 
-    private val libraryTrackMutableLiveData = MutableLiveData<LibraryTrack>()
+    private val libraryTrackRetrievedMutableLiveData = MutableLiveData<LibraryTrack>()
     val libraryTrackRetrievedLiveData: LiveData<LibraryTrack>
-        get() = libraryTrackMutableLiveData
+        get() = libraryTrackRetrievedMutableLiveData
 
     suspend fun retrieve(trackUuid: String) = safeApiCall {
-        libraryTrackMutableLiveData.postValue(api.retrieve(
+        libraryTrackRetrievedMutableLiveData.postValue(api.retrieve(
             sessionManager.getUser()!!.jwtToken.authorization,
             trackUuid
         ).body())

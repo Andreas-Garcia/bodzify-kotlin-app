@@ -6,12 +6,14 @@ import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.bodzify.R
 import com.bodzify.application.AppApplication
 import com.bodzify.datasource.network.api.RemoteDataSource
 import com.bodzify.model.LibraryTrack
 import com.bodzify.session.SessionManager
+import com.bodzify.viewcontroller.adapter.GenreListAdapter
+import com.bodzify.viewmodel.GenreViewModel
+import com.bodzify.viewmodel.GenreViewModelFactory
 import com.bodzify.viewmodel.LibraryTrackViewModel
 import com.bodzify.viewmodel.LibraryTrackViewModelFactory
 import com.bodzify.viewmodel.util.observeOnce
@@ -24,6 +26,10 @@ class TrackEditionActivity : AppCompatActivity() {
 
     private val libraryTrackViewModel: LibraryTrackViewModel by viewModels {
         LibraryTrackViewModelFactory((application as AppApplication).libraryTrackRepository)
+    }
+
+    private val genreViewModel: GenreViewModel by viewModels {
+        GenreViewModelFactory((application as AppApplication).genreRepository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,13 +46,6 @@ class TrackEditionActivity : AppCompatActivity() {
         val artistEditText = findViewById<EditText>(R.id.track_edition_artist_editText)
         val albumEditText = findViewById<EditText>(R.id.track_edition_album_editText)
         val genreSelectButton = findViewById<Button>(R.id.track_edition_genre_select_button)
-        val genreLayout = findViewById<LinearLayout>(R.id.track_edition_genre_selection_layout)
-        val genreSelectionRecycleView =
-            findViewById<RecyclerView>(R.id.track_edition_genre_selection_recycleview)
-        val genreCancelButton =
-            findViewById<Button>(R.id.track_edition_genre_selection_cancel_button)
-        val genreValidateButton =
-            findViewById<Button>(R.id.track_edition_genre_selection_validate_button)
         val ratingEditText = findViewById<EditText>(R.id.track_edition_rating_editText)
         val languageEditText = findViewById<EditText>(R.id.track_edition_language_editText)
         val durationTextView = findViewById<TextView>(R.id.track_edition_duration_textView)
@@ -55,13 +54,24 @@ class TrackEditionActivity : AppCompatActivity() {
         val cancelButton = findViewById<TextView>(R.id.track_edition_cancel_button)
         val saveButton = findViewById<TextView>(R.id.track_edition_save_button)
 
-        val libraryTrack = Json.decodeFromString<LibraryTrack>(intent.getStringExtra(EXTRA_MESSAGE)!!)
+        val genreLayout = findViewById<LinearLayout>(R.id.track_edition_genre_selection_layout)
+        val genreSelectionSearchView =
+            findViewById<SearchView>(R.id.track_edition_genre_selection_searchview)
+        val genreSelectionListView =
+            findViewById<ListView>(R.id.track_edition_genre_selection_listview)
+        val genreCancelButton =
+            findViewById<Button>(R.id.track_edition_genre_selection_cancel_button)
+        val genreValidateButton =
+            findViewById<Button>(R.id.track_edition_genre_selection_validate_button)
+
+        val libraryTrack =
+            Json.decodeFromString<LibraryTrack>(intent.getStringExtra(EXTRA_MESSAGE)!!)
         filenameTextView.text = libraryTrack.filename
         urlTextView.text = RemoteDataSource.BASE_URL_WITH_API_VERSION + libraryTrack.relativeUrl
         titleEditText.setText(libraryTrack.title)
         artistEditText.setText(libraryTrack.artist)
         albumEditText.setText(libraryTrack.album)
-        genreSelectButton.setText(libraryTrack.genre)
+        genreSelectButton.text = libraryTrack.genre?:"Select"
         ratingEditText.setText("" + libraryTrack.rating)
         languageEditText.setText(libraryTrack.language)
         durationTextView.text = libraryTrack.duration
@@ -69,6 +79,7 @@ class TrackEditionActivity : AppCompatActivity() {
         addedOnTextView.text = libraryTrack.addedOn
 
         genreSelectButton.setOnClickListener {
+            genreViewModel.search(null)
             genreLayout.visibility = View.VISIBLE
         }
 
@@ -86,10 +97,32 @@ class TrackEditionActivity : AppCompatActivity() {
                 Integer.parseInt(ratingEditText.text.toString()),
                 languageEditText.text.toString()
             )
+
             libraryTrackViewModel.libraryTrackUpdated.observeOnce(this){
                     libraryTrack: LibraryTrack ->
                 // TODO
             }
         }
+
+        genreViewModel.genresSearched.observe(this) {
+                genres ->
+            genreSelectionListView.adapter = GenreListAdapter(
+                this,
+                sessionManager,
+                genres?: arrayListOf(),
+                genreViewModel
+            )
+        }
+
+        genreSelectionSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(nameFilter: String?): Boolean {
+                genreViewModel.search(nameFilter)
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                return true
+            }
+        })
     }
 }

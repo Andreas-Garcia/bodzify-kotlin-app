@@ -18,6 +18,7 @@
         <entry key="app/src/main/res/layout/fragment_overlay_player.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_playing_song.xml" value="0.16875" />
+        <entry key="app/src/main/res/layout/list_view_item_genre.xml" value="0.16875" />
         <entry key="app/src/main/res/layout/list_view_item_library_song.xml" value="0.16875" />
         <entry key="app/src/main/res/layout/list_view_item_library_track.xml" value="0.16875" />
         <entry key="app/src/main/res/layout/list_view_item_mine_song.xml" value="0.16875" />

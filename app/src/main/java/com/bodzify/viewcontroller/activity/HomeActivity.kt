@@ -2,8 +2,6 @@ package com.bodzify.viewcontroller.activity
 
 import android.os.Build
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +11,6 @@ import com.bodzify.R
 import com.bodzify.application.AppApplication
 import com.bodzify.datasource.repository.BaseRepository
 import com.bodzify.model.LibraryTrack
-import com.bodzify.model.User
 import com.bodzify.session.SessionManager
 import com.bodzify.viewcontroller.fragment.DigFragment
 import com.bodzify.viewcontroller.fragment.LibraryFragment
@@ -23,16 +20,13 @@ import com.bodzify.viewmodel.*
 import com.bodzify.viewmodel.util.observeOnce
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
 
-    private lateinit var sessionManager: SessionManager
+    private val sessionManager by lazy {SessionManager(this)}
 
     private val playerViewModel: PlayerViewModel by viewModels()
     private val playViewModel: PlayViewModel by viewModels {
         PlayViewModelFactory((application as AppApplication).playRepository)
-    }
-    private val authViewModel: AuthViewModel by viewModels {
-        AuthViewModelFactory((application as AppApplication).authRepository)
     }
     private val libraryTrackViewModel: LibraryTrackViewModel by viewModels {
         LibraryTrackViewModelFactory((application as AppApplication).libraryTrackRepository)
@@ -52,9 +46,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        sessionManager = SessionManager(this)
+        setContentView(R.layout.activity_main)
+        setUpBottomNavigationMenu()
 
-        displayLoginOrHome()
+        supportFragmentManager.beginTransaction().replace(
+            R.id.main_fragment_container,
+            LibraryFragment(libraryTrackViewModel)
+        ).commit()
 
         playViewModel.lastPlay.observeOnce(this, Observer {
                 play ->
@@ -62,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                 libraryTrackViewModel.retrieve(play.trackUuid)
                 libraryTrackViewModel.libraryTrackRetrieved.observeOnce(this) {
                     libraryTrack ->
-                    createFragmentForTrack(libraryTrack, false)
+                    createPlayerOverlayFragment(libraryTrack, false)
                 }
             }
         })
@@ -70,55 +68,20 @@ class MainActivity : AppCompatActivity() {
         playerViewModel.trackSelectedLiveData.observe(this, Observer {
             libraryTrack ->
             playViewModel.insert(libraryTrack)
-            createFragmentForTrack(libraryTrack, true)
+            createPlayerOverlayFragment(libraryTrack, true)
         })
 
-        logoutViewModel.observeLogoutPerformed(this) {
-            displayLoginOrHome()
+        logoutViewModel.observeOnceLogoutPerformed(this) {
+            finish()
         }
     }
 
-    private fun createFragmentForTrack(libraryTrack: LibraryTrack, toPause: Boolean) {
+    private fun createPlayerOverlayFragment(libraryTrack: LibraryTrack, toPause: Boolean) {
         val playerOverlayFragment = PlayerOverlayFragment(libraryTrack, toPause)
         supportFragmentManager.beginTransaction().replace(
             R.id.player_overlay_fragment_container,
             playerOverlayFragment
         ).commit()
-    }
-
-    private fun displayLoginOrHome() {
-        val sessionManager = SessionManager(this)
-        if(!sessionManager.isLoggedIn())
-            startLogin(sessionManager)
-        else
-            startHome()
-    }
-
-    private fun startLogin(sessionManager: SessionManager) {
-        setContentView(R.layout.activity_login)
-        findViewById<Button>(R.id.login_button).setOnClickListener {
-            val username = findViewById<EditText>(R.id.login_username_edit_text).text.toString()
-            val password = findViewById<EditText>(R.id.login_password_edit_text).text.toString()
-            if(credentialsValid()) {
-                authViewModel.login(username, password)
-                authViewModel.jwtTokenGiven.observe(this) {
-                    jwtToken ->
-                    sessionManager.startSession(User(username, password, jwtToken))
-                    startHome()
-                }
-            }
-        }
-    }
-
-    private fun startHome() {
-        setContentView(R.layout.activity_main)
-
-        supportFragmentManager.beginTransaction().replace(
-            R.id.main_fragment_container,
-            LibraryFragment(libraryTrackViewModel)
-        ).commit()
-
-        setUpBottomNavigationMenu()
     }
 
     private fun setUpBottomNavigationMenu() {
@@ -142,10 +105,5 @@ class MainActivity : AppCompatActivity() {
             ).commit()
             return@setOnItemSelectedListener true
         }
-    }
-
-    private fun credentialsValid(): Boolean {
-        //TODO
-        return true
     }
 }
