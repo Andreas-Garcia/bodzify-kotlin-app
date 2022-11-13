@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bodzify.R
-import com.bodzify.model.LibraryTrack
 import com.bodzify.datasource.network.api.RemoteDataSource
+import com.bodzify.model.LibraryTrack
 
 class PlayerOverlayFragment(
-    private val libraryTrack: LibraryTrack,
+    private val track: LibraryTrack,
     private val toPlay: Boolean
 ) : BaseFragment() {
     private lateinit var artistTextView: TextView
@@ -39,9 +39,9 @@ class PlayerOverlayFragment(
         playPauseImageView = requireView()
             .findViewById<ImageView>(R.id.player_overlay_play_pause_imageView)
 
-        titleTextView.text = libraryTrack.title
-        artistTextView.text = libraryTrack.artist
-        genreTextView.text = libraryTrack.genre
+        titleTextView.text = track.title
+        artistTextView.text = track.artist
+        if(track.genre != null) genreTextView.text = track.genre!!.name
 
         mediaPlayer = MediaPlayer().apply {
             setAudioAttributes(
@@ -51,7 +51,7 @@ class PlayerOverlayFragment(
                     .build()
             )
             setDataSource(
-                RemoteDataSource.BASE_URL_WITH_API_VERSION + libraryTrack.relativeUrl + "download/")
+                RemoteDataSource.BASE_URL_WITH_API_VERSION + track.relativeUrl + "download/")
             prepare()
             start()
             pause()

@@ -22,4 +22,12 @@ class GenreRepository @Inject constructor(
             name = nameFilter
         ).body()!!.results)
     }
+
+    private val genreSelectedMutableLiveData = MutableLiveData<Genre>()
+    val genreSelectedLiveData: LiveData<Genre>
+        get() = genreSelectedMutableLiveData
+
+    fun select(genre: Genre) {
+        genreSelectedMutableLiveData.postValue(genre)
+    }
 }

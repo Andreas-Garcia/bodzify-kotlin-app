@@ -16,10 +16,10 @@ import kotlinx.serialization.json.Json
 
 class LibraryTrackListAdapter(
     private val activity: Activity,
-    private val libraryTracks: MutableList<LibraryTrack>,
+    private val tracks: MutableList<LibraryTrack>,
     private val playerViewModel: PlayerViewModel
 )
-    : ArrayAdapter<LibraryTrack>(activity, R.layout.list_view_item_library_track, libraryTracks) {
+    : ArrayAdapter<LibraryTrack>(activity, R.layout.list_view_item_library_track, tracks) {
 
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         val rowView = activity.layoutInflater
@@ -33,10 +33,10 @@ class LibraryTrackListAdapter(
         val editImageView = rowView.findViewById<ImageView>(R.id.library_track_edit_imageView)
         val playableLayout = rowView.findViewById<LinearLayout>(R.id.library_track_playable_layout)
 
-        val libraryTrack: LibraryTrack = libraryTracks[position]
-        artistTextView.text = libraryTrack.artist
-        titleTextView.text = libraryTrack.title
-        genreTextView.text = libraryTrack.genre
+        val track: LibraryTrack = tracks[position]
+        artistTextView.text = track.artist
+        titleTextView.text = track.title
+        if(track.genre != null) genreTextView.text = track.genre!!.name
 
         syncButton.setOnClickListener {
             //TODO
@@ -45,12 +45,12 @@ class LibraryTrackListAdapter(
         editImageView.setOnClickListener {
             val intent = Intent(
                 this@LibraryTrackListAdapter.context, TrackEditionActivity::class.java)
-            intent.putExtra(EXTRA_MESSAGE, Json.encodeToString(libraryTrack))
+            intent.putExtra(EXTRA_MESSAGE, Json.encodeToString(track))
             startActivity(this.context, intent, null)
         }
 
         playableLayout.setOnClickListener {
-            playerViewModel.selectTrack(libraryTrack)
+            playerViewModel.selectTrack(track)
         }
         return rowView
     }

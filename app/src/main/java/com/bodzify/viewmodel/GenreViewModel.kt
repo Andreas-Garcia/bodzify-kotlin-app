@@ -15,6 +15,12 @@ class GenreViewModel(private val repository: GenreRepository) : ViewModel() {
     fun search(nameFilter: String?) = viewModelScope.launch {
         repository.search(nameFilter)
     }
+
+    val genreSelected: LiveData<Genre> = repository.genreSelectedLiveData
+
+    fun select(genre: Genre) {
+        repository.select(genre)
+    }
 }
 
 class GenreViewModelFactory(private val repository: GenreRepository)

@@ -46,4 +46,5 @@
     <string name="error_empty_response_message">The response is empty.</string>
     <string name="validate">Validate</string>
     <string name="select">Select</string>
+    <string name="Select">Select</string>
 </resources>

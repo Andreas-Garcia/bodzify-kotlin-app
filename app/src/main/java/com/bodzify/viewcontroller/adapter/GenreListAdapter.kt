@@ -26,10 +26,7 @@ class GenreListAdapter(private val activity: Activity,
         genreTextView.text = genre.name
 
         rowView.setOnClickListener {
-            /*mineTrackViewModel.extract(mineTrack)
-            mineTrackViewModel.mineTrackExtracted.observeOnce(activity as HomeActivity) {
-                // TODO
-            }*/
+            genreViewModel.select(genre)
         }
 
         return rowView
