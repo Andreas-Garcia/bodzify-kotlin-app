@@ -60,7 +60,9 @@ class HomeActivity : AppCompatActivity() {
                 libraryTrackViewModel.retrieve(play.trackUuid)
                 libraryTrackViewModel.libraryTrackRetrieved.observeOnce(this) {
                     libraryTrack ->
-                    createPlayerOverlayFragment(libraryTrack, false)
+                    if(libraryTrack != null) {
+                        createPlayerOverlayFragment(libraryTrack, false)
+                    }
                 }
             }
         })

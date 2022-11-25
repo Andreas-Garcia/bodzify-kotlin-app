@@ -49,7 +49,7 @@ class RemoteDataSource {
                 authenticator?.let { client.authenticator(it) }
                 if (BuildConfig.DEBUG) {
                     val logging = HttpLoggingInterceptor()
-                    logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+                    logging.level = HttpLoggingInterceptor.Level.BODY
                     client.addInterceptor(logging)
                 }
             }.build()
