@@ -26,19 +26,30 @@ class LoginActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_login)
+
+        val user = sessionManager.getUser()
+        if(user != null) {
+            logIn(user.username, user.password)
+        }
+
         findViewById<Button>(R.id.login_button).setOnClickListener {
+
             val username = findViewById<EditText>(R.id.login_username_edit_text).text.toString()
             val password = findViewById<EditText>(R.id.login_password_edit_text).text.toString()
 
             if(credentialsValid()) {
-                authViewModel.login(username, password)
-                authViewModel.jwtTokenGiven.observe(this) {
-                    jwtToken ->
-                    sessionManager.startSession(User(username, password, jwtToken))
-                    val intent = Intent(this, HomeActivity::class.java)
-                    ContextCompat.startActivity(this, intent, null)
-                }
+                logIn(username, password)
             }
+        }
+    }
+
+    private fun logIn(username: String, password: String) {
+        authViewModel.login(username, password)
+        authViewModel.jwtTokenGiven.observe(this) {
+                jwtToken ->
+            sessionManager.startSession(User(username, password, jwtToken))
+            val intent = Intent(this, HomeActivity::class.java)
+            ContextCompat.startActivity(this, intent, null)
         }
     }
 
