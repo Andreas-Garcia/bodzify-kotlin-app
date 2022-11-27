@@ -7,6 +7,6 @@ import kotlinx.serialization.Serializable
 data class Genre (
     val uuid: String,
     val name: String,
-    val parent: String,
+    val parent: String?,
     val addedOn: String
 ) : java.io.Serializable
