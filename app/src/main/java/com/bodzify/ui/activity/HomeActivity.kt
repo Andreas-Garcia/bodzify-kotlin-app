@@ -42,6 +42,7 @@ class HomeActivity : AppCompatActivity() {
         baseRepositories.add((application as AppApplication).authRepository)
         baseRepositories.add((application as AppApplication).libraryTrackRepository)
         baseRepositories.add((application as AppApplication).mineTrackRepository)
+        baseRepositories.add((application as AppApplication).playlistRepository)
         LogoutViewModelFactory(baseRepositories)
     }
 

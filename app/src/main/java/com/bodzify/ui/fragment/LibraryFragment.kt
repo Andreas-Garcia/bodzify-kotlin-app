@@ -14,6 +14,7 @@ import com.bodzify.ui.adapter.item.PlaylistAsymmetricItem
 import com.bodzify.viewmodel.LibraryTrackViewModel
 import com.bodzify.viewmodel.PlayerViewModel
 import com.bodzify.viewmodel.PlaylistViewModel
+import com.bodzify.viewmodel.util.observeOnce
 import com.felipecsl.asymmetricgridview.library.Utils
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter
@@ -30,6 +31,17 @@ class LibraryFragment(private val libraryTrackViewModel: LibraryTrackViewModel,
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        return inflater.inflate(R.layout.fragment_library, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        libraryTracksSearchView = requireView().findViewById(R.id.library_tracks_search_view)
+        libraryTracksListView = requireView().findViewById(R.id.library_tracks_list_view)
+        playlistsAsymmetricGridView = requireView()
+            .findViewById(R.id.playlists_asymmetric_grid_view) as AsymmetricGridView
+
         libraryTrackViewModel.libraryTracksSearched.observe(viewLifecycleOwner) {
                 libraryTracks ->
             libraryTracksListView.adapter = LibraryTrackListAdapter(
@@ -37,7 +49,11 @@ class LibraryFragment(private val libraryTrackViewModel: LibraryTrackViewModel,
                 libraryTracks ?: arrayListOf(),
                 playerViewModel)
         }
-        playlistViewModel.playlistsSearched.observe(viewLifecycleOwner) {
+
+        // TODO
+        // Quickfix Observe should be used instead of ObserveOnce.
+        // An unknown issue makes the Observer called twice instead of once for each call.
+        playlistViewModel.playlistsSearched.observeOnce(viewLifecycleOwner) {
                 playlists ->
             if(playlists != null) {
                 playlistsAsymmetricGridView.setRequestedColumnWidth(Utils.dpToPx(context, 75F))
@@ -58,22 +74,8 @@ class LibraryFragment(private val libraryTrackViewModel: LibraryTrackViewModel,
                         context,
                         playlistsAsymmetricGridView,
                         adapter)
-                /*playlistsAsymmetricGridView.adapter = LibraryTrackListAdapter(
-                    requireActivity(),
-                    libraryTracks ?: arrayListOf(),
-                    playerViewModel)*/
             }
         }
-        return inflater.inflate(R.layout.fragment_library, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        libraryTracksSearchView = requireView().findViewById(R.id.library_tracks_search_view)
-        libraryTracksListView = requireView().findViewById(R.id.library_tracks_list_view)
-        playlistsAsymmetricGridView = requireView()
-            .findViewById(R.id.playlists_asymmetric_grid_view) as AsymmetricGridView
 
         libraryTracksSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
