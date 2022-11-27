@@ -16,23 +16,26 @@ class TokenAuthenticator @Inject constructor(
 ) : Authenticator, BaseRepository(tokenApi, sessionManager) {
 
     override fun authenticate(route: Route?, response: Response): Request? {
-        return runBlocking {
-            when (val accessToken = getUpdatedToken()) {
-                is Resource.Success -> {
-                    sessionManager.saveAccessToken(accessToken.value.access)
-                    response.request.newBuilder()
-                        .header(
-                            "Authorization",
-                            "Bearer ${accessToken.value.access}")
-                        .build()
-                }
-                else -> {
-                    endSession()
-                    logout()
-                    null
+        if(!response.request.url.pathSegments.contains("token")) {
+            return runBlocking {
+                when (val accessToken = getUpdatedToken()) {
+                    is Resource.Success -> {
+                        sessionManager.saveAccessToken(accessToken.value.access)
+                        response.request.newBuilder()
+                            .header(
+                                "Authorization",
+                                "Bearer ${accessToken.value.access}")
+                            .build()
+                    }
+                    else -> {
+                        endSession()
+                        logout()
+                        null
+                    }
                 }
             }
         }
+        else return null
     }
 
     private suspend fun getUpdatedToken(): Resource<AccessToken> {
