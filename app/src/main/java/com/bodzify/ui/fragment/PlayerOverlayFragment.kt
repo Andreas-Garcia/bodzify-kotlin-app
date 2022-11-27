@@ -1,4 +1,4 @@
-package com.bodzify.viewcontroller.fragment
+package com.bodzify.ui.fragment
 
 import android.media.AudioAttributes
 import android.media.MediaPlayer

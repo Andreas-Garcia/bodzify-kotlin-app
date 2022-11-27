@@ -1,4 +1,4 @@
-package com.bodzify.viewcontroller.activity
+package com.bodzify.ui.activity
 
 import android.content.Intent
 import android.os.Bundle

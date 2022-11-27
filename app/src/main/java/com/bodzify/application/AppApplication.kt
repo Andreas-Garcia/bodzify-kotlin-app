@@ -25,6 +25,12 @@ class AppApplication: Application() {
             sessionManager
         )
     }
+    val playlistRepository by lazy {
+        PlaylistRepository(
+            RemoteDataSource().buildApi(PlaylistApi::class.java, sessionManager),
+            sessionManager
+        )
+    }
     val genreRepository by lazy {
         GenreRepository(
             RemoteDataSource().buildApi(GenreApi::class.java, sessionManager),

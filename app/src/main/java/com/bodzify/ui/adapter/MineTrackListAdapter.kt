@@ -1,4 +1,4 @@
-package com.bodzify.viewcontroller.adapter
+package com.bodzify.ui.adapter
 
 import android.app.Activity
 import android.view.View
@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.bodzify.R
 import com.bodzify.model.MineTrack
 import com.bodzify.session.SessionManager
-import com.bodzify.viewcontroller.activity.HomeActivity
+import com.bodzify.ui.activity.HomeActivity
 import com.bodzify.viewmodel.MineTrackViewModel
 import com.bodzify.viewmodel.util.observeOnce
 

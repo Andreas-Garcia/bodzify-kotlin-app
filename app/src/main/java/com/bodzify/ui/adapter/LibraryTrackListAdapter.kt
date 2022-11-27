@@ -1,4 +1,4 @@
-package com.bodzify.viewcontroller.adapter
+package com.bodzify.ui.adapter
 
 import android.app.Activity
 import android.content.Intent
@@ -9,7 +9,7 @@ import android.widget.*
 import androidx.core.content.ContextCompat.startActivity
 import com.bodzify.R
 import com.bodzify.model.LibraryTrack
-import com.bodzify.viewcontroller.activity.TrackEditionActivity
+import com.bodzify.ui.activity.TrackEditionActivity
 import com.bodzify.viewmodel.PlayerViewModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

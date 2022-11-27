@@ -1,4 +1,4 @@
-package com.bodzify.viewcontroller.adapter
+package com.bodzify.ui.adapter
 
 import android.app.Activity
 import android.view.View
@@ -12,9 +12,9 @@ import com.bodzify.viewmodel.GenreViewModel
 
 class GenreListAdapter(private val activity: Activity,
                        private val sessionManager: SessionManager,
-                       private val genre: MutableList<Genre>,
+                       private val genres: MutableList<Genre>,
                        private val genreViewModel: GenreViewModel
-) : ArrayAdapter<Genre>(activity, R.layout.list_view_item_genre, genre) {
+) : ArrayAdapter<Genre>(activity, R.layout.list_view_item_genre, genres) {
 
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         val rowView = activity.layoutInflater
@@ -22,7 +22,7 @@ class GenreListAdapter(private val activity: Activity,
 
         val genreTextView = rowView.findViewById<TextView>(R.id.genre_name_textview)
 
-        val genre = genre[position]
+        val genre = genres[position]
         genreTextView.text = genre.name
 
         rowView.setOnClickListener {

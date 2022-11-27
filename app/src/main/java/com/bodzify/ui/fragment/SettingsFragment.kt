@@ -1,4 +1,4 @@
-package com.bodzify.viewcontroller.fragment
+package com.bodzify.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

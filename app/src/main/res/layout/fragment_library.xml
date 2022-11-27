@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".viewcontroller.fragment.LibraryFragment"
+    tools:context=".ui.fragment.LibraryFragment"
     android:orientation="vertical"
     android:paddingBottom="50dp">
 
@@ -28,5 +28,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/library_tracks_search_view" />
+
+    <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/playlists_asymmetric_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/purple_700"/>
 
 </LinearLayout>

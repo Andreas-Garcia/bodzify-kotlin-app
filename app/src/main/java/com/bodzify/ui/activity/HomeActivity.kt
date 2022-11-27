@@ -1,4 +1,4 @@
-package com.bodzify.viewcontroller.activity
+package com.bodzify.ui.activity
 
 import android.os.Build
 import android.os.Bundle
@@ -12,10 +12,10 @@ import com.bodzify.application.AppApplication
 import com.bodzify.datasource.repository.BaseRepository
 import com.bodzify.model.LibraryTrack
 import com.bodzify.session.SessionManager
-import com.bodzify.viewcontroller.fragment.DigFragment
-import com.bodzify.viewcontroller.fragment.LibraryFragment
-import com.bodzify.viewcontroller.fragment.PlayerOverlayFragment
-import com.bodzify.viewcontroller.fragment.SettingsFragment
+import com.bodzify.ui.fragment.DigFragment
+import com.bodzify.ui.fragment.LibraryFragment
+import com.bodzify.ui.fragment.PlayerOverlayFragment
+import com.bodzify.ui.fragment.SettingsFragment
 import com.bodzify.viewmodel.*
 import com.bodzify.viewmodel.util.observeOnce
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -30,6 +30,9 @@ class HomeActivity : AppCompatActivity() {
     }
     private val libraryTrackViewModel: LibraryTrackViewModel by viewModels {
         LibraryTrackViewModelFactory((application as AppApplication).libraryTrackRepository)
+    }
+    private val playlistViewModel: PlaylistViewModel by viewModels {
+        PlaylistViewModelFactory((application as AppApplication).playlistRepository)
     }
     private val mineTrackViewModel: MineTrackViewModel by viewModels {
         MineTrackViewModelFactory((application as AppApplication).mineTrackRepository)
@@ -51,7 +54,7 @@ class HomeActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction().replace(
             R.id.main_fragment_container,
-            LibraryFragment(libraryTrackViewModel)
+            LibraryFragment(libraryTrackViewModel, playlistViewModel)
         ).commit()
 
         playViewModel.lastPlay.observeOnce(this, Observer {
@@ -96,7 +99,7 @@ class HomeActivity : AppCompatActivity() {
             var selectedFragment: Fragment? = null
             when (menuItem.itemId) {
                 R.id.navigation_bar_item_library ->
-                    selectedFragment = LibraryFragment(libraryTrackViewModel)
+                    selectedFragment = LibraryFragment(libraryTrackViewModel, playlistViewModel)
                 R.id.navigation_bar_item_dig -> selectedFragment = DigFragment(mineTrackViewModel)
                 R.id.navigation_bar_item_settings -> selectedFragment = SettingsFragment()
             }

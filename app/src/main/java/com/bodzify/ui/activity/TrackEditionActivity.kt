@@ -1,4 +1,4 @@
-package com.bodzify.viewcontroller.activity
+package com.bodzify.ui.activity
 
 import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
@@ -12,7 +12,7 @@ import com.bodzify.datasource.network.api.RemoteDataSource
 import com.bodzify.model.Genre
 import com.bodzify.model.LibraryTrack
 import com.bodzify.session.SessionManager
-import com.bodzify.viewcontroller.adapter.GenreListAdapter
+import com.bodzify.ui.adapter.GenreListAdapter
 import com.bodzify.viewmodel.GenreViewModel
 import com.bodzify.viewmodel.GenreViewModelFactory
 import com.bodzify.viewmodel.LibraryTrackViewModel
