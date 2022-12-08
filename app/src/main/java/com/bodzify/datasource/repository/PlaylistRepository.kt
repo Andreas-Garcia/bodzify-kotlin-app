@@ -16,7 +16,7 @@ class PlaylistRepository @Inject constructor(
     val playlistsSearchedLiveData: LiveData<MutableList<Playlist>?>
         get() = playlistsSearchedMutableLiveData
 
-    suspend fun search() = safeApiCall {
+    suspend fun search(nameFilter: String?, parentFilter: String?) = safeApiCall {
         playlistsSearchedMutableLiveData.postValue(
             api.search(sessionManager.getUser()!!.jwtToken.authorization).body()!!.results)
     }

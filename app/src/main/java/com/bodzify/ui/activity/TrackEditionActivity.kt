@@ -82,7 +82,7 @@ class TrackEditionActivity : AppCompatActivity() {
         addedOnTextView.text = track.addedOn
 
         genreSelectButton.setOnClickListener {
-            genreViewModel.search(null)
+            genreViewModel.search(null, null)
             genreLayout.visibility = View.VISIBLE
         }
 
@@ -130,7 +130,7 @@ class TrackEditionActivity : AppCompatActivity() {
 
         genreSelectionSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(nameFilter: String?): Boolean {
-                genreViewModel.search(nameFilter)
+                genreViewModel.search(nameFilter, null)
                 return false
             }
 

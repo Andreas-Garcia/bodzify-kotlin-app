@@ -12,8 +12,8 @@ class GenreViewModel(private val repository: GenreRepository) : ViewModel() {
 
     val genresSearched: LiveData<MutableList<Genre>?> = repository.genresSearchedLiveData
 
-    fun search(nameFilter: String?) = viewModelScope.launch {
-        repository.search(nameFilter)
+    fun search(nameFilter: String?, parentFilter: String?) = viewModelScope.launch {
+        repository.search(nameFilter, parentFilter)
     }
 
     val genreSelected: LiveData<Genre> = repository.genreSelectedLiveData
