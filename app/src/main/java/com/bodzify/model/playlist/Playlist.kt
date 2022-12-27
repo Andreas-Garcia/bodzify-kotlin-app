@@ -1,5 +1,6 @@
 package com.bodzify.model.playlist
 import androidx.annotation.Keep
+import com.bodzify.model.LibraryTrack
 import kotlinx.serialization.Serializable
 
 @Keep
@@ -9,5 +10,6 @@ data class Playlist (
     val name: String,
     val type: PlaylistType,
     val trackCount: Int,
+    val libraryTracks: List<LibraryTrack>,
     val addedOn: String
 ) : java.io.Serializable

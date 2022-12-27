@@ -5,14 +5,16 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.bodzify.datasource.storage.dao.PlayDao
+import com.bodzify.datasource.storage.dao.PlayedPlaylistDao
+import com.bodzify.datasource.storage.dao.PlayedTrackDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Play::class], version = 5, exportSchema = false)
+@Database(entities = [PlayedTrack::class, PlayedPlaylist::class], version = 6, exportSchema = false)
 abstract class AppRoomDatabase() : RoomDatabase() {
 
-    abstract fun playDao(): PlayDao
+    abstract fun playedTrackDao(): PlayedTrackDao
+    abstract fun playedPlaylistDao(): PlayedPlaylistDao
 
     private class AppDatabaseCallback(
         private val scope: CoroutineScope

@@ -14,7 +14,7 @@ class PlaylistViewModel(private val repository: PlaylistRepository) : ViewModel(
         repository.playlistsSearchedLiveData
     val playlistRetrieved: LiveData<Playlist> = repository.playlistRetrievedLiveData
 
-    fun search(nameFilter: String?, parentFilter: String?) = viewModelScope.launch {
+    fun search(nameFilter: String? = null, parentFilter: String? = null) = viewModelScope.launch {
         repository.search(nameFilter, parentFilter)
     }
 

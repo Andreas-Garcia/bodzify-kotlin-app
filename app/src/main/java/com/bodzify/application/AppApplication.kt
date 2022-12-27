@@ -12,7 +12,8 @@ class AppApplication: Application() {
     private val applicationScope = CoroutineScope(SupervisorJob())
     private val database by lazy { AppRoomDatabase.getDatabase(this, applicationScope) }
     private val sessionManager by lazy { SessionManager(applicationContext)}
-    val playRepository by lazy { PlayRepository(database.playDao()) }
+    val playedTrackRepository by lazy { PlayedTrackRepository(database.playedTrackDao()) }
+    val playedPlaylistRepository by lazy { PlayedPlaylistRepository(database.playedPlaylistDao()) }
     val libraryTrackRepository by lazy {
         LibraryTrackRepository(
             RemoteDataSource().buildApi(LibraryTrackApi::class.java, sessionManager),
