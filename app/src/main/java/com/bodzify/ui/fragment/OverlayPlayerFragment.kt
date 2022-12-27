@@ -12,7 +12,7 @@ import com.bodzify.R
 import com.bodzify.datasource.network.api.RemoteDataSource
 import com.bodzify.model.LibraryTrack
 
-class PlayerOverlayFragment(
+class PlayerOverlayFragment (
     private val track: LibraryTrack,
     private val toPlay: Boolean
 ) : BaseFragment() {
