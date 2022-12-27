@@ -91,13 +91,6 @@ class HomeActivity : AppCompatActivity() {
             R.id.player_overlay_fragment_container,
             overlayPlayerFragment
         ).commit()
-
-        val overlayPlayerLayout = findViewById<LinearLayout>(R.id.player_overlay_fragment_layout)
-        overlayPlayerLayout.setOnClickListener {
-            val intent = Intent(
-                this, FullScreenPlayerActivity::class.java)
-            ContextCompat.startActivity(this, intent, null)
-        }
     }
 
     private fun setUpBottomNavigationMenu() {
