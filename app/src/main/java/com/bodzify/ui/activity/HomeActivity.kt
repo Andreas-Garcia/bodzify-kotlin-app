@@ -20,14 +20,22 @@ import com.bodzify.viewmodel.*
 import com.bodzify.viewmodel.util.observeOnce
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+const val DEFAULT_STARTUP_PLAYLIST_NAME = "All"
+
+
 class HomeActivity : AppCompatActivity() {
 
     private val sessionManager by lazy {SessionManager(this)}
 
     private val playerViewModel: PlayerViewModel by viewModels()
-    private val playViewModel: PlayViewModel by viewModels {
-        PlayViewModelFactory((application as AppApplication).playRepository)
+    private val playedTrackViewModel: PlayedTrackViewModel by viewModels {
+        PlayedTrackViewModelFactory((application as AppApplication).playedTrackRepository)
     }
+    private val playedPlaylistViewModel: PlayedPlaylistViewModel by viewModels {
+        PlayedPlaylistViewModelFactory((application as AppApplication).playedPlaylistRepository)
+    }
+    private val playingPlaylistViewModel: PlayingPlaylistViewModel by viewModels()
+    private val playingTrackViewModel: PlayingTrackViewModel by viewModels ()
     private val libraryTrackViewModel: LibraryTrackViewModel by viewModels {
         LibraryTrackViewModelFactory((application as AppApplication).libraryTrackRepository)
     }
@@ -58,14 +66,38 @@ class HomeActivity : AppCompatActivity() {
             LibraryFragment(libraryTrackViewModel, playlistViewModel)
         ).commit()
 
-        playViewModel.lastPlay.observeOnce(this, Observer {
-                play ->
-            if(play != null) {
-                libraryTrackViewModel.retrieve(play.trackUuid)
+        playingTrackViewModel.playingTrack.observe (this) {
+            playingTrack: LibraryTrack? ->
+            if (playingTrack != null) {
+                createPlayerOverlayFragment(playingTrack, true)
+            }
+        }
+
+        playedTrackViewModel.lastPlayedTrack.observeOnce(this, Observer {
+                trackPlayed ->
+            if(trackPlayed != null) {
+                libraryTrackViewModel.retrieve(trackPlayed.trackUuid)
                 libraryTrackViewModel.libraryTrackRetrieved.observeOnce(this) {
                     libraryTrack ->
                     if(libraryTrack != null) {
-                        createPlayerOverlayFragment(libraryTrack, false)
+                        playingTrackViewModel.set(libraryTrack)
+                        playedPlaylistViewModel.lastPlayedPlaylist.observeOnce(this, Observer {
+                                playlistPlayed ->
+                            if(playlistPlayed == null) {
+                                retrieveDefaultPlaylist()
+                            }
+                            else {
+                                playlistViewModel.retrieve(playlistPlayed.playlistUuid)
+                                playlistViewModel.playlistRetrieved.observeOnce(this) {
+                                    if (it == null) {
+                                        retrieveDefaultPlaylist()
+                                    } else {
+                                        playingPlaylistViewModel.set(it)
+                                    }
+                                }
+                            }
+                        })
+
                     }
                 }
             }
@@ -73,12 +105,19 @@ class HomeActivity : AppCompatActivity() {
 
         playerViewModel.trackSelectedLiveData.observe(this, Observer {
             libraryTrack ->
-            playViewModel.insert(libraryTrack)
+            playedTrackViewModel.insert(libraryTrack)
             createPlayerOverlayFragment(libraryTrack, true)
         })
 
         logoutViewModel.observeOnceLogoutPerformed(this) {
             finish()
+        }
+    }
+
+    private fun retrieveDefaultPlaylist() {
+        playlistViewModel.search(nameFilter = DEFAULT_STARTUP_PLAYLIST_NAME)
+        playlistViewModel.playlistsSearched.observeOnce(this) { playlists ->
+            playingPlaylistViewModel.set(playlists!![0])
         }
     }
 
