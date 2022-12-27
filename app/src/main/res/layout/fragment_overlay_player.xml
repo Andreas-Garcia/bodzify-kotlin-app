@@ -9,6 +9,7 @@
     android:layout_marginHorizontal="10dp">
 
     <LinearLayout
+        android:id="@+id/overlay_player_fragment_layout"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:weightSum="1"
