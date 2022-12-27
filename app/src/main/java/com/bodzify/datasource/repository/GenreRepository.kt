@@ -16,10 +16,11 @@ class GenreRepository @Inject constructor(
     val genresSearchedLiveData: LiveData<MutableList<Genre>?>
         get() = genresSearchedMutableLiveData
 
-    suspend fun search(nameFilter: String?) = safeApiCall {
+    suspend fun search(nameFilter: String?, parentFilter: String?) = safeApiCall {
         genresSearchedMutableLiveData.postValue(api.search(
             authorization = sessionManager.getUser()!!.jwtToken.authorization,
-            name = nameFilter
+            name = nameFilter,
+            parent = parentFilter
         ).body()!!.results)
     }
 

@@ -13,5 +13,6 @@ interface GenreApi : BaseApi {
     suspend fun search(
         @Header("Authorization") authorization: String,
         @Query("name") name: String?,
+        @Query("parent") parent: String?,
     ): Response<PaginatedResponseDto<MutableList<Genre>?>>
 }

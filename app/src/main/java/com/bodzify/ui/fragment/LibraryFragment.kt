@@ -72,6 +72,6 @@ class LibraryFragment(private val libraryTrackViewModel: LibraryTrackViewModel,
         })
 
         libraryTrackViewModel.search()
-        playlistViewModel.search()
+        playlistViewModel.search("", "")
     }
 }
