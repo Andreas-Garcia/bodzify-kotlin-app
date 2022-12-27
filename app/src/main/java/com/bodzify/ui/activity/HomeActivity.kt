@@ -1,10 +1,13 @@
 package com.bodzify.ui.activity
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bodzify.R
@@ -14,7 +17,7 @@ import com.bodzify.model.LibraryTrack
 import com.bodzify.session.SessionManager
 import com.bodzify.ui.fragment.DigFragment
 import com.bodzify.ui.fragment.LibraryFragment
-import com.bodzify.ui.fragment.PlayerOverlayFragment
+import com.bodzify.ui.fragment.OverlayPlayerFragment
 import com.bodzify.ui.fragment.SettingsFragment
 import com.bodzify.viewmodel.*
 import com.bodzify.viewmodel.util.observeOnce
@@ -122,10 +125,10 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun createPlayerOverlayFragment(libraryTrack: LibraryTrack, toPause: Boolean) {
-        val playerOverlayFragment = PlayerOverlayFragment(libraryTrack, toPause)
+        val overlayPlayerFragment = OverlayPlayerFragment(libraryTrack, toPause)
         supportFragmentManager.beginTransaction().replace(
             R.id.player_overlay_fragment_container,
-            playerOverlayFragment
+            overlayPlayerFragment
         ).commit()
     }
 

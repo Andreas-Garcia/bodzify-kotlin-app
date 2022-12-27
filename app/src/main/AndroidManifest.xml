@@ -38,6 +38,10 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
+            android:name="com.bodzify.ui.activity.FullScreenPlayerActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
             android:name="com.bodzify.ui.activity.HomeActivity"
             android:screenOrientation="portrait"
             android:exported="false">

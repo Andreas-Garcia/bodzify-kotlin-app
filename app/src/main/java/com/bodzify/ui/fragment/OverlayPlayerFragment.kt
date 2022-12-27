@@ -1,21 +1,30 @@
 package com.bodzify.ui.fragment
 
+import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.provider.AlarmClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.bodzify.R
 import com.bodzify.datasource.network.api.RemoteDataSource
 import com.bodzify.model.LibraryTrack
+import com.bodzify.ui.activity.FullScreenPlayerActivity
+import com.bodzify.ui.activity.TrackEditionActivity
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
-class PlayerOverlayFragment(
+class OverlayPlayerFragment (
     private val track: LibraryTrack,
     private val toPlay: Boolean
 ) : BaseFragment() {
+    private lateinit var overlayPlayerLayout: LinearLayout
     private lateinit var artistTextView: TextView
     private lateinit var titleTextView: TextView
     private lateinit var genreTextView: TextView
@@ -33,11 +42,11 @@ class PlayerOverlayFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        titleTextView = requireView().findViewById<TextView>(R.id.player_overlay_title_textview)
-        artistTextView = requireView().findViewById<TextView>(R.id.player_overlay_artist_textview)
-        genreTextView = requireView().findViewById<TextView>(R.id.player_overlay_genre_textview)
-        playPauseImageView = requireView()
-            .findViewById<ImageView>(R.id.player_overlay_play_pause_imageView)
+        overlayPlayerLayout = requireView().findViewById<LinearLayout>(R.id.overlay_player_fragment_layout)
+        titleTextView = requireView().findViewById(R.id.player_overlay_title_textview)
+        artistTextView = requireView().findViewById(R.id.player_overlay_artist_textview)
+        genreTextView = requireView().findViewById(R.id.player_overlay_genre_textview)
+        playPauseImageView = requireView().findViewById(R.id.player_overlay_play_pause_imageView)
 
         titleTextView.text = track.title
         artistTextView.text = track.artist
@@ -59,6 +68,11 @@ class PlayerOverlayFragment(
         playOrPause(toPlay)
         playPauseImageView.setOnClickListener {
             playOrPause(!mediaPlayer!!.isPlaying)
+        }
+
+        overlayPlayerLayout.setOnClickListener {
+            val intent = Intent(this@OverlayPlayerFragment.context, FullScreenPlayerActivity::class.java)
+            ContextCompat.startActivity(this.requireContext(), intent, null)
         }
     }
 
