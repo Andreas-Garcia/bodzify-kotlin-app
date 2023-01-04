@@ -17,80 +17,40 @@ import com.bodzify.datasource.network.api.RemoteDataSource
 import com.bodzify.model.LibraryTrack
 import com.bodzify.ui.activity.FullScreenPlayerActivity
 import com.bodzify.ui.activity.TrackEditionActivity
+import com.bodzify.viewmodel.PlayingTrackViewModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class FullScreenPlayerFragment (
-    private val track: LibraryTrack,
-    private val toPlay: Boolean
-) : BaseFragment() {
-    private lateinit var overlayPlayerLayout: LinearLayout
-    private lateinit var artistTextView: TextView
-    private lateinit var titleTextView: TextView
-    private lateinit var genreTextView: TextView
-    private lateinit var playPauseImageView: ImageView
-
-    private var mediaPlayer: MediaPlayer? = null
+    playingTrackViewModel: PlayingTrackViewModel,
+    track: LibraryTrack,
+    toPlay: Boolean
+) : PlayerFragment(playingTrackViewModel, track, toPlay) {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_overlay_player, container, false)
+        return inflater.inflate(R.layout.fragment_full_screen_player, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        overlayPlayerLayout = requireView().findViewById<LinearLayout>(R.id.overlay_player_fragment_layout)
-        titleTextView = requireView().findViewById(R.id.player_overlay_title_textview)
-        artistTextView = requireView().findViewById(R.id.player_overlay_artist_textview)
-        genreTextView = requireView().findViewById(R.id.player_overlay_genre_textview)
-        playPauseImageView = requireView().findViewById(R.id.player_overlay_play_pause_imageView)
-
-        titleTextView.text = track.title
-        artistTextView.text = track.artist
-        if(track.genre != null) genreTextView.text = track.genre!!.name
-
-        mediaPlayer = MediaPlayer().apply {
-            setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .setUsage(AudioAttributes.USAGE_MEDIA)
-                    .build()
-            )
-            setDataSource(
-                RemoteDataSource.BASE_URL_WITH_API_VERSION + track.relativeUrl + "download/")
-            prepare()
-            start()
-            pause()
-        }
-        playOrPause(toPlay)
-        playPauseImageView.setOnClickListener {
-            playOrPause(!mediaPlayer!!.isPlaying)
-        }
-
-        overlayPlayerLayout.setOnClickListener {
-            val intent = Intent(this@FullScreenPlayerFragment.context, FullScreenPlayerActivity::class.java)
-            ContextCompat.startActivity(this.requireContext(), intent, null)
-        }
     }
 
-    private fun playOrPause(toPlay: Boolean) {
-        if(!toPlay) {
-            playPauseImageView.setImageDrawable(
-                requireContext().getDrawable(R.drawable.ic_baseline_play_arrow_24))
-            mediaPlayer!!.pause()
-        }
-        else {
-            playPauseImageView.setImageDrawable(
-                requireContext().getDrawable(R.drawable.ic_baseline_pause_24))
-            mediaPlayer!!.start()
-        }
+    override fun getPlayPauseImageView(): ImageView {
+        return requireView().findViewById(R.id.fullscreen_player_artist_textView)
     }
 
-    override fun onDestroy() {
-        mediaPlayer!!.stop()
-        super.onDestroy()
+    override fun getGenreTextView(): TextView {
+        TODO("Not yet implemented")
+    }
+
+    override fun getArtistTextView(): TextView {
+        TODO("Not yet implemented")
+    }
+
+    override fun getTitleTextView(): TextView {
+        TODO("Not yet implemented")
     }
 }
