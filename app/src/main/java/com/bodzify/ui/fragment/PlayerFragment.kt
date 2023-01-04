@@ -1,22 +1,19 @@
 package com.bodzify.ui.fragment
 
-import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.bodzify.R
 import com.bodzify.datasource.network.api.RemoteDataSource
 import com.bodzify.model.LibraryTrack
-import com.bodzify.ui.activity.FullScreenPlayerActivity
-import com.bodzify.viewmodel.PlayingTrackViewModel
+import com.bodzify.viewmodel.PlayerViewModel
 
 abstract class PlayerFragment (
-    private val playingTrackViewModel: PlayingTrackViewModel,
-    private val track: LibraryTrack,
+    private val playerViewModel: PlayerViewModel,
+    private val initialLibraryTrack: LibraryTrack,
     private val toPlay: Boolean
 ) : BaseFragment() {
     private lateinit var artistTextView: TextView
@@ -33,27 +30,13 @@ abstract class PlayerFragment (
         artistTextView = this.getArtistTextView()
         genreTextView = this.getGenreTextView()
         playPauseImageView = this.getPlayPauseImageView()
-
-        mediaPlayer = MediaPlayer().apply {
-            setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .setUsage(AudioAttributes.USAGE_MEDIA)
-                    .build()
-            )
-            setDataSource(
-                RemoteDataSource.BASE_URL_WITH_API_VERSION + track.relativeUrl + "download/")
-            prepare()
-            start()
-            pause()
-        }
         playOrPause(toPlay)
         playPauseImageView.setOnClickListener {
             playOrPause(!mediaPlayer!!.isPlaying)
         }
 
-        this.setLayoutWithNewPlayingTrack(playingTrackViewModel.playingTrack.value)
-        playingTrackViewModel.playingTrack.observe(viewLifecycleOwner) {
+        this.setLayoutWithNewPlayingTrack(playerViewModel.playingTrack.value)
+        playerViewModel.playingTrack.observe(viewLifecycleOwner) {
             playingTrack: LibraryTrack? ->
             this.setLayoutWithNewPlayingTrack(playingTrack)
         }
