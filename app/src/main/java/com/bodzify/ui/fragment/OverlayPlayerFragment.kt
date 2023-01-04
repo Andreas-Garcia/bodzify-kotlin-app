@@ -12,11 +12,10 @@ import androidx.core.content.ContextCompat
 import com.bodzify.R
 import com.bodzify.model.LibraryTrack
 import com.bodzify.ui.activity.FullScreenPlayerActivity
-import com.bodzify.viewmodel.PlayingTrackViewModel
+import com.bodzify.viewmodel.PlayerViewModel
 
-class OverlayPlayerFragment(
-    playingTrackViewModel: PlayingTrackViewModel, track: LibraryTrack, toPlay: Boolean)
-    : PlayerFragment (playingTrackViewModel, track, toPlay) {
+class OverlayPlayerFragment(playerViewModel: PlayerViewModel, initialLibraryTrack: LibraryTrack, toPlay: Boolean)
+    : PlayerFragment (playerViewModel, initialLibraryTrack, toPlay) {
     override fun getPlayPauseImageView(): ImageView {
         return requireView().findViewById(R.id.player_overlay_play_pause_imageView)
     }
