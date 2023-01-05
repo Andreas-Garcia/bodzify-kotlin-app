@@ -11,7 +11,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.bodzify.R
 import com.bodzify.model.LibraryTrack
-import com.bodzify.ui.activity.FullScreenPlayerActivity
 import com.bodzify.viewmodel.PlayerViewModel
 
 class OverlayPlayerFragment(playerViewModel: PlayerViewModel, initialLibraryTrack: LibraryTrack, toPlay: Boolean)
