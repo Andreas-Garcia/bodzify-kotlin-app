@@ -50,7 +50,7 @@ class LibraryTrackListAdapter(
         }
 
         playableLayout.setOnClickListener {
-            playerViewModel.selectTrack(track)
+            playerViewModel.setPlayingTrack(track)
         }
         return rowView
     }

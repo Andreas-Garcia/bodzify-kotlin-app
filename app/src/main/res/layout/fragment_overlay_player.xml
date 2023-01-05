@@ -24,7 +24,7 @@
             android:layout_gravity="center_vertical">
 
             <TextView
-                android:id="@+id/player_overlay_artist_textview"
+                android:id="@+id/overlay_player_artist_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -33,7 +33,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/player_overlay_title_textview"
+                android:id="@+id/overlay_player_title_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -44,7 +44,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/player_overlay_genre_textview"
+            android:id="@+id/overlay_player_genre_textview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"

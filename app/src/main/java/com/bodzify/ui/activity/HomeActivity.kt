@@ -1,18 +1,19 @@
 package com.bodzify.ui.activity
 
-import android.content.Intent
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bodzify.R
 import com.bodzify.application.AppApplication
+import com.bodzify.datasource.network.api.RemoteDataSource
 import com.bodzify.datasource.repository.BaseRepository
+import com.bodzify.datasource.storage.database.PlayedTrack
 import com.bodzify.model.LibraryTrack
 import com.bodzify.session.SessionManager
 import com.bodzify.ui.fragment.DigFragment
@@ -37,8 +38,6 @@ class HomeActivity : AppCompatActivity() {
     private val playedPlaylistViewModel: PlayedPlaylistViewModel by viewModels {
         PlayedPlaylistViewModelFactory((application as AppApplication).playedPlaylistRepository)
     }
-    private val playingPlaylistViewModel: PlayingPlaylistViewModel by viewModels()
-    private val playingTrackViewModel: PlayingTrackViewModel by viewModels ()
     private val libraryTrackViewModel: LibraryTrackViewModel by viewModels {
         LibraryTrackViewModelFactory((application as AppApplication).libraryTrackRepository)
     }
@@ -57,11 +56,14 @@ class HomeActivity : AppCompatActivity() {
         LogoutViewModelFactory(baseRepositories)
     }
 
+    private var hasPlayerBeenStarted = false
+    private lateinit var mediaPlayer: MediaPlayer
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_home)
         setUpBottomNavigationMenu()
 
         supportFragmentManager.beginTransaction().replace(
@@ -69,47 +71,24 @@ class HomeActivity : AppCompatActivity() {
             LibraryFragment(libraryTrackViewModel, playlistViewModel)
         ).commit()
 
-        playingTrackViewModel.playingTrack.observe (this) {
+        playerViewModel.playingTrack.observe (this) {
             playingTrack: LibraryTrack? ->
-            if (playingTrack != null) {
+            if (playingTrack != null && !hasPlayerBeenStarted) {
                 createPlayerOverlayFragment(playingTrack, true)
+                setUpMediaPlayer(playingTrack)
             }
         }
 
         playedTrackViewModel.lastPlayedTrack.observeOnce(this, Observer {
-                trackPlayed ->
-            if(trackPlayed != null) {
-                libraryTrackViewModel.retrieve(trackPlayed.trackUuid)
-                libraryTrackViewModel.libraryTrackRetrieved.observeOnce(this) {
-                    libraryTrack ->
-                    if(libraryTrack != null) {
-                        playingTrackViewModel.set(libraryTrack)
-                        playedPlaylistViewModel.lastPlayedPlaylist.observeOnce(this, Observer {
-                                playlistPlayed ->
-                            if(playlistPlayed == null) {
-                                retrieveDefaultPlaylist()
-                            }
-                            else {
-                                playlistViewModel.retrieve(playlistPlayed.playlistUuid)
-                                playlistViewModel.playlistRetrieved.observeOnce(this) {
-                                    if (it == null) {
-                                        retrieveDefaultPlaylist()
-                                    } else {
-                                        playingPlaylistViewModel.set(it)
-                                    }
-                                }
-                            }
-                        })
-
-                    }
-                }
+            lastPlayedTrack ->
+            if(lastPlayedTrack != null) {
+                loadLastPlayedTrackAndPlaylist(lastPlayedTrack)
             }
         })
 
-        playerViewModel.trackSelectedLiveData.observe(this, Observer {
+        playerViewModel.playingTrack.observe(this, Observer {
             libraryTrack ->
             playedTrackViewModel.insert(libraryTrack)
-            createPlayerOverlayFragment(libraryTrack, true)
         })
 
         logoutViewModel.observeOnceLogoutPerformed(this) {
@@ -117,15 +96,57 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun retrieveDefaultPlaylist() {
-        playlistViewModel.search(nameFilter = DEFAULT_STARTUP_PLAYLIST_NAME)
-        playlistViewModel.playlistsSearched.observeOnce(this) { playlists ->
-            playingPlaylistViewModel.set(playlists!![0])
+    private fun loadLastPlayedTrackAndPlaylist(lastPlayedTrack: PlayedTrack) {
+        libraryTrackViewModel.retrieve(lastPlayedTrack.trackUuid)
+        libraryTrackViewModel.libraryTrackRetrieved.observeOnce(this) {
+                libraryTrack ->
+            if(libraryTrack != null) {
+                playerViewModel.setPlayingTrack(libraryTrack)
+                playedPlaylistViewModel.lastPlayedPlaylist.observeOnce(this, Observer {
+                        playlistPlayed ->
+                    if (playlistPlayed == null) {
+                        retrieveDefaultPlaylist()
+                    }
+                    else {
+                        playlistViewModel.retrieve(playlistPlayed.playlistUuid)
+                        playlistViewModel.playlistRetrieved.observeOnce(this) {
+                            if (it == null) {
+                                retrieveDefaultPlaylist()
+                            } else {
+                                playerViewModel.setPlayingPlaylist(it)
+                            }
+                        }
+                    }
+                })
+            }
         }
     }
 
-    private fun createPlayerOverlayFragment(libraryTrack: LibraryTrack, toPause: Boolean) {
-        val overlayPlayerFragment = OverlayPlayerFragment(libraryTrack, toPause)
+    private fun setUpMediaPlayer(playingTrack: LibraryTrack) {
+        mediaPlayer = MediaPlayer().apply {
+            setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .build()
+            )
+            setDataSource(
+                RemoteDataSource.BASE_URL_WITH_API_VERSION + playingTrack.relativeUrl + "download/")
+            prepare()
+            start()
+            pause()
+        }
+    }
+
+    private fun retrieveDefaultPlaylist() {
+        playlistViewModel.search(nameFilter = DEFAULT_STARTUP_PLAYLIST_NAME)
+        playlistViewModel.playlistsSearched.observeOnce(this) { playlists ->
+            playerViewModel.setPlayingPlaylist(playlists!![0])
+        }
+    }
+
+    private fun createPlayerOverlayFragment(initialLibraryTrack: LibraryTrack, toPause: Boolean) {
+        val overlayPlayerFragment = OverlayPlayerFragment(playerViewModel, initialLibraryTrack, toPause)
         supportFragmentManager.beginTransaction().replace(
             R.id.player_overlay_fragment_container,
             overlayPlayerFragment

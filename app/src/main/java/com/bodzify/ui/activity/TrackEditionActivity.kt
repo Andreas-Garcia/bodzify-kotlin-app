@@ -68,7 +68,7 @@ class TrackEditionActivity : AppCompatActivity() {
         val genreValidateButton =
             findViewById<Button>(R.id.track_edition_genre_selection_validate_button)
 
-        track = Json.decodeFromString<LibraryTrack>(intent.getStringExtra(EXTRA_MESSAGE)!!)
+        track = Json.decodeFromString(intent.getStringExtra(EXTRA_MESSAGE)!!)
         filenameTextView.text = track.filename
         urlTextView.text = RemoteDataSource.BASE_URL_WITH_API_VERSION + track.relativeUrl
         titleEditText.setText(track.title)
@@ -91,8 +91,7 @@ class TrackEditionActivity : AppCompatActivity() {
         }
 
         saveButton.setOnClickListener {
-            var genreUuid: String?
-            genreUuid =
+            var genreUuid: String? =
                 if(track.genre != null) track.genre!!.uuid
                 else null
             libraryTrackViewModel.update(
@@ -106,7 +105,6 @@ class TrackEditionActivity : AppCompatActivity() {
             )
 
             libraryTrackViewModel.libraryTrackUpdated.observeOnce(this){
-                    libraryTrack: LibraryTrack ->
                 finish()
             }
         }
