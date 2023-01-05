@@ -13,7 +13,6 @@ import com.bodzify.R
 import com.bodzify.application.AppApplication
 import com.bodzify.datasource.network.api.RemoteDataSource
 import com.bodzify.datasource.repository.BaseRepository
-import com.bodzify.datasource.repository.LibraryTrackRepository
 import com.bodzify.datasource.storage.database.PlayedTrack
 import com.bodzify.model.LibraryTrack
 import com.bodzify.session.SessionManager
@@ -64,7 +63,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_home)
         setUpBottomNavigationMenu()
 
         supportFragmentManager.beginTransaction().replace(
@@ -81,8 +80,10 @@ class HomeActivity : AppCompatActivity() {
         }
 
         playedTrackViewModel.lastPlayedTrack.observeOnce(this, Observer {
-            lastTrackPlayed ->
-            loadLastPlayedTrackAndPlaylist(lastTrackPlayed)
+            lastPlayedTrack ->
+            if(lastPlayedTrack != null) {
+                loadLastPlayedTrackAndPlaylist(lastPlayedTrack)
+            }
         })
 
         playerViewModel.playingTrack.observe(this, Observer {
@@ -96,29 +97,27 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun loadLastPlayedTrackAndPlaylist(lastPlayedTrack: PlayedTrack) {
-        if(lastPlayedTrack != null) {
-            libraryTrackViewModel.retrieve(lastPlayedTrack.trackUuid)
-            libraryTrackViewModel.libraryTrackRetrieved.observeOnce(this) {
-                    libraryTrack ->
-                if(libraryTrack != null) {
-                    playerViewModel.setPlayingTrack(libraryTrack)
-                    playedPlaylistViewModel.lastPlayedPlaylist.observeOnce(this, Observer {
-                            playlistPlayed ->
-                        if (playlistPlayed == null) {
-                            retrieveDefaultPlaylist()
-                        }
-                        else {
-                            playlistViewModel.retrieve(playlistPlayed.playlistUuid)
-                            playlistViewModel.playlistRetrieved.observeOnce(this) {
-                                if (it == null) {
-                                    retrieveDefaultPlaylist()
-                                } else {
-                                    playerViewModel.setPlayingPlaylist(it)
-                                }
+        libraryTrackViewModel.retrieve(lastPlayedTrack.trackUuid)
+        libraryTrackViewModel.libraryTrackRetrieved.observeOnce(this) {
+                libraryTrack ->
+            if(libraryTrack != null) {
+                playerViewModel.setPlayingTrack(libraryTrack)
+                playedPlaylistViewModel.lastPlayedPlaylist.observeOnce(this, Observer {
+                        playlistPlayed ->
+                    if (playlistPlayed == null) {
+                        retrieveDefaultPlaylist()
+                    }
+                    else {
+                        playlistViewModel.retrieve(playlistPlayed.playlistUuid)
+                        playlistViewModel.playlistRetrieved.observeOnce(this) {
+                            if (it == null) {
+                                retrieveDefaultPlaylist()
+                            } else {
+                                playerViewModel.setPlayingPlaylist(it)
                             }
                         }
-                    })
-                }
+                    }
+                })
             }
         }
     }
