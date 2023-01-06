@@ -7,8 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.bodzify.datasource.repository.LibraryTrackRepository
 import com.bodzify.model.LibraryTrack
 import kotlinx.coroutines.launch
+import java.util.concurrent.Executor
 
-class LibraryTrackViewModel(private val repository: LibraryTrackRepository) : ViewModel() {
+class LibraryTrackViewModel : ViewModel {
+    lateinit var repository: LibraryTrackRepository
 
     val libraryTracksSearched: LiveData<MutableList<LibraryTrack>?> =
         repository.libraryTracksSearchedLiveData
