@@ -34,7 +34,7 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name="com.bodzify.ui.activity.TrackEditionActivity"
+            android:name="com.bodzify.ui.fragment.TrackEditionFragment"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
