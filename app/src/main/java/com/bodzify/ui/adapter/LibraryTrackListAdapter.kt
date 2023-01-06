@@ -7,19 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.activityViewModels
 import com.bodzify.R
 import com.bodzify.model.LibraryTrack
-import com.bodzify.ui.activity.TrackEditionActivity
-import com.bodzify.viewmodelpattern.viewmodel.PlayerViewModel
+import com.bodzify.ui.fragment.TrackEditionFragment
+import com.bodzify.viewmodel.EditingTrackViewModel
+import com.bodzify.viewmodel.PlayerViewModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class LibraryTrackListAdapter(
     private val activity: Activity,
     private val tracks: MutableList<LibraryTrack>,
-    private val playerViewModel: PlayerViewModel
-)
-    : ArrayAdapter<LibraryTrack>(activity, R.layout.list_view_item_library_track, tracks) {
+    private val playerViewModel: PlayerViewModel,
+    private val editingTrackViewModel: EditingTrackViewModel
+): ArrayAdapter<LibraryTrack>(activity, R.layout.list_view_item_library_track, tracks) {
 
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         val rowView = activity.layoutInflater
@@ -43,8 +45,9 @@ class LibraryTrackListAdapter(
         }
 
         editImageView.setOnClickListener {
+            editingTrackViewModel.set(track)
             val intent = Intent(
-                this@LibraryTrackListAdapter.context, TrackEditionActivity::class.java)
+                this@LibraryTrackListAdapter.context, TrackEditionFragment::class.java)
             intent.putExtra(EXTRA_MESSAGE, Json.encodeToString(track))
             startActivity(this.context, intent, null)
         }

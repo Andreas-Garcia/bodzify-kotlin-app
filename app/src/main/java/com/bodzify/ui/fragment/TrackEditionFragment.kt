@@ -1,83 +1,92 @@
-package com.bodzify.ui.activity
+package com.bodzify.ui.fragment
 
 import android.os.Bundle
-import android.provider.AlarmClock.EXTRA_MESSAGE
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import com.bodzify.R
-import com.bodzify.application.AppApplication
 import com.bodzify.datasource.network.api.RemoteDataSource
 import com.bodzify.model.Genre
 import com.bodzify.model.LibraryTrack
-import com.bodzify.session.SessionManager
 import com.bodzify.ui.adapter.GenreListAdapter
-import com.bodzify.viewmodelpattern.viewmodel.AuthViewModel
-import com.bodzify.viewmodelpattern.viewmodel.GenreViewModel
-import com.bodzify.viewmodelpattern.viewmodel.PlaylistViewModel
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
+import com.bodzify.viewmodel.EditingTrackViewModel
+import com.bodzify.viewmodel.GenreViewModel
+import com.bodzify.viewmodel.LibraryTrackViewModel
+import com.bodzify.viewmodel.util.observeOnce
 
-class TrackEditionActivity : AppCompatActivity() {
+class TrackEditionFragment : BaseFragment() {
 
-    private lateinit var sessionManager: SessionManager
-
-    /*private val libraryTrackViewModel: LibraryTrackViewModel by viewModels {
-        LibraryTrackViewModelFactory((application as AppApplication).libraryTrackRepository)
-    }*/
-
-    private val genreViewModel: GenreViewModel by viewModels {
+    private val libraryTrackViewModel: LibraryTrackViewModel by activityViewModels {
+        LibraryTrackViewModel.Factory
+    }
+    private val genreViewModel: GenreViewModel by activityViewModels {
         GenreViewModel.Factory
     }
+    private val editingTrackViewModel: EditingTrackViewModel by activityViewModels ()
 
     private lateinit var genreSelectButton: Button
-    private lateinit var track: LibraryTrack
+    private var track: LibraryTrack? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_track_edition)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_track_edition, container, false)
+    }
 
-        sessionManager = SessionManager(this)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val albumArtworkImageView = findViewById<ImageView>(
+        val albumArtworkImageView = requireView().findViewById<ImageView>(
             R.id.song_edition_album_artwork_imageView)
-        val filenameTextView = findViewById<TextView>(R.id.track_edition_filename_textView)
-        val urlTextView = findViewById<TextView>(R.id.track_edition_url_textView)
-        val titleEditText = findViewById<EditText>(R.id.track_edition_title_editText)
-        val artistEditText = findViewById<EditText>(R.id.track_edition_artist_editText)
-        val albumEditText = findViewById<EditText>(R.id.track_edition_album_editText)
-        val genreSelectButton = findViewById<Button>(R.id.track_edition_genre_select_button)
-        val ratingEditText = findViewById<EditText>(R.id.track_edition_rating_editText)
-        val languageEditText = findViewById<EditText>(R.id.track_edition_language_editText)
-        val durationTextView = findViewById<TextView>(R.id.track_edition_duration_textView)
-        val releasedOnEditText = findViewById<EditText>(R.id.track_edition_released_on_editText)
-        val addedOnTextView = findViewById<TextView>(R.id.track_edition_added_on_textView)
-        val cancelButton = findViewById<TextView>(R.id.track_edition_cancel_button)
-        val saveButton = findViewById<TextView>(R.id.track_edition_save_button)
+        val filenameTextView = requireView()
+            .findViewById<TextView>(R.id.track_edition_filename_textView)
+        val urlTextView = requireView().findViewById<TextView>(R.id.track_edition_url_textView)
+        val titleEditText = requireView()
+            .findViewById<EditText>(R.id.track_edition_title_editText)
+        val artistEditText = requireView()
+            .findViewById<EditText>(R.id.track_edition_artist_editText)
+        val albumEditText = requireView().findViewById<EditText>(R.id.track_edition_album_editText)
+        val genreSelectButton = requireView()
+            .findViewById<Button>(R.id.track_edition_genre_select_button)
+        val ratingEditText = requireView().findViewById<EditText>(R.id.track_edition_rating_editText)
+        val languageEditText = requireView()
+            .findViewById<EditText>(R.id.track_edition_language_editText)
+        val durationTextView = requireView()
+            .findViewById<TextView>(R.id.track_edition_duration_textView)
+        val releasedOnEditText = requireView()
+            .findViewById<EditText>(R.id.track_edition_released_on_editText)
+        val addedOnTextView = requireView()
+            .findViewById<TextView>(R.id.track_edition_added_on_textView)
+        val cancelButton = requireView().findViewById<TextView>(R.id.track_edition_cancel_button)
+        val saveButton = requireView().findViewById<TextView>(R.id.track_edition_save_button)
 
-        val genreLayout = findViewById<LinearLayout>(R.id.track_edition_genre_selection_layout)
+        val genreLayout = requireView()
+            .findViewById<LinearLayout>(R.id.track_edition_genre_selection_layout)
         val genreSelectionSearchView =
-            findViewById<SearchView>(R.id.track_edition_genre_selection_searchview)
+            requireView().findViewById<SearchView>(R.id.track_edition_genre_selection_searchview)
         val genreSelectionListView =
-            findViewById<ListView>(R.id.track_edition_genre_selection_listview)
+            requireView().findViewById<ListView>(R.id.track_edition_genre_selection_listview)
         val genreCancelButton =
-            findViewById<Button>(R.id.track_edition_genre_selection_cancel_button)
+            requireView().findViewById<Button>(R.id.track_edition_genre_selection_cancel_button)
         val genreValidateButton =
-            findViewById<Button>(R.id.track_edition_genre_selection_validate_button)
+            requireView().findViewById<Button>(R.id.track_edition_genre_selection_validate_button)
 
-        track = Json.decodeFromString(intent.getStringExtra(EXTRA_MESSAGE)!!)
-        filenameTextView.text = track.filename
-        urlTextView.text = RemoteDataSource.BASE_URL_WITH_API_VERSION + track.relativeUrl
-        titleEditText.setText(track.title)
-        artistEditText.setText(track.artist)
-        albumEditText.setText(track.album)
-        setGenreSelectionButtonText(track.genre)
-        ratingEditText.setText("" + track.rating)
-        languageEditText.setText(track.language)
-        durationTextView.text = track.duration
-        releasedOnEditText.setText(track.releasedOn)
-        addedOnTextView.text = track.addedOn
+        track = editingTrackViewModel.editingTrack.value
+
+        filenameTextView.text = track?.filename ?: ""
+        urlTextView.text = RemoteDataSource.BASE_URL_WITH_API_VERSION + track?.relativeUrl ?: ""
+        titleEditText.setText(track?.title ?: "")
+        artistEditText.setText(track?.artist ?: "")
+        albumEditText.setText(track?.album ?: "")
+        setGenreSelectionButtonText(track?.genre)
+        ratingEditText.setText("" + track?.rating ?: "")
+        languageEditText.setText(track?.language ?: "")
+        durationTextView.text = track?.duration ?: ""
+        releasedOnEditText.setText(track?.releasedOn ?: "")
+        addedOnTextView.text = track?.addedOn ?: ""
 
         genreSelectButton.setOnClickListener {
             genreViewModel.search(null, null)
@@ -89,23 +98,21 @@ class TrackEditionActivity : AppCompatActivity() {
         }
 
         saveButton.setOnClickListener {
-            /*
-            var genreUuid: String? =
-                if(track.genre != null) track.genre!!.uuid
-                else null
-            libraryTrackViewModel.update(
-                track.uuid,
-                titleEditText.text.toString(),
-                artistEditText.text.toString(),
-                albumEditText.text.toString(),
-                genreUuid,
-                Integer.parseInt(ratingEditText.text.toString()),
-                languageEditText.text.toString()
-            )
+            if(track != null) {
+                libraryTrackViewModel.update(
+                    track!!.uuid,
+                    titleEditText.text.toString(),
+                    artistEditText.text.toString(),
+                    albumEditText.text.toString(),
+                    track!!.genre.uuid,
+                    Integer.parseInt(ratingEditText.text.toString()),
+                    languageEditText.text.toString()
+                )
+            }
 
             libraryTrackViewModel.libraryTrackUpdated.observeOnce(this){
                 finish()
-            }*/
+            }
         }
 
         genreViewModel.genresSearched.observe(this) {
