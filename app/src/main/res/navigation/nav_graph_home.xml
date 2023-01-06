@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/nav_graph"
+            app:startDestination="@id/libraryFragment">
+
+    <fragment android:id="@+id/libraryFragment"
+              android:name="com.bodzify.ui.fragment.LibraryFragment"
+              android:label="fragment_library"
+              tools:layout="@layout/fragment_library">
+        <action android:id="@+id/action_libraryFragment_to_trackEditionFragment"
+                app:destination="@id/trackEditionFragment"/>
+    </fragment>
+
+    <fragment android:id="@+id/digFragment"
+              android:name="com.bodzify.ui.fragment.DigFragment"
+              android:label="DigFragment"
+              tools:layout="@layout/fragment_dig"/>
+
+    <fragment android:id="@+id/settingsFragment"
+              android:name="com.bodzify.ui.fragment.SettingsFragment"
+              android:label="SettingsFragment"
+              tools:layout="@layout/fragment_settings"/>
+
+    <fragment android:id="@+id/trackEditionFragment"
+              android:name="com.bodzify.ui.fragment.TrackEditionFragment"
+              android:label="TrackEditionFragment"
+              tools:layout="@layout/fragment_track_edition"/>
+</navigation>

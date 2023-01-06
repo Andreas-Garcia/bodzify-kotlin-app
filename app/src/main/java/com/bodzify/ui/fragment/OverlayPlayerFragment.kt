@@ -1,6 +1,5 @@
 package com.bodzify.ui.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.bodzify.R
-import com.bodzify.model.LibraryTrack
-import com.bodzify.viewmodel.PlayerViewModel
 
-class OverlayPlayerFragment(playerViewModel: PlayerViewModel, initialLibraryTrack: LibraryTrack, toPlay: Boolean)
-    : PlayerFragment (playerViewModel, initialLibraryTrack, toPlay) {
+class OverlayPlayerFragment : PlayerFragment() {
     override fun getPlayPauseImageView(): ImageView {
         return requireView().findViewById(R.id.player_overlay_play_pause_imageView)
     }
@@ -44,8 +39,7 @@ class OverlayPlayerFragment(playerViewModel: PlayerViewModel, initialLibraryTrac
         val overlayPlayerLayout = requireView().findViewById<LinearLayout>(R.id.overlay_player_fragment_layout)
 
         overlayPlayerLayout.setOnClickListener {
-            val intent = Intent(this@OverlayPlayerFragment.context, FullScreenPlayerActivity::class.java)
-            ContextCompat.startActivity(this.requireContext(), intent, null)
+
         }
     }
 }

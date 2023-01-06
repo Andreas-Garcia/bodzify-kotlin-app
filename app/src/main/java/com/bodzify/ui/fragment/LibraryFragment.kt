@@ -11,14 +11,21 @@ import androidx.fragment.app.activityViewModels
 import com.bodzify.R
 import com.bodzify.ui.adapter.LibraryTrackListAdapter
 import com.bodzify.ui.adapter.PlaylistAdapter
+import com.bodzify.viewmodel.EditingTrackViewModel
 import com.bodzify.viewmodel.LibraryTrackViewModel
 import com.bodzify.viewmodel.PlayerViewModel
 import com.bodzify.viewmodel.PlaylistViewModel
 import com.bodzify.viewmodel.util.observeOnce
 
-class LibraryFragment(private val libraryTrackViewModel: LibraryTrackViewModel,
-                      private val playlistViewModel: PlaylistViewModel) : BaseFragment() {
+class LibraryFragment : BaseFragment() {
     private val playerViewModel: PlayerViewModel by activityViewModels()
+    private val libraryTrackViewModel: LibraryTrackViewModel by activityViewModels {
+        LibraryTrackViewModel.Factory
+    }
+    private val playlistViewModel: PlaylistViewModel by activityViewModels {
+        PlaylistViewModel.Factory
+    }
+    private val editingTrackViewModel: EditingTrackViewModel by activityViewModels ()
 
     private lateinit var libraryTracksSearchView: SearchView
     private lateinit var libraryTracksListView: ListView
@@ -43,7 +50,8 @@ class LibraryFragment(private val libraryTrackViewModel: LibraryTrackViewModel,
             libraryTracksListView.adapter = LibraryTrackListAdapter(
                 requireActivity(),
                 libraryTracks ?: arrayListOf(),
-                playerViewModel)
+                playerViewModel,
+                editingTrackViewModel)
         }
 
         // TODO

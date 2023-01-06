@@ -14,15 +14,15 @@ class AppApplication: Application() {
     private val sessionManager by lazy { SessionManager(applicationContext)}
     val playedTrackRepository by lazy { PlayedTrackRepository(database.playedTrackDao()) }
     val playedPlaylistRepository by lazy { PlayedPlaylistRepository(database.playedPlaylistDao()) }
-    val libraryTrackRepository by lazy {
-        LibraryTrackRepository(
-            RemoteDataSource().buildApi(LibraryTrackApi::class.java, sessionManager),
-            sessionManager
-        )
-    }
     val mineTrackRepository by lazy {
         MineTrackRepository(
             RemoteDataSource().buildApi(MineTrackApi::class.java, sessionManager),
+            sessionManager
+        )
+    }
+    val libraryTrackRepository by lazy {
+        LibraryTrackRepository(
+            RemoteDataSource().buildApi(LibraryTrackApi::class.java, sessionManager),
             sessionManager
         )
     }

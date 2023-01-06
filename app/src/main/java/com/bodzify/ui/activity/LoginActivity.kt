@@ -8,18 +8,16 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bodzify.R
-import com.bodzify.application.AppApplication
 import com.bodzify.model.User
 import com.bodzify.session.SessionManager
 import com.bodzify.viewmodel.AuthViewModel
-import com.bodzify.viewmodel.AuthViewModelFactory
 
 class LoginActivity: AppCompatActivity() {
 
     private val sessionManager by lazy {SessionManager(this)}
 
     private val authViewModel: AuthViewModel by viewModels {
-        AuthViewModelFactory((application as AppApplication).authRepository)
+        AuthViewModel.Factory
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

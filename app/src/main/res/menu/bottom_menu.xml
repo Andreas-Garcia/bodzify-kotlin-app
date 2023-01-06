@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/libraryFragment"
         android:title="Library"
-        android:id="@+id/navigation_bar_item_library"
-        android:icon="@drawable/bottom_nav_library_icon"
-        />
+        android:icon="@drawable/bottom_nav_library_icon"/>
     <item
+        android:id="@+id/digFragment"
         android:title="Dig"
-        android:id="@+id/navigation_bar_item_dig"
-        android:icon="@drawable/bottom_nav_dig_icon"
-        />
+        android:icon="@drawable/bottom_nav_dig_icon"/>
     <item
+        android:id="@+id/settingsFragment"
         android:title="Settings"
-        android:id="@+id/navigation_bar_item_settings"
-        android:icon="@drawable/bottom_nav_settings_icon"
-        />
+        android:icon="@drawable/bottom_nav_settings_icon"/>
 </menu>

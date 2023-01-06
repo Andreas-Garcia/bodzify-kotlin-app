@@ -1,9 +1,9 @@
 package com.bodzify.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.bodzify.application.AppApplication
 import com.bodzify.model.LibraryTrack
 import com.bodzify.model.MineTrack
 import com.bodzify.datasource.repository.MineTrackRepository
@@ -14,22 +14,22 @@ class MineTrackViewModel(private val repository: MineTrackRepository) : ViewMode
     val mineTracksDug: LiveData<MutableList<MineTrack>?> = repository.mineTracksDugLiveData
     val mineTrackExtracted: LiveData<LibraryTrack> = repository.mineTrackExtractedLiveData
 
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val savedStateHandle = createSavedStateHandle()
+                val repository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
+                        as AppApplication).mineTrackRepository
+                MineTrackViewModel(repository = repository)
+            }
+        }
+    }
+
     fun dig(query: String) = viewModelScope.launch {
         repository.dig(query)
     }
 
     fun extract(mineTrack: MineTrack) = viewModelScope.launch {
         repository.extract(mineTrack)
-    }
-}
-
-class MineTrackViewModelFactory(private val repository: MineTrackRepository)
-    : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MineTrackViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return MineTrackViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

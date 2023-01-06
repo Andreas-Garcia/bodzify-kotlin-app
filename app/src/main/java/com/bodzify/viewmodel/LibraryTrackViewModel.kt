@@ -1,19 +1,30 @@
 package com.bodzify.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.bodzify.application.AppApplication
 import com.bodzify.datasource.repository.LibraryTrackRepository
 import com.bodzify.model.LibraryTrack
 import kotlinx.coroutines.launch
 
-class LibraryTrackViewModel(private val repository: LibraryTrackRepository) : ViewModel() {
+class LibraryTrackViewModel (val repository: LibraryTrackRepository): ViewModel() {
 
     val libraryTracksSearched: LiveData<MutableList<LibraryTrack>?> =
         repository.libraryTracksSearchedLiveData
     val libraryTrackRetrieved: LiveData<LibraryTrack> = repository.libraryTrackRetrievedLiveData
     val libraryTrackUpdated: LiveData<LibraryTrack> = repository.libraryTrackUpdatedLiveData
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val savedStateHandle = createSavedStateHandle()
+                val repository = (this[APPLICATION_KEY] as AppApplication).libraryTrackRepository
+                LibraryTrackViewModel(repository = repository)
+            }
+        }
+    }
 
     fun search() = viewModelScope.launch {
         repository.search()
@@ -41,16 +52,5 @@ class LibraryTrackViewModel(private val repository: LibraryTrackRepository) : Vi
             rating = rating,
             language = language
         )
-    }
-}
-
-class LibraryTrackViewModelFactory(private val repository: LibraryTrackRepository)
-    : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LibraryTrackViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return LibraryTrackViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
