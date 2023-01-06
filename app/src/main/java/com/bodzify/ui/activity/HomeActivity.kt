@@ -19,7 +19,6 @@ import com.bodzify.session.SessionManager
 import com.bodzify.ui.fragment.OverlayPlayerFragment
 import com.bodzify.viewmodel.*
 import com.bodzify.viewmodel.util.observeOnce
-import com.bodzify.viewmodel.viewmodel.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
