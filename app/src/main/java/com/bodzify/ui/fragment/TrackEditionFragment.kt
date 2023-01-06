@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bodzify.R
 import com.bodzify.datasource.network.api.RemoteDataSource
 import com.bodzify.model.Genre
@@ -26,8 +29,7 @@ class TrackEditionFragment : BaseFragment() {
     }
     private val editingTrackViewModel: EditingTrackViewModel by activityViewModels ()
 
-    private lateinit var genreSelectButton: Button
-    private var track: LibraryTrack? = null
+    private lateinit var track: LibraryTrack
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,19 +76,19 @@ class TrackEditionFragment : BaseFragment() {
         val genreValidateButton =
             requireView().findViewById<Button>(R.id.track_edition_genre_selection_validate_button)
 
-        track = editingTrackViewModel.editingTrack.value
+        track = editingTrackViewModel.editingTrack.value!!
 
-        filenameTextView.text = track?.filename ?: ""
-        urlTextView.text = RemoteDataSource.BASE_URL_WITH_API_VERSION + track?.relativeUrl ?: ""
-        titleEditText.setText(track?.title ?: "")
-        artistEditText.setText(track?.artist ?: "")
-        albumEditText.setText(track?.album ?: "")
-        setGenreSelectionButtonText(track?.genre)
-        ratingEditText.setText("" + track?.rating ?: "")
-        languageEditText.setText(track?.language ?: "")
-        durationTextView.text = track?.duration ?: ""
-        releasedOnEditText.setText(track?.releasedOn ?: "")
-        addedOnTextView.text = track?.addedOn ?: ""
+        filenameTextView.text = track.filename
+        urlTextView.text = RemoteDataSource.BASE_URL_WITH_API_VERSION + track?.relativeUrl
+        titleEditText.setText(track.title)
+        artistEditText.setText(track.artist)
+        albumEditText.setText(track.album)
+        genreSelectButton.text = track.genre.name
+        ratingEditText.setText("" + track.rating)
+        languageEditText.setText(track.language)
+        durationTextView.text = track.duration
+        releasedOnEditText.setText(track.releasedOn)
+        addedOnTextView.text = track.addedOn
 
         genreSelectButton.setOnClickListener {
             genreViewModel.search(null, null)
@@ -111,24 +113,24 @@ class TrackEditionFragment : BaseFragment() {
             }
 
             libraryTrackViewModel.libraryTrackUpdated.observeOnce(this){
-                finish()
+                findNavController().popBackStack()
             }
         }
 
-        genreViewModel.genresSearched.observe(this) {
+        genreViewModel.genresSearched.observe(viewLifecycleOwner) {
                 genres ->
             genreSelectionListView.adapter = GenreListAdapter(
-                this,
+                requireActivity(),
                 sessionManager,
                 genres?: arrayListOf(),
                 genreViewModel
             )
         }
 
-        genreViewModel.genreSelected.observe(this) {
+        genreViewModel.genreSelected.observe(viewLifecycleOwner) {
             genre ->
-            track.genre = genre
-            setGenreSelectionButtonText(genre)
+            track!!.genre = genre
+            genreSelectButton.text = track.genre.name
             genreLayout.visibility = View.GONE
         }
 
@@ -142,10 +144,5 @@ class TrackEditionFragment : BaseFragment() {
                 return true
             }
         })
-    }
-
-    private fun setGenreSelectionButtonText(genre: Genre?) {
-        if(track.genre == null) genreSelectButton.text = getString(R.string.Select)
-        else genreSelectButton.text = track.genre!!.name
     }
 }
