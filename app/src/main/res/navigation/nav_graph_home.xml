@@ -19,4 +19,9 @@
               android:name="com.bodzify.ui.fragment.SettingsFragment"
               android:label="SettingsFragment"
               tools:layout="@layout/fragment_settings"/>
+
+    <fragment android:id="@+id/trackEditionFragment"
+              android:name="com.bodzify.ui.fragment.TrackEditionFragment"
+              android:label="TrackEditionFragment"
+              tools:layout="@layout/fragment_track_edition"/>
 </navigation>
