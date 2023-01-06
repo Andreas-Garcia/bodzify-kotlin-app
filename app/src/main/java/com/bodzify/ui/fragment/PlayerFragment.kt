@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import com.bodzify.R
 import com.bodzify.model.LibraryTrack
-import com.bodzify.viewmodelpattern.viewmodel.PlayerViewModel
+import com.bodzify.viewmodel.PlayerViewModel
 
 abstract class PlayerFragment : BaseFragment() {
     private val playerViewModel: PlayerViewModel by activityViewModels()

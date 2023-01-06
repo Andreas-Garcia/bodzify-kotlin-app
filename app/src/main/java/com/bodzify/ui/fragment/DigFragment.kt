@@ -9,8 +9,7 @@ import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import com.bodzify.R
 import com.bodzify.ui.adapter.MineTrackListAdapter
-import com.bodzify.viewmodelpattern.viewmodel.LibraryTrackViewModel
-import com.bodzify.viewmodelpattern.viewmodel.MineTrackViewModel
+import com.bodzify.viewmodel.MineTrackViewModel
 
 class DigFragment : BaseFragment() {
 

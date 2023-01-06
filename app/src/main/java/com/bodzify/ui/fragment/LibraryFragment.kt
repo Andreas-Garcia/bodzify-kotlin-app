@@ -7,16 +7,15 @@ import android.view.ViewGroup
 import android.widget.GridView
 import android.widget.ListView
 import android.widget.SearchView
-import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import com.bodzify.R
 import com.bodzify.ui.adapter.LibraryTrackListAdapter
 import com.bodzify.ui.adapter.PlaylistAdapter
-import com.bodzify.viewmodelpattern.viewmodel.LibraryTrackViewModel
-import com.bodzify.viewmodelpattern.viewmodel.PlayerViewModel
-import com.bodzify.viewmodelpattern.viewmodel.PlaylistViewModel
-import com.bodzify.viewmodelpattern.util.observeOnce
+import com.bodzify.viewmodel.EditingTrackViewModel
+import com.bodzify.viewmodel.LibraryTrackViewModel
+import com.bodzify.viewmodel.PlayerViewModel
+import com.bodzify.viewmodel.PlaylistViewModel
+import com.bodzify.viewmodel.util.observeOnce
 
 class LibraryFragment : BaseFragment() {
     private val playerViewModel: PlayerViewModel by activityViewModels()
@@ -26,6 +25,7 @@ class LibraryFragment : BaseFragment() {
     private val playlistViewModel: PlaylistViewModel by activityViewModels {
         PlaylistViewModel.Factory
     }
+    private val editingTrackViewModel: EditingTrackViewModel by activityViewModels ()
 
     private lateinit var libraryTracksSearchView: SearchView
     private lateinit var libraryTracksListView: ListView
@@ -50,7 +50,8 @@ class LibraryFragment : BaseFragment() {
             libraryTracksListView.adapter = LibraryTrackListAdapter(
                 requireActivity(),
                 libraryTracks ?: arrayListOf(),
-                playerViewModel)
+                playerViewModel,
+                editingTrackViewModel)
         }
 
         // TODO
