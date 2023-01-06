@@ -1,9 +1,9 @@
-package com.bodzify.viewmodel
+package com.bodzify.viewmodelpattern.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.bodzify.application.AppApplication
 import com.bodzify.datasource.repository.PlaylistRepository
 import com.bodzify.model.playlist.Playlist
 import kotlinx.coroutines.launch
@@ -14,22 +14,22 @@ class PlaylistViewModel(private val repository: PlaylistRepository) : ViewModel(
         repository.playlistsSearchedLiveData
     val playlistRetrieved: LiveData<Playlist> = repository.playlistRetrievedLiveData
 
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val savedStateHandle = createSavedStateHandle()
+                val repository = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
+                        as AppApplication).playlistRepository
+                PlaylistViewModel(repository = repository)
+            }
+        }
+    }
+
     fun search(nameFilter: String? = null, parentFilter: String? = null) = viewModelScope.launch {
         repository.search(nameFilter, parentFilter)
     }
 
     fun retrieve(playlistUuid: String) = viewModelScope.launch {
         repository.retrieve(playlistUuid)
-    }
-}
-
-class PlaylistViewModelFactory(private val repository: PlaylistRepository)
-    : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(PlaylistViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return PlaylistViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
