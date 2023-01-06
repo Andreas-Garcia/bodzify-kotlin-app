@@ -6,12 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.SearchView
+import androidx.fragment.app.activityViewModels
 import com.bodzify.R
 import com.bodzify.ui.adapter.MineTrackListAdapter
+import com.bodzify.viewmodelpattern.viewmodel.LibraryTrackViewModel
 import com.bodzify.viewmodelpattern.viewmodel.MineTrackViewModel
 
-class DigFragment(private val mineTrackViewModel: MineTrackViewModel) : BaseFragment() {
+class DigFragment : BaseFragment() {
 
+    private val mineTrackViewModel: MineTrackViewModel by activityViewModels {
+        MineTrackViewModel.Factory
+    }
     private lateinit var digSearchView: SearchView
     private lateinit var mineTrackListView: ListView
 
