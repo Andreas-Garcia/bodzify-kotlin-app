@@ -1,11 +1,33 @@
 package com.bodzify.viewmodelpattern.viewmodel
 
 import androidx.lifecycle.*
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.bodzify.application.AppApplication
 import com.bodzify.datasource.repository.BaseRepository
 import kotlinx.coroutines.launch
 
 class LogoutViewModel(private val baseRepositories: MutableList<BaseRepository>): ViewModel() {
+
     private val logoutPerformedMutableLiveData = MutableLiveData<Boolean>()
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val savedStateHandle = createSavedStateHandle()
+                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
+                        as AppApplication)
+                val baseRepositories = mutableListOf<BaseRepository>()
+                baseRepositories.add(application.authRepository)
+                baseRepositories.add(application.genreRepository)
+                baseRepositories.add(application.libraryTrackRepository)
+                baseRepositories.add(application.mineTrackRepository)
+                baseRepositories.add(application.playlistRepository)
+                LogoutViewModel(baseRepositories = baseRepositories)
+            }
+        }
+    }
+
     val logoutPerformedLiveData: LiveData<Boolean>
         get() = logoutPerformedMutableLiveData
 
@@ -25,23 +47,12 @@ class LogoutViewModel(private val baseRepositories: MutableList<BaseRepository>)
             }
         }
     }
-    fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+    private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
         observe(lifecycleOwner, object : Observer<T> {
             override fun onChanged(t: T?) {
                 observer.onChanged(t)
                 removeObserver(this)
             }
         })
-    }
-}
-
-class LogoutViewModelFactory(private val baseRepositories: MutableList<BaseRepository>)
-    : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LogoutViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return LogoutViewModel(baseRepositories) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
