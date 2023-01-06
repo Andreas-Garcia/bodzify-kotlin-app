@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import com.bodzify.R
 import com.bodzify.model.LibraryTrack
+import com.bodzify.ui.fragment.LibraryFragment
+import com.bodzify.ui.fragment.LibraryFragmentDirections
 import com.bodzify.ui.fragment.TrackEditionFragment
 import com.bodzify.viewmodel.EditingTrackViewModel
 import com.bodzify.viewmodel.PlayerViewModel
@@ -46,10 +49,8 @@ class LibraryTrackListAdapter(
 
         editImageView.setOnClickListener {
             editingTrackViewModel.set(track)
-            val intent = Intent(
-                this@LibraryTrackListAdapter.context, TrackEditionFragment::class.java)
-            intent.putExtra(EXTRA_MESSAGE, Json.encodeToString(track))
-            startActivity(this.context, intent, null)
+            val action = LibraryFragmentDirections.actionLibraryFragmentToTrackEditionFragment()
+            it.findNavController().navigate(action)
         }
 
         playableLayout.setOnClickListener {
