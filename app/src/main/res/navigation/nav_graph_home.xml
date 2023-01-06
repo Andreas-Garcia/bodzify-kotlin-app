@@ -8,7 +8,10 @@
     <fragment android:id="@+id/libraryFragment"
               android:name="com.bodzify.ui.fragment.LibraryFragment"
               android:label="fragment_library"
-              tools:layout="@layout/fragment_library"/>
+              tools:layout="@layout/fragment_library">
+        <action android:id="@+id/action_libraryFragment_to_trackEditionFragment"
+                app:destination="@id/trackEditionFragment"/>
+    </fragment>
 
     <fragment android:id="@+id/digFragment"
               android:name="com.bodzify.ui.fragment.DigFragment"
