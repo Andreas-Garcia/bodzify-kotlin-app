@@ -12,14 +12,14 @@ import com.bodzify.application.AppApplication
 import com.bodzify.model.User
 import com.bodzify.session.SessionManager
 import com.bodzify.viewmodelpattern.viewmodel.AuthViewModel
-import com.bodzify.viewmodelpattern.viewmodel.AuthViewModelFactory
+import com.bodzify.viewmodelpattern.viewmodel.PlaylistViewModel
 
 class LoginActivity: AppCompatActivity() {
 
     private val sessionManager by lazy {SessionManager(this)}
 
     private val authViewModel: AuthViewModel by viewModels {
-        AuthViewModelFactory((application as AppApplication).authRepository)
+        AuthViewModel.Factory
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
