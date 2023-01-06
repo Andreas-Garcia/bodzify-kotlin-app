@@ -1,9 +1,14 @@
 buildscript {
     ext.kotlin_version = '1.7.10'
     ext.kotlinx_serialization_version = '0.6.1'
-    repositories { mavenCentral() }
+    repositories {
+        mavenCentral()
+        google()
+    }
 
     dependencies {
+        def nav_version = "2.5.3"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         classpath "org.jetbrains.kotlinx:kotlinx-serialization-runtime-jsonparser:$kotlinx_serialization_version"
     }
@@ -14,6 +19,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdk 32
