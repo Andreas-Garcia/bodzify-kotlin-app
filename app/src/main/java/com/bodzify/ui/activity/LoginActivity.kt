@@ -11,8 +11,8 @@ import com.bodzify.R
 import com.bodzify.application.AppApplication
 import com.bodzify.model.User
 import com.bodzify.session.SessionManager
-import com.bodzify.viewmodel.AuthViewModel
-import com.bodzify.viewmodel.AuthViewModelFactory
+import com.bodzify.viewmodelpattern.viewmodel.AuthViewModel
+import com.bodzify.viewmodelpattern.viewmodel.AuthViewModelFactory
 
 class LoginActivity: AppCompatActivity() {
 
