@@ -9,10 +9,12 @@
               android:name="com.bodzify.ui.fragment.LibraryFragment"
               android:label="fragment_library"
               tools:layout="@layout/fragment_library"/>
+
     <fragment android:id="@+id/digFragment"
               android:name="com.bodzify.ui.fragment.DigFragment"
               android:label="DigFragment"
               tools:layout="@layout/fragment_dig"/>
+
     <fragment android:id="@+id/settingsFragment"
               android:name="com.bodzify.ui.fragment.SettingsFragment"
               android:label="SettingsFragment"
