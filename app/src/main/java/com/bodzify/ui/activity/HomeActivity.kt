@@ -4,6 +4,8 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -46,6 +48,9 @@ class HomeActivity : AppCompatActivity() {
         LogoutViewModel.Factory
     }
 
+    private lateinit var navHostFragment: View
+    private lateinit var overlayPlayer: View
+
     private var hasPlayerBeenStarted = false
     private lateinit var mediaPlayer: MediaPlayer
 
@@ -55,6 +60,8 @@ class HomeActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_home)
         setUpBottomNavigationMenu()
+
+        navHostFragment = findViewById(R.id.home_nav_host_fragment)
 
         playerViewModel.playingTrack.observe (this) {
             playingTrack: LibraryTrack? ->
@@ -131,11 +138,12 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun createPlayerOverlayFragment() {
-        val overlayPlayerFragment = OverlayPlayerFragment()
         supportFragmentManager.beginTransaction().replace(
-            R.id.player_overlay_fragment_container,
-            overlayPlayerFragment
+            R.id.overlay_player_fragment_container, OverlayPlayerFragment()
         ).commit()
+        var navHostLayoutParam = navHostFragment.layoutParams as ViewGroup.MarginLayoutParams
+        navHostLayoutParam.setMargins(0, 0, 0, 150)
+        navHostFragment.layoutParams = navHostLayoutParam
     }
 
     private fun setUpBottomNavigationMenu() {
