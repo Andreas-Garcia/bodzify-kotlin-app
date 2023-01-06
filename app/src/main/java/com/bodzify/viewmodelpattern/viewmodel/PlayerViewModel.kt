@@ -1,4 +1,4 @@
-package com.bodzify.viewmodel
+package com.bodzify.viewmodelpattern.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

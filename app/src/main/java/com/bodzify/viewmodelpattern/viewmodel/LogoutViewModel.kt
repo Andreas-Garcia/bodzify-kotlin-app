@@ -1,4 +1,4 @@
-package com.bodzify.viewmodel
+package com.bodzify.viewmodelpattern.viewmodel
 
 import androidx.lifecycle.*
 import com.bodzify.datasource.repository.BaseRepository

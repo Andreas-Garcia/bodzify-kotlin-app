@@ -1,4 +1,4 @@
-package com.bodzify.viewmodel.util
+package com.bodzify.viewmodelpattern.util
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

@@ -8,7 +8,7 @@ import android.widget.ListView
 import android.widget.SearchView
 import com.bodzify.R
 import com.bodzify.ui.adapter.MineTrackListAdapter
-import com.bodzify.viewmodel.MineTrackViewModel
+import com.bodzify.viewmodelpattern.viewmodel.MineTrackViewModel
 
 class DigFragment(private val mineTrackViewModel: MineTrackViewModel) : BaseFragment() {
 

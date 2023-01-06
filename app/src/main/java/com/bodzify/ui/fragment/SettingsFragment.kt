@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.activityViewModels
 import com.bodzify.R
-import com.bodzify.viewmodel.LogoutViewModel
+import com.bodzify.viewmodelpattern.viewmodel.LogoutViewModel
 
 class SettingsFragment : BaseFragment() {
     private val logoutViewModel: LogoutViewModel by activityViewModels()

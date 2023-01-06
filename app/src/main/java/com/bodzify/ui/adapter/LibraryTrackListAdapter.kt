@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat.startActivity
 import com.bodzify.R
 import com.bodzify.model.LibraryTrack
 import com.bodzify.ui.activity.TrackEditionActivity
-import com.bodzify.viewmodel.PlayerViewModel
+import com.bodzify.viewmodelpattern.viewmodel.PlayerViewModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 

@@ -10,8 +10,8 @@ import com.bodzify.R
 import com.bodzify.model.MineTrack
 import com.bodzify.session.SessionManager
 import com.bodzify.ui.activity.HomeActivity
-import com.bodzify.viewmodel.MineTrackViewModel
-import com.bodzify.viewmodel.util.observeOnce
+import com.bodzify.viewmodelpattern.viewmodel.MineTrackViewModel
+import com.bodzify.viewmodelpattern.util.observeOnce
 
 class MineTrackListAdapter(private val activity: Activity,
                            private val sessionManager: SessionManager,

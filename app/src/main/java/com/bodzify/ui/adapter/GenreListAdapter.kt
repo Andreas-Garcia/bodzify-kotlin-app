@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.bodzify.R
 import com.bodzify.model.Genre
 import com.bodzify.session.SessionManager
-import com.bodzify.viewmodel.GenreViewModel
+import com.bodzify.viewmodelpattern.viewmodel.GenreViewModel
 
 class GenreListAdapter(private val activity: Activity,
                        private val sessionManager: SessionManager,

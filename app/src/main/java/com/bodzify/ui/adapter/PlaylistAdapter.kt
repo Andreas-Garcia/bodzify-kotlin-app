@@ -9,7 +9,7 @@ import com.bodzify.R
 import com.bodzify.model.playlist.Playlist
 import com.bodzify.session.SessionManager
 import com.bodzify.ui.PlaylistGridViewItemView
-import com.bodzify.viewmodel.PlaylistViewModel
+import com.bodzify.viewmodelpattern.viewmodel.PlaylistViewModel
 
 
 class PlaylistAdapter(private val activity: Activity,
