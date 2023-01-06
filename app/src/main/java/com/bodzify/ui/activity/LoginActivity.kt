@@ -8,11 +8,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bodzify.R
-import com.bodzify.application.AppApplication
 import com.bodzify.model.User
 import com.bodzify.session.SessionManager
-import com.bodzify.viewmodelpattern.viewmodel.AuthViewModel
-import com.bodzify.viewmodelpattern.viewmodel.PlaylistViewModel
+import com.bodzify.viewmodel.AuthViewModel
 
 class LoginActivity: AppCompatActivity() {
 
