@@ -1,4 +1,4 @@
-package com.bodzify.viewmodelpattern.viewmodel
+package com.bodzify.viewmodel
 
 import android.os.Build
 import androidx.annotation.RequiresApi

@@ -1,4 +1,4 @@
-package com.bodzify.viewmodelpattern.viewmodel
+package com.bodzify.viewmodel
 
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY

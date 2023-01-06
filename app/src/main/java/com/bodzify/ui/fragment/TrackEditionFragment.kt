@@ -13,11 +13,9 @@ import com.bodzify.model.Genre
 import com.bodzify.model.LibraryTrack
 import com.bodzify.session.SessionManager
 import com.bodzify.ui.adapter.GenreListAdapter
-import com.bodzify.viewmodel.GenreViewModel
-import com.bodzify.viewmodel.GenreViewModelFactory
-import com.bodzify.viewmodel.LibraryTrackViewModel
-import com.bodzify.viewmodel.LibraryTrackViewModelFactory
-import com.bodzify.viewmodel.util.observeOnce
+import com.bodzify.viewmodelpattern.viewmodel.AuthViewModel
+import com.bodzify.viewmodelpattern.viewmodel.GenreViewModel
+import com.bodzify.viewmodelpattern.viewmodel.PlaylistViewModel
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
@@ -25,12 +23,12 @@ class TrackEditionActivity : AppCompatActivity() {
 
     private lateinit var sessionManager: SessionManager
 
-    private val libraryTrackViewModel: LibraryTrackViewModel by viewModels {
+    /*private val libraryTrackViewModel: LibraryTrackViewModel by viewModels {
         LibraryTrackViewModelFactory((application as AppApplication).libraryTrackRepository)
-    }
+    }*/
 
     private val genreViewModel: GenreViewModel by viewModels {
-        GenreViewModelFactory((application as AppApplication).genreRepository)
+        GenreViewModel.Factory
     }
 
     private lateinit var genreSelectButton: Button
@@ -49,7 +47,7 @@ class TrackEditionActivity : AppCompatActivity() {
         val titleEditText = findViewById<EditText>(R.id.track_edition_title_editText)
         val artistEditText = findViewById<EditText>(R.id.track_edition_artist_editText)
         val albumEditText = findViewById<EditText>(R.id.track_edition_album_editText)
-        genreSelectButton = findViewById<Button>(R.id.track_edition_genre_select_button)
+        val genreSelectButton = findViewById<Button>(R.id.track_edition_genre_select_button)
         val ratingEditText = findViewById<EditText>(R.id.track_edition_rating_editText)
         val languageEditText = findViewById<EditText>(R.id.track_edition_language_editText)
         val durationTextView = findViewById<TextView>(R.id.track_edition_duration_textView)
@@ -91,6 +89,7 @@ class TrackEditionActivity : AppCompatActivity() {
         }
 
         saveButton.setOnClickListener {
+            /*
             var genreUuid: String? =
                 if(track.genre != null) track.genre!!.uuid
                 else null
@@ -106,7 +105,7 @@ class TrackEditionActivity : AppCompatActivity() {
 
             libraryTrackViewModel.libraryTrackUpdated.observeOnce(this){
                 finish()
-            }
+            }*/
         }
 
         genreViewModel.genresSearched.observe(this) {

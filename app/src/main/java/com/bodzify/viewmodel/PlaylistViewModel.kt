@@ -1,4 +1,4 @@
-package com.bodzify.viewmodelpattern.viewmodel
+package com.bodzify.viewmodel
 
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
