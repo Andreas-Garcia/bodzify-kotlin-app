@@ -17,9 +17,9 @@ import com.bodzify.datasource.storage.database.PlayedTrack
 import com.bodzify.model.LibraryTrack
 import com.bodzify.session.SessionManager
 import com.bodzify.ui.fragment.OverlayPlayerFragment
-import com.bodzify.viewmodelpattern.*
-import com.bodzify.viewmodelpattern.util.observeOnce
-import com.bodzify.viewmodelpattern.viewmodel.*
+import com.bodzify.viewmodel.*
+import com.bodzify.viewmodel.util.observeOnce
+import com.bodzify.viewmodel.viewmodel.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
