@@ -7,18 +7,25 @@ import android.view.ViewGroup
 import android.widget.GridView
 import android.widget.ListView
 import android.widget.SearchView
+import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import com.bodzify.R
 import com.bodzify.ui.adapter.LibraryTrackListAdapter
 import com.bodzify.ui.adapter.PlaylistAdapter
-import com.bodzify.viewmodel.LibraryTrackViewModel
-import com.bodzify.viewmodel.PlayerViewModel
-import com.bodzify.viewmodel.PlaylistViewModel
-import com.bodzify.viewmodel.util.observeOnce
+import com.bodzify.viewmodelpattern.viewmodel.LibraryTrackViewModel
+import com.bodzify.viewmodelpattern.viewmodel.PlayerViewModel
+import com.bodzify.viewmodelpattern.viewmodel.PlaylistViewModel
+import com.bodzify.viewmodelpattern.util.observeOnce
 
-class LibraryFragment(private val libraryTrackViewModel: LibraryTrackViewModel,
-                      private val playlistViewModel: PlaylistViewModel) : BaseFragment() {
+class LibraryFragment : BaseFragment() {
     private val playerViewModel: PlayerViewModel by activityViewModels()
+    private val libraryTrackViewModel: LibraryTrackViewModel by activityViewModels {
+        LibraryTrackViewModel.Factory
+    }
+    private val playlistViewModel: PlaylistViewModel by activityViewModels {
+        PlaylistViewModel.Factory
+    }
 
     private lateinit var libraryTracksSearchView: SearchView
     private lateinit var libraryTracksListView: ListView
