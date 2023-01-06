@@ -7,13 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bodzify.R
-import com.bodzify.model.LibraryTrack
 
-class FullScreenPlayerFragment (
-    playingTrackViewModel: PlayingTrackViewModel,
-    track: LibraryTrack,
-    toPlay: Boolean
-) : PlayerFragment(playingTrackViewModel, track, toPlay) {
+class FullScreenPlayerFragment : PlayerFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
