@@ -11,7 +11,7 @@ import com.bodzify.R
 
 class OverlayPlayerFragment : PlayerFragment() {
     override fun getPlayPauseImageView(): ImageView {
-        return requireView().findViewById(R.id.player_overlay_play_pause_imageView)
+        return requireView().findViewById(R.id.player_overlay_playpause_imageView)
     }
 
     override fun getGenreTextView(): TextView {

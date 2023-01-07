@@ -6,7 +6,11 @@ import androidx.lifecycle.ViewModel
 import com.bodzify.model.LibraryTrack
 import com.bodzify.model.playlist.Playlist
 
-class PlayerViewModel: ViewModel()  {
+class MediaPlayerViewModel: ViewModel()  {
+    private val _hasATrack = MutableLiveData<Boolean>()
+    val hasATrack: LiveData<Boolean>
+        get() = _hasATrack
+
     private val _isPlaying = MutableLiveData<Boolean>()
     val isPlaying: LiveData<Boolean>
         get() = _isPlaying
@@ -21,6 +25,7 @@ class PlayerViewModel: ViewModel()  {
 
     init {
         _isPlaying.value = false
+        _hasATrack.value = false
     }
 
     fun setPlayingTrack(libraryTrack: LibraryTrack) {

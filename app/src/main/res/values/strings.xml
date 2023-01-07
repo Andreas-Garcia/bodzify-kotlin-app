@@ -47,4 +47,5 @@
     <string name="validate">Validate</string>
     <string name="select">Select</string>
     <string name="Select">Select</string>
+    <string name="playpause_content_description">play</string>
 </resources>

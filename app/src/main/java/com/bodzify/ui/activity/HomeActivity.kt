@@ -37,7 +37,7 @@ class HomeActivity : AppCompatActivity() {
     private val playlistViewModel: PlaylistViewModel by viewModels {
         PlaylistViewModel.Factory
     }
-    private val playerViewModel: PlayerViewModel by viewModels()
+    private val mediaPlayerViewModel: MediaPlayerViewModel by viewModels()
     private val playedTrackViewModel: PlayedTrackViewModel by viewModels {
         PlayedTrackViewModel.Factory
     }
@@ -49,10 +49,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private lateinit var navHostFragment: View
-    private lateinit var overlayPlayer: View
 
-    private var hasPlayerBeenStarted = false
-    private lateinit var mediaPlayer: MediaPlayer
+    private var mediaPlayer: MediaPlayer? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,10 +61,9 @@ class HomeActivity : AppCompatActivity() {
 
         navHostFragment = findViewById(R.id.home_nav_host_fragment)
 
-        playerViewModel.playingTrack.observe (this) {
+        mediaPlayerViewModel.playingTrack.observe (this) {
             playingTrack: LibraryTrack? ->
-            if (playingTrack != null && !hasPlayerBeenStarted) {
-                createPlayerOverlayFragment()
+            if (playingTrack != null && mediaPlayer == null) {
                 setUpMediaPlayer(playingTrack)
             }
         }
@@ -78,7 +75,7 @@ class HomeActivity : AppCompatActivity() {
             }
         })
 
-        playerViewModel.playingTrack.observe(this, Observer {
+        mediaPlayerViewModel.playingTrack.observe(this, Observer {
             libraryTrack ->
             playedTrackViewModel.insert(libraryTrack)
         })
@@ -93,7 +90,7 @@ class HomeActivity : AppCompatActivity() {
         libraryTrackViewModel.libraryTrackRetrieved.observeOnce(this) {
                 libraryTrack ->
             if(libraryTrack != null) {
-                playerViewModel.setPlayingTrack(libraryTrack)
+                mediaPlayerViewModel.setPlayingTrack(libraryTrack)
                 playedPlaylistViewModel.lastPlayedPlaylist.observeOnce(this, Observer {
                         playlistPlayed ->
                     if (playlistPlayed == null) {
@@ -105,7 +102,7 @@ class HomeActivity : AppCompatActivity() {
                             if (it == null) {
                                 retrieveDefaultPlaylist()
                             } else {
-                                playerViewModel.setPlayingPlaylist(it)
+                                mediaPlayerViewModel.setPlayingPlaylist(it)
                             }
                         }
                     }
@@ -133,17 +130,8 @@ class HomeActivity : AppCompatActivity() {
     private fun retrieveDefaultPlaylist() {
         playlistViewModel.search(nameFilter = DEFAULT_STARTUP_PLAYLIST_NAME)
         playlistViewModel.playlistsSearched.observeOnce(this) { playlists ->
-            playerViewModel.setPlayingPlaylist(playlists!![0])
+            mediaPlayerViewModel.setPlayingPlaylist(playlists!![0])
         }
-    }
-
-    private fun createPlayerOverlayFragment() {
-        supportFragmentManager.beginTransaction().replace(
-            R.id.overlay_player_fragment_container, OverlayPlayerFragment()
-        ).commit()
-        var navHostLayoutParam = navHostFragment.layoutParams as ViewGroup.MarginLayoutParams
-        navHostLayoutParam.setMargins(0, 0, 0, 150)
-        navHostFragment.layoutParams = navHostLayoutParam
     }
 
     private fun setUpBottomNavigationMenu() {

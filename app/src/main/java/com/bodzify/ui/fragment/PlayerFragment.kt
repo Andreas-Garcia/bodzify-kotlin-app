@@ -7,10 +7,10 @@ import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import com.bodzify.R
 import com.bodzify.model.LibraryTrack
-import com.bodzify.viewmodel.PlayerViewModel
+import com.bodzify.viewmodel.MediaPlayerViewModel
 
 abstract class PlayerFragment : BaseFragment() {
-    private val playerViewModel: PlayerViewModel by activityViewModels()
+    private val playerViewModel: MediaPlayerViewModel by activityViewModels()
 
     private lateinit var artistTextView: TextView
     private lateinit var titleTextView: TextView
