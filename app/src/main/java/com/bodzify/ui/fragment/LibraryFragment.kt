@@ -13,18 +13,18 @@ import com.bodzify.ui.adapter.LibraryTrackListAdapter
 import com.bodzify.ui.adapter.PlaylistAdapter
 import com.bodzify.viewmodel.EditingTrackViewModel
 import com.bodzify.viewmodel.LibraryTrackViewModel
-import com.bodzify.viewmodel.PlayerViewModel
+import com.bodzify.viewmodel.MediaPlayerViewModel
 import com.bodzify.viewmodel.PlaylistViewModel
 import com.bodzify.viewmodel.util.observeOnce
 
 class LibraryFragment : BaseFragment() {
-    private val playerViewModel: PlayerViewModel by activityViewModels()
     private val libraryTrackViewModel: LibraryTrackViewModel by activityViewModels {
         LibraryTrackViewModel.Factory
     }
     private val playlistViewModel: PlaylistViewModel by activityViewModels {
         PlaylistViewModel.Factory
     }
+    private val mediaPlayerViewModel: MediaPlayerViewModel by activityViewModels()
     private val editingTrackViewModel: EditingTrackViewModel by activityViewModels ()
 
     private lateinit var libraryTracksSearchView: SearchView
@@ -50,7 +50,7 @@ class LibraryFragment : BaseFragment() {
             libraryTracksListView.adapter = LibraryTrackListAdapter(
                 requireActivity(),
                 libraryTracks ?: arrayListOf(),
-                playerViewModel,
+                mediaPlayerViewModel,
                 editingTrackViewModel)
         }
 

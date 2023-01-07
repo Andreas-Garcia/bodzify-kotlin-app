@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".ui.fragment.OverlayPlayerFragment"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/background_playing_track_layout"
         android:orientation="horizontal"
         android:layout_marginHorizontal="10dp">
@@ -13,7 +13,7 @@
     <LinearLayout
         android:id="@+id/overlay_player_fragment_layout"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:weightSum="1"
         android:layout_weight="1"
         android:orientation="horizontal">
@@ -32,7 +32,8 @@
                 android:layout_marginStart="15dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:text="@string/artist"/>
 
             <TextView
                 android:id="@+id/overlay_player_title_textview"
@@ -41,7 +42,8 @@
                 android:layout_marginStart="15dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:text="@string/title"/>
 
         </LinearLayout>
 
@@ -50,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_weight="0.7"/>
+            android:layout_weight="0.7"
+            android:text="@string/genre"/>
     </LinearLayout>
 
     <ImageView
@@ -62,10 +65,10 @@
         android:contentDescription="@string/rating_content_description"/>
 
     <ImageView
-        android:id="@+id/player_overlay_play_pause_imageView"
+        android:id="@+id/player_overlay_playpause_imageView"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:srcCompat="@android:drawable/ic_media_play"
-        android:contentDescription="@string/rating_content_description"/>
+        android:contentDescription="@string/playpause_content_description"/>
 </LinearLayout>

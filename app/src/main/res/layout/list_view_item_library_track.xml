@@ -49,7 +49,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/player_overlay_play_pause_imageView"
+        android:id="@+id/player_overlay_playpause_imageView"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

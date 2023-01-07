@@ -17,6 +17,7 @@ import com.bodzify.ui.adapter.GenreListAdapter
 import com.bodzify.viewmodel.EditingTrackViewModel
 import com.bodzify.viewmodel.GenreViewModel
 import com.bodzify.viewmodel.LibraryTrackViewModel
+import com.bodzify.viewmodel.MediaPlayerViewModel
 import com.bodzify.viewmodel.util.observeOnce
 
 class TrackEditionFragment : BaseFragment() {
@@ -27,7 +28,7 @@ class TrackEditionFragment : BaseFragment() {
     private val genreViewModel: GenreViewModel by activityViewModels {
         GenreViewModel.Factory
     }
-    private val editingTrackViewModel: EditingTrackViewModel by activityViewModels ()
+    private val editingTrackViewModel: EditingTrackViewModel by activityViewModels()
 
     private lateinit var track: LibraryTrack
 
